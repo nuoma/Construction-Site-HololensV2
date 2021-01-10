@@ -20,6 +20,14 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
 
         private void Update()
         {
+
+            //20210103 Added by nuo for testing.
+            Debug.Log("HitPosition: " + CoreServices.InputSystem.EyeGazeProvider.HitPosition);
+            Debug.Log("GazeOrigin: " + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin);
+            Debug.Log("GazeDirectionNormalized: " + CoreServices.InputSystem.EyeGazeProvider.GazeDirection.normalized);
+            Debug.Log("Target: " + CoreServices.InputSystem.EyeGazeProvider.GazeTarget + ", Location:" + CoreServices.InputSystem.EyeGazeProvider.GazeTarget.gameObject.transform.position);
+            
+
             var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
             if (eyeGazeProvider != null)
             {

@@ -40,6 +40,9 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking.Logging
                 "EyeHitPos.x",
                 "EyeHitPos.y",
                 "EyeHitPos.z",
+                //target name
+                "TargetName",
+                "TargetLocation",
             };
         }
 
@@ -74,6 +77,10 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking.Logging
                 (eyeHitPos != null) ? eyeHitPos.Value.x : float.NaN,
                 (eyeHitPos != null) ? eyeHitPos.Value.y : float.NaN,
                 (eyeHitPos != null) ? eyeHitPos.Value.z : float.NaN,
+
+                //target name
+                CoreServices.InputSystem.EyeGazeProvider.GazeTarget,
+                CoreServices.InputSystem.EyeGazeProvider.GazeTarget.gameObject.transform.position,
             };
 
             return data;
