@@ -27,7 +27,7 @@ public class ManualClickSelect : MonoBehaviour
         {
             if (myDialog == null)
             {
-                myDialog = Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", DialogWarningString, false);
+                myDialog = Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", DialogWarningString, true);//enable near interaction for dialog
                 WarningBool = false;
             } 
         }

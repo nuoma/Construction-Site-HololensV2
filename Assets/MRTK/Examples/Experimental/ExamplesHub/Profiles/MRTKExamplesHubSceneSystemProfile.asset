@@ -67,10 +67,10 @@ MonoBehaviour:
     BuildIndex: 6
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 33553b3b6176f364e9ae1b46844531e8, type: 3}
-  - Name: EyeTrackerReplay
-    Path: Assets/EyeTrackerReplay.unity
+  - Name: 7_EyeTrackerReplay
+    Path: Assets/7_EyeTrackerReplay.unity
     Included: 1
-    BuildIndex: 7
+    BuildIndex: -1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 5b1c5d5a371694546a58adcc498882b8, type: 3}
   permittedLightingSceneComponentTypes:

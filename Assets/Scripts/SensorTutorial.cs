@@ -68,6 +68,7 @@ public class SensorTutorial : MonoBehaviour
     public GameObject GpsDozer;
 
     public GameObject RFIDTagCanvas;
+    public GameObject RFIDConfirmButton;
 
     
 
@@ -111,10 +112,9 @@ public class SensorTutorial : MonoBehaviour
         PrepareGPSString();
         GPSReportText.GetComponent<TextMeshProUGUI>().text = GPSReportString;
 
-        //if (gpsB == true) { if()}
         bool RFIDTagged = false;
         if (RFIDWood.GetComponent<TutorialManualClick>().TagStatus == true || RFIDVehicle.GetComponent<TutorialManualClick>().TagStatus == true) RFIDTagged = true;
-        if (rfidB == true && RFIDTagged == true) RFIDButton.SetActive(true);
+        if (rfidB == true && RFIDTagged == true) RFIDButton.SetActive(true);//in RFID mode and at least one asset is tagged, then show button.
 
         if(gpsB == true && GpsDozer.GetComponent<TutorialManualClick>().TagStatus == true) GPSpanelbutton.SetActive(true);
     }
@@ -185,8 +185,16 @@ public class SensorTutorial : MonoBehaviour
         RFIDhand2.SetActive(true);
     }
 
+    //first step
+    public void RFIDTag()
+    {
+        RFIDTagCanvas.SetActive(true);
+        RFIDpanel.SetActive(false);
+    }
+    //second step
     public void RFIDexe()
     {
+        rfidB = false;
         //RFIDTagCanvas.SetActive(false);
         if (RFIDWood.GetComponent<TutorialManualClick>().TagStatus == true)
         { RFIDwoodtooltip.SetActive(true); }
@@ -196,13 +204,10 @@ public class SensorTutorial : MonoBehaviour
 
         RFIDhand1.SetActive(false);
         RFIDhand2.SetActive(false);
+        RFIDConfirmButton.SetActive(false);
     }
 
-    public void RFIDTag()
-    {
-        RFIDTagCanvas.SetActive(true);
-        RFIDpanel.SetActive(false);
-    }
+ 
 
     public void LS()
     {

@@ -4314,6 +4314,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!114 &656216344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9840,6 +9843,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!1 &1304480164
 GameObject:
   m_ObjectHideFlags: 0
@@ -10794,6 +10800,9 @@ MonoBehaviour:
   button2: {fileID: 82120022}
   button3: {fileID: 667994608}
   button4: {fileID: 718413192}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!4 &1386778230
 Transform:
   m_ObjectHideFlags: 0
@@ -13389,6 +13398,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!1 &1961011601
 GameObject:
   m_ObjectHideFlags: 0
@@ -13532,7 +13544,7 @@ RectTransform:
   m_GameObject: {fileID: 2040787885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1500, y: 300, z: 20}
+  m_LocalScale: {x: 1500, y: 150, z: 20}
   m_Children: []
   m_Father: {fileID: 3585664334908779854}
   m_RootOrder: 1
@@ -16063,8 +16075,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345316638748345868}
-  m_LocalRotation: {x: -0, y: -0.093612716, z: -0, w: 0.9956087}
-  m_LocalPosition: {x: -0.7456131, y: 0, z: 3.9298933}
+  m_LocalRotation: {x: -0, y: -0.06245931, z: -0, w: 0.99804753}
+  m_LocalPosition: {x: -0.9973978, y: 0, z: 7.9375815}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 1345316637023321691}
@@ -18354,8 +18366,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3585664335007544009}
-  m_LocalRotation: {x: -0, y: 0.093612716, z: -0, w: 0.9956087}
-  m_LocalPosition: {x: 0.7456131, y: 0, z: 3.9298933}
+  m_LocalRotation: {x: -0, y: 0.06245931, z: -0, w: 0.99804753}
+  m_LocalPosition: {x: 0.9973978, y: 0, z: 7.9375815}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 3585664335072971541}
@@ -20064,7 +20076,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3585664335246125318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 2}
+  m_LocalPosition: {x: 0, y: -0.25, z: 3}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 3585664336240382674}
@@ -21506,6 +21518,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!1 &3585664335444482739
 GameObject:
   m_ObjectHideFlags: 0
@@ -24199,8 +24214,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -24245,7 +24260,7 @@ MonoBehaviour:
     spaceCount: 6
     wordCount: 7
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
@@ -24280,7 +24295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -339}
+  m_AnchoredPosition: {x: 0, y: -442}
   m_SizeDelta: {x: 1500, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3585664335775861246
@@ -26101,6 +26116,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!114 &3585664336154133968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26117,6 +26135,9 @@ MonoBehaviour:
   button2: {fileID: 3585664334909179635}
   button3: {fileID: 3585664335432204885}
   button4: {fileID: 3585664335482689069}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!1 &3585664336154133969
 GameObject:
   m_ObjectHideFlags: 0
@@ -26156,7 +26177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3585664336240382675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.55, z: -3.39}
+  m_LocalPosition: {x: 0, y: -0.55, z: -8.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3585664336545308591}
@@ -26217,12 +26238,12 @@ MonoBehaviour:
   anchorAlongAxis: 0
   columnAlignment: 0
   rowAlignment: 0
-  radius: 4
+  radius: 8
   radialRange: 180
   distance: 0
   rows: 1
   columns: 3
-  cellWidth: 1.5
+  cellWidth: 2
   cellHeight: 1
   assetVersion: 1
 --- !u!1 &3585664336243781328
@@ -27649,6 +27670,9 @@ MonoBehaviour:
   button2: {fileID: 0}
   button3: {fileID: 0}
   button4: {fileID: 0}
+  SceneToBeLoaded: 
+  audio_OnSelect: {fileID: 0}
+  waitTimeInSecBeforeLoading: 0.25
 --- !u!4 &3585664336707793536
 Transform:
   m_ObjectHideFlags: 0

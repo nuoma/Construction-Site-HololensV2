@@ -35,9 +35,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
     guid: 7e54e36c44f826c438c95da79f8de638
-  - enabled: 1
-    path: Assets/EyeTrackerReplay.unity
+  - enabled: 0
+    path: Assets/7_EyeTrackerReplay.unity
     guid: 5b1c5d5a371694546a58adcc498882b8
+  - enabled: 0
+    path: Assets/testScene.unity
+    guid: 03f957465d25e264aaefb54f04d13b53
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 23b10ae3e635a604e9561cabb957e887,
       type: 2}

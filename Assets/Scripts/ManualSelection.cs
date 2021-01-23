@@ -42,6 +42,7 @@ public class ManualSelection : MonoBehaviour
     [HideInInspector] public int ActualActivityNumber;
 
     private bool onSensorChanged;
+    private bool onActivityChanged;
     public bool ResourceTaggedBool = false;
     public string CurrentSensor;
 
@@ -95,8 +96,10 @@ public class ManualSelection : MonoBehaviour
     public GameObject IMUCarpenter;
 
     public TextMeshProUGUI Dropdown1Title;
-
     private bool Dropdown1TitleChangeBool;
+    public TextMeshProUGUI Dropdown2Title;
+    private bool Dropdown2TitleChangeBool;
+    private bool onActivityDropdownCreated;
 
     private bool initialFlag;
     #endregion
@@ -211,15 +214,26 @@ public class ManualSelection : MonoBehaviour
             UpdateActivityList();
             ClearActivitiesDropdown();
             CreateActivitiesDropdown();
-            UpdateSensorString();
+            //UpdateSensorString();
             onSensorChanged = false;
         }
 
         //Title of dropdown 1 should be sensor until a sensor change is happened, and another boolean indicating this only happen once
+        //onSensorChanged toggles on and off due to need to refresh corresponding activity list
         if (!onSensorChanged && !Dropdown1TitleChangeBool)
         {
             Dropdown1Title.GetComponent<TextMeshProUGUI>().text = "Sensors";
             Dropdown1TitleChangeBool = true;
+        }
+
+        //Title of dropdown 2 should be sensor until an item in activity list is selected
+        //Mechanism is different from dropdown 1
+        //
+        //if (!onActivityChanged && !Dropdown2TitleChangeBool)
+        if(!onActivityChanged)
+        {
+            Dropdown2Title.GetComponent<TextMeshProUGUI>().text = "Activities";
+            Dropdown2TitleChangeBool = true;
         }
 
         //after selection is made, activate run button.
@@ -356,7 +370,9 @@ public class ManualSelection : MonoBehaviour
             TagButton.SetActive(true);
             LSConfirmButton.SetActive(false);
         }
-        
+
+        onActivityChanged = true;
+
     }
 
     public void SkipConfirmButton()
@@ -436,7 +452,8 @@ public class ManualSelection : MonoBehaviour
             Dropdown2.CreateNewItem(option,null);
         }
         Dropdown2.dropdownEvent.AddListener(delegate { DropdownValueChangedActivity(Dropdown2); });
-        Dropdown2.SetupDropdown();   
+        Dropdown2.SetupDropdown();
+        //onActivityDropdownCreated = true;
     }
 
     public void TagButtonAction()
@@ -857,6 +874,7 @@ public class ManualSelection : MonoBehaviour
         if (SelectedSensorIndex == 3) CurrentSensor = "Drone";
         if (SelectedSensorIndex == 4) CurrentSensor = "IMU";
     }
+
     //For manual scene no6
     public void ReloadSceneButton()
     {

@@ -40,8 +40,7 @@ public class ExploreManager : MonoBehaviour
     public GameObject OldHouseFloorTooltip;
 
     private bool showhidetoggle = false;
-    public GameObject Building6;
-    public GameObject Building3;
+    private bool Allshowhidetoggle = false;
     public GameObject ActivityResourcesNode;
 
     public GameObject LS;
@@ -73,6 +72,30 @@ public class ExploreManager : MonoBehaviour
     public GameObject A8CladBTooltipSpawner;
 
     public GameObject ShowHideButton;
+
+    public GameObject PainterNeckTooltip;
+    public GameObject PainterShoulderTooltip;
+    public GameObject PainterBackTooltip;
+    public GameObject PainterThighTooltip;
+    public GameObject CNeckTooltip;
+    public GameObject CShoulderTooltip;
+    public GameObject CBackTooltip;
+    public GameObject CThighTooltip;
+    public GameObject LNeckTooltip;
+    public GameObject LShoulderTooltip;
+    public GameObject LBackTooltip;
+    public GameObject LThighTooltip;
+
+    public GameObject Drone13;
+    public GameObject Drone13Model;
+
+    //Buildings
+    public GameObject Building6;
+    public GameObject Building3;
+    public GameObject Structure2;
+    public GameObject OldHouse;
+
+    public GameObject A2Arrow;
     #endregion
 
     #region Start Update
@@ -155,9 +178,11 @@ public class ExploreManager : MonoBehaviour
         //A4 worekr close call
         if (SelectedActivityNum == 3)
         {
+            
             A4Tooltip.SetActive(true);
             ActivityManager.GetComponent<ActivityManagerScript>().select_4();
             ActivityManager.GetComponent<ActivityManagerScript>().select_2();
+            A2Arrow.SetActive(false);
         }
         //A5 load haul
         if (SelectedActivityNum == 4)
@@ -201,7 +226,7 @@ public class ExploreManager : MonoBehaviour
             Vector3 A10Coordinates = ActivityManager.GetComponent<ActivityManagerScript>().Explore_A10_MoveLSOnly();
             LS.transform.position = A10Coordinates;
         }
-    
+
         //A11 scan old building
         if (SelectedActivityNum == 10)
         {
@@ -214,23 +239,40 @@ public class ExploreManager : MonoBehaviour
         if (SelectedActivityNum == 11)
         {
             A12Tooltip.SetActive(true);
+            //Also make drone working
+            Drone13Model.SetActive(true);
+            Drone13.SetActive(true);
+            Drone13.GetComponent<Drone13>().SetStart();
+            //Also entire jobsite should be present.
         }
         //A13 IMU
         //Painter
         if (SelectedActivityNum == 12)
         {
             A13Tooltip.SetActive(true);
+            PainterNeckTooltip.SetActive(true);
+            PainterShoulderTooltip.SetActive(true);
+            PainterBackTooltip.SetActive(true);
+            PainterThighTooltip.SetActive(true);
         }
 
         //L
         if (SelectedActivityNum == 13)
         {
             A14Tooltip.SetActive(true);
+            LNeckTooltip.SetActive(true);
+            LShoulderTooltip.SetActive(true);
+            LBackTooltip.SetActive(true);
+            LThighTooltip.SetActive(true);
         }
         //C
         if (SelectedActivityNum == 14)
         {
             A15Tooltip.SetActive(true);
+            CNeckTooltip.SetActive(true);
+            CShoulderTooltip.SetActive(true);
+            CBackTooltip.SetActive(true);
+            CThighTooltip.SetActive(true);
         }
 
         //All activities
@@ -256,22 +298,23 @@ public class ExploreManager : MonoBehaviour
     public void AllActivities()
     {
         //ControlPanel.SetActive(true);
-        A1Tooltip.SetActive(true);
+        //A1Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().select_1();
-        A2Tooltip.SetActive(true);
+        //A2Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().select_2();
-        A3Tooltip.SetActive(true);
+        //A3Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().select_3();
-        A4Tooltip.SetActive(true);
+        //A4Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().select_4();
-        A5Tooltip.SetActive(true);
+        //A5Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().select_5();
-        A6Tooltip.SetActive(true);
-        A7Tooltip.SetActive(true);
+        //A6Tooltip.SetActive(true);
+        //A7Tooltip.SetActive(true);
         ActivityManager.GetComponent<ActivityManagerScript>().A7_w1_flag = true;
         ActivityManager.GetComponent<ActivityManagerScript>().A7_w2_flag = true;
         ActivityManager.GetComponent<ActivityManagerScript>().A7_w3_flag = true;
         ActivityManager.GetComponent<ActivityManagerScript>().select_7_new();
+        /*
         A8Tooltip.SetActive(true);
         A9Tooltip.SetActive(true);
         A10Tooltip.SetActive(true);
@@ -280,8 +323,8 @@ public class ExploreManager : MonoBehaviour
         A13Tooltip.SetActive(true);
         A14Tooltip.SetActive(true);
         A15Tooltip.SetActive(true);
-
-        ShowHideButton.SetActive(false);
+        */
+        //ShowHideButton.SetActive(false);
     }
 
     private void ActivityIndicator()
@@ -302,27 +345,27 @@ public class ExploreManager : MonoBehaviour
 
     private void AllTooltipsOn()
     {
-          A1DozerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A1StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A2CraneTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A2BeamTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A3TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A4WorkerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A5TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A5BackhoeTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A5StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A6RebarTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A6WoodTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A6LogTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A7w1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A7w2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A11Stockpile1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A11Stockpile2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A8CladLTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A8CladRTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A8CladFTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-          A8CladBTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
-}
+        A1DozerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A1StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A2CraneTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A2BeamTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A3TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A4WorkerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A5TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A5BackhoeTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A5StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A6RebarTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A6WoodTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A6LogTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A7w1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A7w2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A11Stockpile1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A11Stockpile2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A8CladLTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A8CladRTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A8CladFTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+        A8CladBTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = true;
+    }
     public void ShowHide()
     {
         //below is from menumanager.cs
@@ -349,6 +392,8 @@ public class ExploreManager : MonoBehaviour
 
             //All activities, hide nothing
             if (SelectedActivityNum == 15) return;
+            //If drone inspection, hide nothing
+            if (SelectedActivityNum == 11) return;
             //mainUICollection.SetActive(false);
             //MiscAssetNode.SetActive(false);
             //building.SetActive(false); //building-6 relate to these activities:
@@ -358,9 +403,9 @@ public class ExploreManager : MonoBehaviour
 
             //if(Activity not active) {turn off;}
             //A1 Dozer
-            if (!(SelectedActivityNum == 0)) 
-            { 
-                ActivityResourcesNode.transform.Find("Activity1").gameObject.SetActive(false); 
+            if (!(SelectedActivityNum == 0))
+            {
+                ActivityResourcesNode.transform.Find("Activity1").gameObject.SetActive(false);
                 A1DozerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A1StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
@@ -373,46 +418,46 @@ public class ExploreManager : MonoBehaviour
                     A2CraneTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                     A2BeamTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 }
-                    
+
             }
             //A3 delivery
-            if (!(SelectedActivityNum == 2)) 
-            { 
+            if (!(SelectedActivityNum == 2))
+            {
                 ActivityResourcesNode.transform.Find("Activity3").gameObject.SetActive(false);
                 A3TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A4 worker danger zone
-            if (!(SelectedActivityNum == 3)) 
-            { 
+            if (!(SelectedActivityNum == 3))
+            {
                 ActivityResourcesNode.transform.Find("Activity4").gameObject.SetActive(false);
                 A4WorkerTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A5 load haul
-            if (!(SelectedActivityNum == 4)) 
-            { 
+            if (!(SelectedActivityNum == 4))
+            {
                 ActivityResourcesNode.transform.Find("Activity5").gameObject.SetActive(false);
                 A5TruckTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A5BackhoeTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A5StockpileTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A6 rfid
-            if (!(SelectedActivityNum == 5)) 
-            { 
+            if (!(SelectedActivityNum == 5))
+            {
                 ActivityResourcesNode.transform.Find("Activity6").gameObject.SetActive(false);
                 A6RebarTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A6WoodTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A6LogTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A7 3 worker
-            if (!(SelectedActivityNum == 6)) 
-            { 
+            if (!(SelectedActivityNum == 6))
+            {
                 ActivityResourcesNode.transform.Find("Activity7").gameObject.SetActive(false);
                 A7w1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A7w2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A8 Scan building
-            if (!(SelectedActivityNum == 7)) 
-            { 
+            if (!(SelectedActivityNum == 7))
+            {
                 ActivityResourcesNode.transform.Find("Activity8").gameObject.SetActive(false);
                 A8CladLTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A8CladRTooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
@@ -422,20 +467,20 @@ public class ExploreManager : MonoBehaviour
             //A9 floor
             if (!(SelectedActivityNum == 8)) { ActivityResourcesNode.transform.Find("Activity9").gameObject.SetActive(false); }
             //A10 scan stockpile
-            if (!(SelectedActivityNum == 9)) 
-            { 
-                ActivityResourcesNode.transform.Find("Activity11A").gameObject.SetActive(false); 
+            if (!(SelectedActivityNum == 9))
+            {
+                ActivityResourcesNode.transform.Find("Activity11A").gameObject.SetActive(false);
                 ActivityResourcesNode.transform.Find("Activity11B").gameObject.SetActive(false);
                 A11Stockpile1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A11Stockpile2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }
             //A11 Oldhouse
-            if (!(SelectedActivityNum == 10)) 
-            { 
-                ActivityResourcesNode.transform.Find("Activity12").gameObject.SetActive(false); 
-                ActivityResourcesNode.transform.Find("Activity12_Laser").gameObject.SetActive(false); 
+            if (!(SelectedActivityNum == 10))
+            {
+                ActivityResourcesNode.transform.Find("Activity12").gameObject.SetActive(false);
+                ActivityResourcesNode.transform.Find("Activity12_Laser").gameObject.SetActive(false);
                 ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false);
-                
+
             }
             //A12 jobsite
             if (!(SelectedActivityNum == 11)) { ActivityResourcesNode.transform.Find("Activity13_Drone").gameObject.SetActive(false); }
@@ -446,19 +491,19 @@ public class ExploreManager : MonoBehaviour
             //A14 carpentry
             if (!(SelectedActivityNum == 14)) { ActivityResourcesNode.transform.Find("Activity16").gameObject.SetActive(false); }
 
-            
-
-                //building-6 check
-                if (!(SelectedActivityNum == 1) && !(SelectedActivityNum == 3) && !(SelectedActivityNum == 8))
+            /*
+            //building-6 check: crane, handling, 121314
+            if (!(SelectedActivityNum == 1) && !(SelectedActivityNum == 3) && !(SelectedActivityNum == 12) && !(SelectedActivityNum == 13) && !(SelectedActivityNum == 14))
             {
                 Building6.SetActive(false);
             }
 
-            //building-3 check
+            //building-3 check: material handling, cladding
             if (!(SelectedActivityNum == 6) && !(SelectedActivityNum == 7))
             {
                 Building3.SetActive(false);
             }
+            */
 
             //LS check
             //Only A8 LS is kept, other activities not yet moving the LS parent node,
@@ -467,12 +512,61 @@ public class ExploreManager : MonoBehaviour
                 LS.SetActive(false);
             }
             //Drone check
-            if ( !(SelectedActivityNum == 11))//!(SelectedActivityNum == 10) &&
+            if (!(SelectedActivityNum == 11))//!(SelectedActivityNum == 10) &&
             {
                 MDrone.SetActive(false);
             }
+            //end of if else
 
+            //Still within ShowHide ButtonFunction
+            //Handle All Activities
+            if (SelectedActivityNum == 15)
+            {
+                if (Allshowhidetoggle)
+                {
+                    //Currently in hidden state, now show everything.
+                    Allshowhidetoggle = false;
+                    //All tooltips on
+                    A1Tooltip.SetActive(true);
+                    A2Tooltip.SetActive(true);
+                    A3Tooltip.SetActive(true);
+                    A4Tooltip.SetActive(true);
+                    A5Tooltip.SetActive(true);
+                    A6Tooltip.SetActive(true);
+                    A7Tooltip.SetActive(true);
+                    A8Tooltip.SetActive(true);
+                    A9Tooltip.SetActive(true);
+                    A10Tooltip.SetActive(true);
+                    A11Tooltip.SetActive(true);
+                    A12Tooltip.SetActive(true);
+                    A13Tooltip.SetActive(true);
+                    A14Tooltip.SetActive(true);
+                    A15Tooltip.SetActive(true);
+                }
+                else
+                {
+                    Allshowhidetoggle = true;
+                    //all tooltips off
+                    A1Tooltip.SetActive(false);
+                    A2Tooltip.SetActive(false);
+                    A3Tooltip.SetActive(false);
+                    A4Tooltip.SetActive(false);
+                    A5Tooltip.SetActive(false);
+                    A6Tooltip.SetActive(false);
+                    A7Tooltip.SetActive(false);
+                    A8Tooltip.SetActive(false);
+                    A9Tooltip.SetActive(false);
+                    A10Tooltip.SetActive(false);
+                    A11Tooltip.SetActive(false);
+                    A12Tooltip.SetActive(false);
+                    A13Tooltip.SetActive(false);
+                    A14Tooltip.SetActive(false);
+                    A15Tooltip.SetActive(false);
+                }
+            }
         }
     }
     #endregion
 }
+
+

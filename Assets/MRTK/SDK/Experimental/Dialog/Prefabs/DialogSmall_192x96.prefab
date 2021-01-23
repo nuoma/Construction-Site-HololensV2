@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: maxViewDegrees
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
@@ -30,22 +30,22 @@ PrefabInstance:
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: minDistance
-      value: 5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: useFixedVerticalPosition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: fixedVerticalPosition
-      value: -0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4298106040071967345, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: maxDistance
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 312563113387518926, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
@@ -100,17 +100,17 @@ PrefabInstance:
     - target: {fileID: 1281587130050934810, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: targetViewPercentV
-      value: 0.6
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 1281587130050934810, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: minDistance
-      value: 5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1281587130050934810, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}
       propertyPath: maxDistance
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1324094653149575863, guid: 478732197b53dee4694480aac1a7c98c,
         type: 3}

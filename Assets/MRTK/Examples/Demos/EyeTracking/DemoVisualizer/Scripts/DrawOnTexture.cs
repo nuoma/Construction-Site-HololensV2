@@ -27,6 +27,7 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
         private Renderer myRenderer;
 
         public Material HeatmapOverlayMaterialTemplate;
+        public Material CustomHeatmapOverlay;
 
         private EyeTrackingTarget eyeTarget = null;
 
@@ -311,6 +312,7 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
                     {
                         myDrawTex = Instantiate(mats2[mats.Length].mainTexture) as Texture2D;
                         mats2[mats.Length].mainTexture = myDrawTex;
+                        CustomHeatmapOverlay.mainTexture = myDrawTex;
                     }
                 }
                 return myDrawTex;

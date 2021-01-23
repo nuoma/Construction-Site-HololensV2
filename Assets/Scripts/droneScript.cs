@@ -18,12 +18,12 @@ public class droneScript : MonoBehaviour
     private int FrmCount = 0;
     [HideInInspector] public bool startRot;
 
-    private float zMax = 7.8f;
-    private float zMin = -6f;
-    private float xMax = 6.6f;
-    private float xMin = -5f;
-    private float yMax = 1.25f;
-    private float yMin = -0.25f;
+    [SerializeField] private float zMax = 7.8f;
+    [SerializeField] private float zMin = -6f;
+    [SerializeField] private float xMax = 6.6f;
+    [SerializeField] private float xMin = -5f;
+    [SerializeField] private float yMax = 1.25f;
+    [SerializeField] private float yMin = -0.25f;
 
     private float verticalMultiplier = 0;
     private float horizontalMultiplier = 0;
@@ -155,28 +155,28 @@ public class droneScript : MonoBehaviour
     public void verticalMoveMRTK(SliderEventData newValue)
     {
         float VValuePost = 2 * newValue.NewValue - 1.0f;
-        if (VValuePost > 0.15 || VValuePost < -0.15)
+        //if (VValuePost > 0.15 || VValuePost < -0.15)
             verticalMultiplier = VValuePost;
-        else
-            verticalMultiplier = 0;
+        //else
+            //verticalMultiplier = 0;
     }
 
     public void horizontalMoveMRTK(SliderEventData newValue)
     {
         float HValuePost = 2 * newValue.NewValue - 1.0f;
-        if (HValuePost > 0.15 || HValuePost < -0.15)
+        //if (HValuePost > 0.15 || HValuePost < -0.15)
             horizontalMultiplier = HValuePost;
-        else
-            horizontalMultiplier = 0;
+        //else
+           // horizontalMultiplier = 0;
     }
 
     public void rotationMoveMRTK(SliderEventData newValue)
     {
         float RValuePost = 2 * newValue.NewValue - 1.0f;
-        if (RValuePost > 0.15 || RValuePost < -0.15)
+        //if (RValuePost > 0.15 || RValuePost < -0.15)
             rotationMultiplier = RValuePost;
-        else
-            rotationMultiplier = 0;
+        //else
+            //rotationMultiplier = 0;
     }
 
 
