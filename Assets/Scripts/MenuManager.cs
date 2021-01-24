@@ -495,7 +495,7 @@ public class MenuManager : MonoBehaviour
     //11/24/2020 Added RFID for vehicles A1,2,3,5
     public void Select()
     {
-        HideShowButton.SetActive(true);
+        //HideShowButton.SetActive(true);
 
         bool Drone1 = false;
         bool Drone2 = false;

@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultManagerScene.unity
     guid: ae7bb08d297fb69408695d8de0962524
-  - enabled: 1
-    path: Assets/0.unity
-    guid: fcd8e12f79afd4f42bf81c8aca9b8eb3
   - enabled: 0
     path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
     guid: 7e54e36c44f826c438c95da79f8de638
+  - enabled: 1
+    path: Assets/00.unity
+    guid: 866de2447eebbd947ad381fc73f26540
+  - enabled: 1
+    path: Assets/0.unity
+    guid: fcd8e12f79afd4f42bf81c8aca9b8eb3
   - enabled: 1
     path: Assets/1_ExploreJobsite.unity
     guid: 2021374ecb60ee04689a9c4c6fef702d
@@ -33,14 +36,17 @@ EditorBuildSettings:
     path: Assets/3_manual(6).unity
     guid: 33553b3b6176f364e9ae1b46844531e8
   - enabled: 0
-    path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
-    guid: 7e54e36c44f826c438c95da79f8de638
-  - enabled: 0
     path: Assets/7_EyeTrackerReplay.unity
     guid: 5b1c5d5a371694546a58adcc498882b8
   - enabled: 0
     path: Assets/testScene.unity
     guid: 03f957465d25e264aaefb54f04d13b53
+  - enabled: 0
+    path: Assets/TestMenu.unity
+    guid: 6b253738dde488f4485360acb29a9a59
+  - enabled: 0
+    path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
+    guid: 7e54e36c44f826c438c95da79f8de638
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 23b10ae3e635a604e9561cabb957e887,
       type: 2}

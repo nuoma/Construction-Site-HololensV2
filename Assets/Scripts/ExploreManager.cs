@@ -150,7 +150,7 @@ public class ExploreManager : MonoBehaviour
     private void ExecuteActivity()
     {
         //ResetButton.SetActive(true);
-        NearMenuIsolate.SetActive(true);
+        //NearMenuIsolate.SetActive(true);
 
         //pointing chevron
         //ActivityIndicator();
@@ -284,7 +284,8 @@ public class ExploreManager : MonoBehaviour
     }
 
 
-
+    //deprecated
+    /*
     public void ExitButtonFunction()
     {
         SceneManager.LoadScene(0);
@@ -294,6 +295,7 @@ public class ExploreManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    */
 
     public void AllActivities()
     {
