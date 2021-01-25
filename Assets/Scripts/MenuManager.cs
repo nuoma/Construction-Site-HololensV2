@@ -523,7 +523,7 @@ public class MenuManager : MonoBehaviour
         //12. Jobsite drone check
         if (SelectedActivities[11] == true) { foreach (int key in InterpretLUT2(11)) { if (ExeList[key].Contains("Drone")) { Drone2 = true; } } }
         //MultiDroneBlock
-        if (Drone1 && Drone2) { MultiDroneBlock = true; Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Drone but multiple Drone activity selected.", false); }
+        if (Drone1 && Drone2) { MultiDroneBlock = true; Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Drone but multiple Drone activity selected.", true); }
 
         //Execute Activities
         //A1 Dozer Backfilling
@@ -959,7 +959,7 @@ public class MenuManager : MonoBehaviour
         //Acitivity Idrection Indicator
         ActivityIndicator();
         SelectButton.SetActive(false);
-        StopButtonObj.SetActive(true);
+        //StopButtonObj.SetActive(true);
     }
 
 
@@ -971,7 +971,7 @@ public class MenuManager : MonoBehaviour
         if ((SelectedActivities[7] ? 1 : 0) + (SelectedActivities[8] ? 1 : 0) + (SelectedActivities[9] ? 1 : 0) + (SelectedActivities[10] ? 1 : 0) > 1)
         {
             MultiLaserScan = true;
-            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Laser Scanner, Please only select 1 Laser Scanner Activity.", false);
+            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Laser Scanner, Please only select 1 Laser Scanner Activity.", true);
         }
     }
 
@@ -1564,7 +1564,7 @@ public class MenuManager : MonoBehaviour
 
     private void InstantiateWarningDialog()
     {
-            Dialog.Open(dialogPrefabMedium, DialogButtonType.OK, "Wrong sensor selection!", SensorWarningString, false);
+            Dialog.Open(dialogPrefabMedium, DialogButtonType.OK, "Wrong sensor selection!", SensorWarningString, true);
     }
 
     //Resources Confirm
@@ -1578,13 +1578,13 @@ public class MenuManager : MonoBehaviour
 
         //A1+GPS[0]+RFID[1] + Dozer
         if (CurrentActivitySelection == 0 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && Array.Exists(SelectedResources, element => element == "Dozer") && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
-        if (CurrentActivitySelection == 0 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Stockpile cannot be used with GPS", false);
-        if (CurrentActivitySelection == 0 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Stockpile cannot be used with RFID", false);
+        if (CurrentActivitySelection == 0 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Stockpile cannot be used with GPS", true);
+        if (CurrentActivitySelection == 0 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Stockpile cannot be used with RFID", true);
 
         //A2+GPS+RFID+ Crane+SteelBeam
         if (CurrentActivitySelection == 1 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Steel Beam") && !Array.Exists(SelectedResources, element => element == "Crane")) { pass = true; }
         if (CurrentActivitySelection == 1 && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Steel Beam") && Array.Exists(SelectedResources, element => element == "Crane")) { pass = true; }
-        if (CurrentActivitySelection == 1 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Crane")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Crane cannot be used with GPS", false);
+        if (CurrentActivitySelection == 1 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Crane")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Crane cannot be used with GPS", true);
 
 
         //A3+GPS+truck
@@ -1594,40 +1594,40 @@ public class MenuManager : MonoBehaviour
         //A3+GPS+Rebar
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == false && Array.Exists(SelectedResources, element => element == "Rebar") && !Array.Exists(SelectedResources, element => element == "Truck"))
         {
-            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Rebar cannot be tagged with GPS.", false);
+            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Rebar cannot be tagged with GPS.", true);
         }
         //A3+RFID+truck
         //if (CurrentActivitySelection == 2 && SelectedSensors[0] == false && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Rebar") && Array.Exists(SelectedResources, element => element == "Truck"))
         //{Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Truck cannot be tagged with RFID.", false);}
         //A3+gps+rfid+truck, warning: select a resource for rfid
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Truck") && !Array.Exists(SelectedResources, element => element == "Rebar")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
-       "Select a resource for RFID.", false);
+       "Select a resource for RFID.", true);
         //A3+gps+rfid+rebar, warning: select a resource for gps, vice versa.
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Truck") && Array.Exists(SelectedResources, element => element == "Rebar")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
-"Select a resource for GPS.", false);
+"Select a resource for GPS.", true);
         //A3+(GPS&&RFID)+(truck&&rebar)
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Truck") && Array.Exists(SelectedResources, element => element == "Rebar")) { pass = true; }
         //A3+gps+rfid+none
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Truck") && !Array.Exists(SelectedResources, element => element == "Rebar"))
-        {Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Please select at least one resource.", false);}
+        {Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Please select at least one resource.", true);}
 
         //A4+GPS/RFID+worker
         if (CurrentActivitySelection == 3 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && Array.Exists(SelectedResources, element => element == "Worker 1")) { pass = true; }
 
         //A5+ GPS + RFID +loader/truck
         if (CurrentActivitySelection == 4 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Loader") || Array.Exists(SelectedResources, element => element == "Dumptruck")) && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
-        if (CurrentActivitySelection == 4 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","GPS cannot be tagged on stockpile.", false);
-        if (CurrentActivitySelection == 4 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "RFID cannot be tagged on stockpile.", false);
+        if (CurrentActivitySelection == 4 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","GPS cannot be tagged on stockpile.", true);
+        if (CurrentActivitySelection == 4 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "RFID cannot be tagged on stockpile.", true);
 
         //A6+RFID+WLR
         if (CurrentActivitySelection == 5 && SelectedSensors[1] == true && (Array.Exists(SelectedResources, element => element == "Wood") || Array.Exists(SelectedResources, element => element == "Log") || Array.Exists(SelectedResources, element => element == "Rebar"))) { pass = true; }
         else { if(CurrentActivitySelection == 5 && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Wood") && !Array.Exists(SelectedResources, element => element == "Log") && !Array.Exists(SelectedResources, element => element == "Rebar")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
-  "Select at least one resource!", false);
+  "Select at least one resource!", true);
         }
         //A7+(GPS||RFID)&&(w1w2w3)
         if (CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Worker 1") || Array.Exists(SelectedResources, element => element == "Worker 2") || Array.Exists(SelectedResources, element => element == "Worker 3"))) { pass = true; }
         else { if(CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && !Array.Exists(SelectedResources, element => element == "Worker 1") && !Array.Exists(SelectedResources, element => element == "Worker 2") && !Array.Exists(SelectedResources, element => element == "Worker 3")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
- "Select at least one worker!", false);
+ "Select at least one worker!", true);
         }
         //A8+LS
         if (CurrentActivitySelection == 7 && SelectedSensors[2] == true) { pass = true; }
@@ -1637,9 +1637,9 @@ public class MenuManager : MonoBehaviour
         if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && (Array.Exists(SelectedResources, element => element == "Stockpile 1") && !Array.Exists(SelectedResources, element => element == "Stockpile 2"))) { pass = true; }
         else {
             if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && Array.Exists(SelectedResources, element => element == "Stockpile 1") && Array.Exists(SelectedResources, element => element == "Stockpile 2"))
-                Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Only 1 Laser Scanner operator available.", false);
+                Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Only 1 Laser Scanner operator available.", true);
             if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && !Array.Exists(SelectedResources, element => element == "Stockpile 1") && !Array.Exists(SelectedResources, element => element == "Stockpile 2"))
-                Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Need to select 1 Laser Scanner object.", false);
+                Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Need to select 1 Laser Scanner object.", true);
         }
         //A11+LS/Drone+old house
         if (CurrentActivitySelection == 10 && (SelectedSensors[2] == true || SelectedSensors[3] == true) && Array.Exists(SelectedResources, element => element == "Old Building")) { pass = true; }
@@ -1712,12 +1712,14 @@ public class MenuManager : MonoBehaviour
         if (RemainingActivityNumber == 0)
         {
             //reached final activity
+            TitleText.GetComponent<TextMeshProUGUI>().text = "Finished configuration. You can now execute selected activities.";
             NAButton.SetActive(false);
             SelectButton.SetActive(true);
             Debug.Log("Finished configuration. Can execute.");
         }
         else
         {   //has more activity to show, show activity selection canvas, also hide itself and main canvas..
+            TitleText.GetComponent<TextMeshProUGUI>().text = "Please select sensors to be used with this activity.";
             ActivitySelectionParentPanel.gameObject.SetActive(true);
             Dropdown2ShowCurrentSensor = false;
             //hide itself, and main canvas
@@ -1819,12 +1821,12 @@ public class MenuManager : MonoBehaviour
     {
         if (ConcurrentSelection == 1)
         {
-            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Reminder",   "You finished using drone, now we switch to Laser Scanner.", false);
+            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Reminder",   "You finished using drone, now we switch to Laser Scanner.", true);
             LSConc();//ConcSelec = 1 means drone conc already executed, now we need to execute residual LSConc()
         } 
         else 
         {
-            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Reminder", "You finished using Laser Scanner, now we switch to Drone.", false);
+            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Reminder", "You finished using Laser Scanner, now we switch to Drone.", true);
             DroneConc();//vice versa
         }
 
@@ -1968,7 +1970,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OpenChoiceDialogSmall()
     {
-        Dialog myDialog = Dialog.Open(DialogPrefabSmall, DialogButtonType.Yes | DialogButtonType.No, "Activity 11 Warning", "Both Laser Scanner and Drone selected. Do you want to use Drone first, and then Laser Scanner?", false);
+        Dialog myDialog = Dialog.Open(DialogPrefabSmall, DialogButtonType.Yes | DialogButtonType.No, "Activity 11 Warning", "Both Laser Scanner and Drone selected. Do you want to use Drone first, and then Laser Scanner?", true);
         if (myDialog != null)
         {
             myDialog.OnClosed += OnClosedDialogEvent;
