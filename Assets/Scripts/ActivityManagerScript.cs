@@ -756,7 +756,7 @@ public class ActivityManagerScript : MonoBehaviour
     }
     public void GenericBackButton() //currently for all Back menus.
     {
-        resetMainCam();
+        //resetMainCam();
         LaserScannerBackButton.SetActive(false);
         ManualDroneBackButton.SetActive(false);
         GetComponent<Canvas>().enabled = true;
@@ -784,7 +784,7 @@ public class ActivityManagerScript : MonoBehaviour
 
     public void ManualDroneManualModeBackButton()
     {
-        resetMainCam();
+        //resetMainCam();
         LaserScannerBackButton.SetActive(false);
         ManualDroneBackButton.SetActive(false);
         GetComponent<Canvas>().enabled = true;
@@ -803,7 +803,7 @@ public class ActivityManagerScript : MonoBehaviour
 
     public void LSBackButton()
     {
-        resetMainCam();
+        //resetMainCam();
         LaserScannerBackButton.SetActive(false);
         GetComponent<Canvas>().enabled = true;
         gameObject.SetActive(true);
@@ -821,7 +821,7 @@ public class ActivityManagerScript : MonoBehaviour
 
     public void DroneBackButton()
     {
-        resetMainCam();
+        //resetMainCam();
         ManualDroneBackButton.SetActive(false);
         GetComponent<Canvas>().enabled = true;
         gameObject.SetActive(true);
@@ -896,7 +896,7 @@ public class ActivityManagerScript : MonoBehaviour
     {
         resetDrone();
         resetScanner();
-        resetMainCam();
+        //resetMainCam();
         AutoUI.SetActive(true);
         ConcurencySuspension = true;
     }
@@ -904,7 +904,7 @@ public class ActivityManagerScript : MonoBehaviour
     public void ResetForLS()
     {
         resetScanner();
-        resetMainCam();
+        //resetMainCam();
         AutoUI.SetActive(true);
         ConcurencySuspension = true;
     }
@@ -912,7 +912,7 @@ public class ActivityManagerScript : MonoBehaviour
     public void ResetForLSManualMode()
     {
         resetScanner();
-        resetMainCam();
+        //resetMainCam();
         AutoUI.SetActive(false);
         ManualUI.SetActive(true);
         ConcurencySuspension = true;
@@ -921,7 +921,7 @@ public class ActivityManagerScript : MonoBehaviour
     public void Auto_LS_Reset()
     {
         resetScanner();
-        resetMainCam();
+        //resetMainCam();
         AutoUI.SetActive(true);
         ManualUI.SetActive(false);
         LSAreset.SetActive(false);
@@ -930,7 +930,7 @@ public class ActivityManagerScript : MonoBehaviour
     public void Manual_LS_Reset()
     {
         resetScanner();
-        resetMainCam();
+        //resetMainCam();
         AutoUI.SetActive(false);
         ManualUI.SetActive(true);
         LSMreset.SetActive(false);
