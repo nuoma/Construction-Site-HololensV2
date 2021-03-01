@@ -8,7 +8,7 @@ public class ManualClickSelect : MonoBehaviour
     public GameObject ManualSelectionCode;
     public GameObject TagFlag;
     public bool Taggable;
-    public bool TagStatus = false;
+    [HideInInspector]public bool TagStatus = false;
     [SerializeField] [Tooltip("Assign DialogSmall_192x96.prefab")] private GameObject DialogPrefabSmall;
     private bool WarningBool;
     private Dialog myDialog;
@@ -32,6 +32,7 @@ public class ManualClickSelect : MonoBehaviour
             } 
         }
 
+        /*Deprecated, now use manual control
         //currently configuring as A2 crane activity + GPS
         if (ManualSelectionCode.GetComponent<ManualSelection>().ActualActivityNumber == 2 && ManualSelectionCode.GetComponent<ManualSelection>().SelectedSensorIndex == 0)
         {
@@ -50,6 +51,7 @@ public class ManualClickSelect : MonoBehaviour
             if (gameObject.name == "Crane")
             { Taggable = true; }
         }
+        */
     }
 
     public void ClickAction()

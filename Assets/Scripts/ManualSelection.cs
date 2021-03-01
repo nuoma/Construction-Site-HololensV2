@@ -59,7 +59,7 @@ public class ManualSelection : MonoBehaviour
     public GameObject A6wood;
     public GameObject A6log;
     public GameObject A6rebar;
-    public GameObject A7worker1;
+    //public GameObject A7worker1;
     public GameObject A7worker2;
     public GameObject A7worker3;
     public GameObject A13Painter;
@@ -165,7 +165,7 @@ public class ManualSelection : MonoBehaviour
         A6log.GetComponent<Interactable>().IsEnabled = false;
         A6rebar.GetComponent<Interactable>().IsEnabled = false;
         A6wood.GetComponent<Interactable>().IsEnabled = false;
-        A7worker1.GetComponent<Interactable>().IsEnabled = false;
+        //A7worker1.GetComponent<Interactable>().IsEnabled = false;
         A7worker2.GetComponent<Interactable>().IsEnabled = false;
         A7worker3.GetComponent<Interactable>().IsEnabled = false;
         A13Painter.GetComponent<Interactable>().IsEnabled = false;
@@ -190,7 +190,7 @@ public class ManualSelection : MonoBehaviour
         A6wood.transform.Find("Cube").gameObject.SetActive(false);
         A6rebar.transform.Find("Cube").gameObject.SetActive(false);
         A6log.transform.Find("Cube").gameObject.SetActive(false);
-        A7worker1.transform.Find("Cube").gameObject.SetActive(false);
+        //A7worker1.transform.Find("Cube").gameObject.SetActive(false);
         A7worker2.transform.Find("Cube").gameObject.SetActive(false);
         A7worker3.transform.Find("Cube").gameObject.SetActive(false);
         A13Painter.transform.Find("Cube").gameObject.SetActive(false);
@@ -293,9 +293,9 @@ public class ManualSelection : MonoBehaviour
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w1_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w2_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w3_GPS
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_P_GPS
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_L_GPS
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_C_GPS;
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_painter_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_GPS;
     }
 
     //this is mainly for A6, original RFID
@@ -312,10 +312,9 @@ public class ManualSelection : MonoBehaviour
     private void PrepareIMUString()
     {
         IMUReportString = "";
-        IMUReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c1_report
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c2_report
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_l_report
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_p_report;
+        IMUReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_painter_report;
     }
     private void CreateSensorsDropdown()//Dropdown 1
     {
@@ -529,8 +528,8 @@ public class ManualSelection : MonoBehaviour
         }
         if (ActualActivityNumber == 7)
         { 
-            A7worker1.GetComponent<Interactable>().IsEnabled = true;
-            A7worker1.transform.Find("Cube").gameObject.SetActive(true);
+            //A7worker1.GetComponent<Interactable>().IsEnabled = true;
+            //A7worker1.transform.Find("Cube").gameObject.SetActive(true);
             A7worker2.GetComponent<Interactable>().IsEnabled = true;
             A7worker2.transform.Find("Cube").gameObject.SetActive(true);
             A7worker3.GetComponent<Interactable>().IsEnabled = true;
@@ -748,7 +747,7 @@ public class ManualSelection : MonoBehaviour
             //A7.Workers on top floor + RFID / GPS
             if (ActualActivityNumber == 7)
         {
-            if (A7worker1.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w1_flag = true;
+            //if (A7worker1.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w1_flag = true;
             if (A7worker2.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w2_flag = true;
             if (A7worker3.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w3_flag = true;
             //Run basic activity: danger zone red box. Based on worker selection bool.
@@ -782,15 +781,15 @@ public class ManualSelection : MonoBehaviour
         if (ActualActivityNumber == 13 && SelectedSensorIndex == 4)
         {
             if (A13Painter.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_painter = true; }
+            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_Painter = true; }
             if (A13Laborer.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_laborer = true; }
+            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer = true; }
             if (A13Carpenter.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c1 = true; }
+            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter = true; }
             if (A13Carpenter2.GetComponent<ManualClickSelect>().TagStatus == true)
             { ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c2 = true; }
             //With given worker bool, get IMU string, handle finish file write use backselected()
-            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_13_new();
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
             //display IMU
             IMUReportEnable = true;
             Debug.Log("IMU report enabled");
@@ -928,7 +927,7 @@ public class ManualSelection : MonoBehaviour
             if (! (ActualActivityNumber == 7)) { ActivityResourcesNode.transform.Find("Activity7").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 8)) { ActivityResourcesNode.transform.Find("Activity8").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 9)) { ActivityResourcesNode.transform.Find("Activity9").gameObject.SetActive(false); }
-            if (! (ActualActivityNumber == 10)) { ActivityResourcesNode.transform.Find("Activity11A").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11B").gameObject.SetActive(false); }
+            if (! (ActualActivityNumber == 10)) { ActivityResourcesNode.transform.Find("Activity10A").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity10B").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 11)) { ActivityResourcesNode.transform.Find("Activity12").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Laser").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 12)) { ActivityResourcesNode.transform.Find("Activity13_Drone").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 13)) { ActivityResourcesNode.transform.Find("Activity14").gameObject.SetActive(false); }
@@ -968,8 +967,8 @@ public class ManualSelection : MonoBehaviour
         //IMU functions
         SetInteractablesFalse();
         SetCubeFalse();
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_painter = true;
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().select_13_new();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_Painter = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
     }
 
     public void PainterNeck()
@@ -1004,8 +1003,8 @@ public class ManualSelection : MonoBehaviour
         //IMU functions
         SetInteractablesFalse();
         SetCubeFalse();
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_laborer = true;
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().select_13_new();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
     }
 
     public void LabororNeck()
@@ -1040,8 +1039,8 @@ public class ManualSelection : MonoBehaviour
         //IMU functions
         SetInteractablesFalse();
         SetCubeFalse();
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c1 = true;
-        ActivityManagerScript.GetComponent<ActivityManagerScript>().select_13_new();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
     }
 
     public void CarpenterNeck()

@@ -17,10 +17,12 @@ public class Activity5 : MonoBehaviour
     private WSMVehicleController _BackhoeVC;
 
     private bool enable = false; //enable flag for entire activity 5, trigger from menu button click.
+    
     private bool step0 = true;
     private bool step1 = false;
     private bool step2 = false;
     private bool step3 = false;
+    private bool step3b = false;
     private bool step4 = false;
     private bool step5 = false;
     private bool step6 = false;
@@ -58,6 +60,7 @@ public class Activity5 : MonoBehaviour
         _BackhoeVC = Backhoe.GetComponent<WSMVehicleController>();
         _BackhoeController = Backhoe.GetComponent<BackhoeController>();
 
+        
         if (enable)
         {
             enable = false;
@@ -66,6 +69,7 @@ public class Activity5 : MonoBehaviour
         {
             enable = true;
         }
+        
         
         
 
@@ -103,11 +107,11 @@ public class Activity5 : MonoBehaviour
         while (step0)
         {
             _BackhoeVC.AccelerationInput = 0.01f; //-1f, 1f
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2f);
 
             _BackhoeVC.AccelerationInput = 0; //reset for brake 
             _BackhoeVC.BrakesInput = 1; //_brakes = Mathf.Clamp01(value)
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
 
             _BackhoeVC.BrakesInput = 0; //vehicle reset
             yield return new WaitForSeconds(1);
@@ -145,7 +149,7 @@ public class Activity5 : MonoBehaviour
             //Backhoe steer and backup to 180 degree
             _BackhoeVC.AccelerationInput = -0.01f;
             _BackhoeVC.SteeringInput = 1; //-1 to 1
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1.35f);
 
             
             Debug.Log("Backhoe rotate:"+Backhoe.transform.eulerAngles.y);
@@ -156,7 +160,7 @@ public class Activity5 : MonoBehaviour
             _BackhoeVC.BrakesInput = 0;
             _BackhoeVC.SteeringInput = 0; //-1 to 1
             _BackhoeVC.AccelerationInput = 0.001f;
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3.1f);
 
             //Stop and brake
             _BackhoeVC.BrakesInput = 1;
@@ -180,12 +184,31 @@ public class Activity5 : MonoBehaviour
             {
                 _BackhoeController.MoveFrontBucket(-1, 0);//(int bucketInput, int frameInput)
                 yield return null;
+                //_BackhoeController.MoveFrontBucket(1, 0);//(int bucketInput, int frameInput)
             }
             if (Time.time > duration)
             {
                 step3 = false;
+                step3b = true;
+                yield return new WaitForSeconds(2);
+            }
+        }
+
+        //Step 3b: backhoe raise bucket
+        while (step3b)
+        {
+            float duration = Time.time + 3f;
+            while (Time.time < duration)
+            {
+                _BackhoeController.MoveFrontBucket(1, 0);//(int bucketInput, int frameInput)
+                yield return null;
+                //_BackhoeController.MoveFrontBucket(1, 0);//(int bucketInput, int frameInput)
+            }
+            if (Time.time > duration)
+            {
+                step3b = false;
                 step4 = true;
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(2);
             }
         }
 
@@ -193,7 +216,7 @@ public class Activity5 : MonoBehaviour
         while (step4)
         {
             _BackhoeVC.AccelerationInput = -0.01f;
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1.5f);
             _BackhoeVC.BrakesInput = 1;
             _BackhoeVC.AccelerationInput = 0;
             yield return new WaitForSeconds(1);

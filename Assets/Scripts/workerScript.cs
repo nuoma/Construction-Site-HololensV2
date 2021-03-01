@@ -11,8 +11,8 @@ public class workerScript : MonoBehaviour
     [SerializeField] private GameObject back;
     [SerializeField] private GameObject neck;
 
-    [SerializeField] private GameObject workerText;
-    [SerializeField] private GameObject ReportText;
+    //[SerializeField] private GameObject workerText;
+    //[SerializeField] private GameObject ReportText;
 
     //[SerializeField] private GameObject shoulderText;
     //[SerializeField] private GameObject thighText;
@@ -22,11 +22,11 @@ public class workerScript : MonoBehaviour
     //[SerializeField] private GameObject currentMenu;
     //[SerializeField] private GameObject resultsMenu;
 
-    public bool active = false;
-    public string fileName;
-    public string filePath;
-    public string ReportString = "";
-    public string teststring = "test";
+    [HideInInspector]public bool active = false;
+    [HideInInspector] public string fileName;
+    [HideInInspector] public string filePath;
+    [HideInInspector] public string ReportString = "";
+    [HideInInspector] public string teststring = "test";
 
     private bool shoulderBool = false;
     private bool thighBool = false;
@@ -48,7 +48,7 @@ public class workerScript : MonoBehaviour
         
 
         fileName = string.Format("{0}/imuReport_{1}.txt",filePath,System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
-        workerText.SetActive(true);
+        //workerText.SetActive(true);
     }
 
     private void Update()
@@ -56,7 +56,7 @@ public class workerScript : MonoBehaviour
         if(active)
         {
             //activate worker name display
-            workerText.SetActive(true);
+            //workerText.SetActive(true);
 
             timer += Time.deltaTime;
             if (timer >= 1)

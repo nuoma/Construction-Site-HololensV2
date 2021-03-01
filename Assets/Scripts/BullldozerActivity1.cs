@@ -8,13 +8,17 @@ public class BullldozerActivity1 : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float precision;
     [SerializeField] private Transform[] moveSpots;
+    [SerializeField] private Transform[] RollerMoveSpots;
+    public GameObject RollerVehicle;
     [SerializeField] private GameObject gpsScript;
 
     private bool enable = false;
+    private bool RollerEnable = false;
     [HideInInspector] public bool tagged = true;
     [HideInInspector] public int lapCount;
     private int arrayPosition = 0;
-   // private string bulldozerContent = "\nBulldozer Data\n\n";
+    private int RollerArrayPosition = 0;
+    // private string bulldozerContent = "\nBulldozer Data\n\n";
 
     // Update is called once per frame
     void Update()
@@ -36,12 +40,28 @@ public class BullldozerActivity1 : MonoBehaviour
                 {
                     arrayPosition = 0;
                     lapCount++;
+                    if (lapCount == 2) { enable = false; RollerEnable = true; }
                 }
                 
                 //original code for reporting function, disable.
                 //bulldozerContent += "Position " + arrayPosition + ":  x:" + transform.position.x + "  y:" +
                 //transform.position.y + "  z:" + transform.position.z + "\n";
                 //}
+            }
+        }
+
+        if (RollerEnable)
+        {
+            RollerVehicle.transform.position = Vector3.MoveTowards(RollerVehicle.transform.position, RollerMoveSpots[RollerArrayPosition].position, speed * Time.deltaTime);
+
+            if (Vector3.Distance(RollerVehicle.transform.position, RollerMoveSpots[RollerArrayPosition].position) < precision)
+            {
+                if (RollerArrayPosition < RollerMoveSpots.Length - 1)
+                    RollerArrayPosition++;
+                else
+                {
+                    RollerArrayPosition = 0;
+                }
             }
         }
     }

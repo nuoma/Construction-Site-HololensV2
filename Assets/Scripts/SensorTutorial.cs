@@ -122,10 +122,9 @@ public class SensorTutorial : MonoBehaviour
     private void PrepareIMUString()
     {
         IMUReportString = "";
-        IMUReportString = ActivityManager.GetComponent<ActivityManagerScript>().A14_c1_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_c2_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_l_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_p_report;
+        IMUReportString = ActivityManager.GetComponent<ActivityManagerScript>().A17_Carpenter_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A16_Laborer_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A15_painter_report;
     }
 
     private void PrepareGPSString()

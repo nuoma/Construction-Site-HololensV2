@@ -117,7 +117,7 @@ public class Crane : MonoBehaviour
             //calculate look angle from crane top pivot point to target location
             Quaternion lookDirection = Quaternion.LookRotation(moveSpots[0].position - transform.position); //moveSpots is first target location, transform position is top tower crane
             float angle = Quaternion.Angle(lookDirection, craneTop.transform.rotation); //the angle between look direction and actual crane top pivot angle
-            //Debug.Log(Mathf.Abs(angle));
+            Debug.Log("Crane Step2 angle:"+Mathf.Abs(angle));
             bool sameRotation = Mathf.Abs(angle) > 90f; //after test, desire angle is 90, due to top crane model coordinate initial direction. Container placed directly before crane, use orthognal view to adjust.
             if (sameRotation) //rotate to desired location.
             {
@@ -139,8 +139,8 @@ public class Crane : MonoBehaviour
             Debug.Log("hook"+ new Vector2(hook.transform.localPosition.x, hook.transform.localPosition.z));
             Debug.Log("container"+ new Vector2(moveSpots[0].position.x, moveSpots[0].position.z));
             */
-            Debug.Log("Step3 Distance:"+distance);
-            bool distancebool = Mathf.Abs(distance) < 0.003f; //distance precision value
+            Debug.Log("Crane Step3 Distance:"+distance);
+            bool distancebool = Mathf.Abs(distance) < 0.004f; //distance precision value
             if ( distancebool ) //rotate to desired location.
             {
                 step3flag = false; //set flag to terminate step 3 rotation
@@ -180,12 +180,12 @@ public class Crane : MonoBehaviour
         //6.rotate to target area, mod based on step 2, change moveDpots to 1 for next target location, also change target location angle to 270 and use orthognal view to adjuist truck on right side of crane, also change step 6 flag
         while (step6flag)
         {
-            TurnAntiClockwise();
+            TurnClockwise();
             //calculate look angle from crane top pivot point to target location
-            Quaternion lookDirection = Quaternion.LookRotation(moveSpots[1].position - transform.position); //moveSpots is first target location, transform position is top tower crane
+            Quaternion lookDirection = Quaternion.LookRotation( moveSpots[1].position - transform.position ); //moveSpots is first target location, transform position is top tower crane
             float angle = Quaternion.Angle(lookDirection, craneTop.transform.rotation); //the angle between look direction and actual crane top pivot angle
             Debug.Log("Step 6 angle:"+angle);
-            bool sameRotation = Mathf.Abs(angle) < 95f; //after test, desire angle is 90, due to top crane model coordinate initial direction. Container placed directly before crane, use orthognal view to adjust.
+            bool sameRotation = Mathf.Abs(angle) > 90f; //after test, desire angle is 90, due to top crane model coordinate initial direction. Container placed directly before crane, use orthognal view to adjust.
             if (sameRotation) //rotate to desired location.
             {
                 step6flag = false; //set flag to terminate step 2 rotation
@@ -197,7 +197,7 @@ public class Crane : MonoBehaviour
         {
             MoveHookForward();// let hook move forward, due to small hack mentioned above 
             float distance = Vector2.Distance(new Vector2(hook.transform.position.x, hook.transform.position.z), new Vector2(moveSpots[1].transform.position.x, moveSpots[1].transform.position.z));//calculate distance between load and target area.
-            bool distancebool = Mathf.Abs(distance) < 0.005f; //distance precision value
+            bool distancebool = Mathf.Abs(distance) < 0.3f; //distance precision value
             Debug.Log("Step7 distance: "+distance);
             //Debug.Log("hook(x,z):" + hook.transform.position.x + hook.transform.position.z);
             //Debug.Log("spot(x,z):" + moveSpots[1].transform.position.x + moveSpots[1].transform.position.z);

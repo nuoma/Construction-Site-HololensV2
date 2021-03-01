@@ -471,8 +471,8 @@ public class ExploreManager : MonoBehaviour
             //A10 scan stockpile
             if (!(SelectedActivityNum == 9))
             {
-                ActivityResourcesNode.transform.Find("Activity11A").gameObject.SetActive(false);
-                ActivityResourcesNode.transform.Find("Activity11B").gameObject.SetActive(false);
+                ActivityResourcesNode.transform.Find("Activity10A").gameObject.SetActive(false);
+                ActivityResourcesNode.transform.Find("Activity10B").gameObject.SetActive(false);
                 A11Stockpile1TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
                 A11Stockpile2TooltipSpawner.GetComponent<ToolTipSpawner>().FocusEnabled = false;
             }

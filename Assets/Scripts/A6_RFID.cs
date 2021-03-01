@@ -7,13 +7,16 @@ public class A6_RFID : MonoBehaviour
     public string wood;
     public string log;
     public string rebar;
+    public string SteelBeam;
     public bool WoodFlag = false;
     public bool LogFlag = false;
     public bool RebarFlag = false;
+    public bool SteelbeamFlag = false;
     private bool RFIDToggle;
     private int WoodNumber;
     private int LogNumber;
     private int RebarNumber;
+    private int SteelBeamNumber;
 
 
     // Start is called before the first frame update
@@ -40,47 +43,12 @@ public class A6_RFID : MonoBehaviour
             RebarNumber = objectsWithTag.Length;
             rebar = "Rebar Number:" + RebarNumber + "\n";
         }
-    }
-    
-    /*
-    // Update is called once per frame
-    void Update()
-    {
-        if (RFIDToggle)
+        if (SteelbeamFlag)
         {
-           
-            
-            
+            GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("steelbeam") as GameObject[];
+            SteelBeamNumber = objectsWithTag.Length;
+            SteelBeam = "Steel Beam Number:" + SteelBeamNumber + "\n";
         }
-
     }
-
-    // selected button
-    public void WoodSelect()
-    {
-        WoodFlag = true;
-    }
-    public void LogSelect()
-    {
-        LogFlag = true;
-    }
-    public void RebarSelect()
-    {
-        RebarFlag = true;
-    }
-
-   
-    public void back()
-    {
-        Activity6_ResourceCanvas.SetActive(false);
-        Activity6_SensorCanvas.SetActive(false);
-        Activity6_ReportCanvas.SetActive(false);
-        Activity6_WrongCanvas.SetActive(false);
-        WoodFlag = false;
-        LogFlag = false;
-        RebarFlag = false;
-    }
-    */
-
 
 }

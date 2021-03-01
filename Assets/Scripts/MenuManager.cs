@@ -16,6 +16,7 @@ using Microsoft.MixedReality.Toolkit.UI;
 public class MenuManager : MonoBehaviour
 {
     #region Parameters
+    public GameObject AutoSelectionPanel;
     [SerializeField] private GameObject HideShowButton;
     [SerializeField] private GameObject ActivityResourcesNode;
     [SerializeField] private GameObject ConcurrentSelectionMenu; //LegacyMainMenu
@@ -52,10 +53,10 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI CostBenefitText;
     public TextMeshProUGUI TitleText;
 
-    private bool[] SelectedActivities = new bool[16];
+    private bool[] SelectedActivities = new bool[25];
     private bool[] SelectedSensors = new bool[5];
     private string[] SelectedResources = new string[16];
-    private bool[] LastIterationSelectedActivities = new bool[16];
+    private bool[] LastIterationSelectedActivities = new bool[25];
     Dictionary<int, int> LUT = new Dictionary<int, int>(); //Use hashtable for LUT, used to correspond activity selection panel buttons and actual activities.
     Dictionary<int, int> LUT2 = new Dictionary<int, int>(); // LUT2, used to convey execution command between R_confirm and select().
 
@@ -67,6 +68,7 @@ public class MenuManager : MonoBehaviour
 
     private bool onActivityChanged;
     private bool MultiLaserScan;
+    private bool MultiDrone;
     private bool RFIDReportEnable;
     private bool GPSReportEnable;
     private bool IMUReportEnable;
@@ -117,7 +119,7 @@ public class MenuManager : MonoBehaviour
     private bool showhidetoggle = false; //true means hide
 
     public GameObject SensorParentNode;
-    public GameObject MiscAssetNode;
+    //public GameObject MiscAssetNode;
 
     public string SensorWarningString;
 
@@ -176,46 +178,6 @@ public class MenuManager : MonoBehaviour
         ConcurrentSelectionMenu.SetActive(false);
        // VisualBlock.SetActive(false);
     }
-
-    public void SceneInitialize()
-    {
-        HideShowButton.SetActive(false);
-        //create activity list
-        CreateActivityDropdown();
-        //create sensors list
-        CreateSensorsDropdown();
-        //resources list should be selected accordingly
-        CreateResourcesDropdown();
-
-        IMUReportCanvas.SetActive(false);
-        GPSReportCanvas.SetActive(false);
-        RFIDReportCanvas.SetActive(false);
-        PointingChevron.SetActive(false);
-        ComboSelectionCanvas.SetActive(false);
-        CostBenefitPanel.SetActive(false);
-        StopButtonObj.SetActive(false);
-        NAButton.SetActive(false);
-
-        A_confirm_button.SetActive(false);
-        S_confirm_button.SetActive(false);
-        R_confirm_button.SetActive(false);
-
-        //Mdropdown1.transform.Find("DisablePanel").gameObject.SetActive(false);
-        Mdropdown2.GetComponent<Button>().interactable = false;
-        //Mdropdown2.transform.Find("DisablePanel").gameObject.SetActive(true);
-        Mdropdown3.GetComponent<Button>().interactable = false;
-        //Mdropdown3.transform.Find("DisablePanel").gameObject.SetActive(true);
-        SelectButton.SetActive(false);
-
-        CurrentActivitySelection = 0;
-
-        //activity selection panel
-        ActivitySelectionParentPanel.gameObject.SetActive(false);
-
-        ConcurrentSelectionMenu.SetActive(false);
-        // VisualBlock.SetActive(false);
-    }
-
 
     void Update()
     {
@@ -290,12 +252,51 @@ public class MenuManager : MonoBehaviour
 
     #region supporting functions
 
+    public void SceneInitialize()
+    {
+        HideShowButton.SetActive(false);
+        //create activity list
+        CreateActivityDropdown();
+        //create sensors list
+        CreateSensorsDropdown();
+        //resources list should be selected accordingly
+        CreateResourcesDropdown();
+
+        IMUReportCanvas.SetActive(false);
+        GPSReportCanvas.SetActive(false);
+        RFIDReportCanvas.SetActive(false);
+        PointingChevron.SetActive(false);
+        ComboSelectionCanvas.SetActive(false);
+        CostBenefitPanel.SetActive(false);
+        StopButtonObj.SetActive(false);
+        NAButton.SetActive(false);
+
+        A_confirm_button.SetActive(false);
+        S_confirm_button.SetActive(false);
+        R_confirm_button.SetActive(false);
+
+        //Mdropdown1.transform.Find("DisablePanel").gameObject.SetActive(false);
+        Mdropdown2.GetComponent<Button>().interactable = false;
+        //Mdropdown2.transform.Find("DisablePanel").gameObject.SetActive(true);
+        Mdropdown3.GetComponent<Button>().interactable = false;
+        //Mdropdown3.transform.Find("DisablePanel").gameObject.SetActive(true);
+        SelectButton.SetActive(false);
+
+        CurrentActivitySelection = 0;
+
+        //activity selection panel
+        ActivitySelectionParentPanel.gameObject.SetActive(false);
+
+        ConcurrentSelectionMenu.SetActive(false);
+        // VisualBlock.SetActive(false);
+    }
+
     private void CreateActivityDropdown()
     {
         //ActivityList = new List<string> { "Dozer backfilling", "Crane Loading", "Material Delivery", "Worker's Close Call", "Load & Haul",
         //    "Material Inventory", "Detecting Fall", "Work Progress Measurement – Building", "Scan Floor", "Scan Stockpile", "Scan Old Building", "Jobsite Inspection", "Worker Ergonomics"};
         ActivityList = new List<string> { "Backfilling", "Crane Loading", "Material Delivery", "Material handling (1)", "Truck Load/Haul",
-            "Material Inventory", "Material Handling (2)", "Cladding", "Flooring", "Stockpile unloading", "Renovation", "Site Inspection", "Painting","Labor","Carpentry"};
+            "Material Inventory", "Material Handling (2)", "Cladding", "Flooring", "Stockpile unloading", "Renovation", "Site Inspection","Site Sanitation","Safety Inspection", "Painting","Labor","Carpentry","Cart Worker","Drywall","Masonry"};
 
 
         foreach (string option in ActivityList)
@@ -418,29 +419,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    //update resources list accroding to dropdown 1's selection
-    //Old deprecated
-    /*
-    public void UpdateResourcesList()
-    {
-        //Initialize as empty list
-        ResourcesList.Clear();
-        //Add items according to different activities
-        if (SelectedActivities[0] == true) ResourcesList.AddRange(new string[] { "Dozer", "Stockpile" });//1
-        if (SelectedActivities[1] == true) ResourcesList.AddRange(new string[] { "Crane", "Steel Beam" });//2
-        if (SelectedActivities[2] == true) ResourcesList.AddRange(new string[] { "Truck", "Rebar" });
-        if (SelectedActivities[3] == true) ResourcesList.AddRange(new string[] { "Worker 1" });
-        if (SelectedActivities[4] == true) ResourcesList.AddRange(new string[] { "Loader", "Dumptruck", "Stockpile" });
-        if (SelectedActivities[5] == true) ResourcesList.AddRange(new string[] { "Wood", "Log", "Rebar" });
-        if (SelectedActivities[6] == true) ResourcesList.AddRange(new string[] { "Worker 1", "Worker 2", "Worker 3" });
-        if (SelectedActivities[7] == true) ResourcesList.AddRange(new string[] { "Building 1" });
-        if (SelectedActivities[8] == true) ResourcesList.AddRange(new string[] { "Top Floor" });
-        if (SelectedActivities[9] == true) ResourcesList.AddRange(new string[] { "Stockpile 1", "Stockpile 2" });//11
-        if (SelectedActivities[10] == true) ResourcesList.AddRange(new string[] { "Old Building" });//12
-        if (SelectedActivities[11] == true) ResourcesList.AddRange(new string[] { "Jobsite" });//13
-        if (SelectedActivities[12] == true) ResourcesList.AddRange(new string[] { "Painter", "Laborer", "Carpenter 1", "Carpenter 2" });//14
-    }
-    */
 
     //update resources list accroding to new ui button
     public void UpdateResourcesListSolo()
@@ -449,26 +427,35 @@ public class MenuManager : MonoBehaviour
         ResourcesList.Clear();
 
         //Add items according to different activities
-        if (CurrentActivitySelection == 0) ResourcesList.AddRange(new string[] { "Dozer", "Stockpile" });//1
+        if (CurrentActivitySelection == 0) ResourcesList.AddRange(new string[] { "Dozer","Roller", "Stockpile" });//1
         if (CurrentActivitySelection == 1) ResourcesList.AddRange(new string[] { "Crane", "Steel Beam" });//2
         if (CurrentActivitySelection == 2) ResourcesList.AddRange(new string[] { "Truck", "Rebar" });
-        if (CurrentActivitySelection == 3) ResourcesList.AddRange(new string[] { "Worker 1" });
-        if (CurrentActivitySelection == 4) ResourcesList.AddRange(new string[] { "Loader", "Dumptruck", "Stockpile" });
-        if (CurrentActivitySelection == 5) ResourcesList.AddRange(new string[] { "Wood", "Log", "Rebar" });
-        if (CurrentActivitySelection == 6) ResourcesList.AddRange(new string[] { "Worker 1", "Worker 2", "Worker 3" });
-        if (CurrentActivitySelection == 7) ResourcesList.AddRange(new string[] { "Building 1" });
-        if (CurrentActivitySelection == 8) ResourcesList.AddRange(new string[] { "Top Floor" });
+        if (CurrentActivitySelection == 3) ResourcesList.AddRange(new string[] { "Worker" });
+        if (CurrentActivitySelection == 4) ResourcesList.AddRange(new string[] { "Backhoe", "Dump Truck", "Stockpile","Worker" });
+        if (CurrentActivitySelection == 5) ResourcesList.AddRange(new string[] { "Wood", "Log", "Rebar" ,"Steel Beam"});
+        if (CurrentActivitySelection == 6) ResourcesList.AddRange(new string[] { "Worker 1", "Worker 2" });
+        if (CurrentActivitySelection == 7) ResourcesList.AddRange(new string[] { "Building" });
+        if (CurrentActivitySelection == 8) ResourcesList.AddRange(new string[] { "Building" });
         if (CurrentActivitySelection == 9) ResourcesList.AddRange(new string[] { "Stockpile 1", "Stockpile 2" });//11
         if (CurrentActivitySelection == 10) ResourcesList.AddRange(new string[] { "Old Building" });//12
-        if (CurrentActivitySelection == 11) ResourcesList.AddRange(new string[] { "Jobsite" });//13
-        //Changed due to separate IMU into 3 activities and leave resources for joints
-        //if (CurrentActivitySelection == 12) ResourcesList.AddRange(new string[] { "Painter", "Laborer", "Carpenter 1", "Carpenter 2" });//14
-        if (CurrentActivitySelection == 12 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back","Neck","Shoulder","Thigh" });//14
-        if (CurrentActivitySelection == 13 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });//14
-        if (CurrentActivitySelection == 14 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });//14
-        if (CurrentActivitySelection == 12 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Painter" });//14
-        if (CurrentActivitySelection == 13 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Laborer" });//14
-        if (CurrentActivitySelection == 14 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Carpenter" });//14
+        if (CurrentActivitySelection == 11) ResourcesList.AddRange(new string[] { "Jobsite" });
+        if (CurrentActivitySelection == 12) ResourcesList.AddRange(new string[] { "Jobsite" });
+        if (CurrentActivitySelection == 13) ResourcesList.AddRange(new string[] { "Jobsite" });
+        if (CurrentActivitySelection == 14 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Painter" });
+        if (CurrentActivitySelection == 14 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back","Neck","Shoulder","Thigh" });
+        if (CurrentActivitySelection == 15 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Laborer" });
+        if (CurrentActivitySelection == 15 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });
+        if(CurrentActivitySelection == 16 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Carpenter" });
+        if (CurrentActivitySelection == 16 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });
+        if (CurrentActivitySelection == 17 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Cart Worker" });
+        if (CurrentActivitySelection == 17 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });
+        if (CurrentActivitySelection == 18 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Drywaller1","Drywaller2" });
+        if (CurrentActivitySelection == 18 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });
+        if (CurrentActivitySelection == 19 && SelectedSensors[4] == false) ResourcesList.AddRange(new string[] { "Masonry" });
+        if (CurrentActivitySelection == 19 && SelectedSensors[4] == true) ResourcesList.AddRange(new string[] { "Back", "Neck", "Shoulder", "Thigh" });
+
+
+
 
     }
 
@@ -493,12 +480,14 @@ public class MenuManager : MonoBehaviour
     //10/4/2020 New implementation based on previous select function
     //10/20/2020 changing implementation due to per sensor resource selection will invalidate previous dictionary based implementation.
     //11/24/2020 Added RFID for vehicles A1,2,3,5
+    //20210228 Check due to new activity list.
     public void Select()
     {
+        AutoSelectionPanel.SetActive(false);
         //HideShowButton.SetActive(true);
 
-        bool Drone1 = false;
-        bool Drone2 = false;
+        //bool Drone1 = false;
+        //bool Drone2 = false;
         bool MultiDroneBlock = false;
 
         ShowComboBool = false;
@@ -515,6 +504,8 @@ public class MenuManager : MonoBehaviour
             ExeList[ComboList.ElementAt(j).Key] = string.Join(", ", ComboList.ElementAt(j).Value);
         }
 
+        /*
+        //20210228 Because multi drone check is implemented, this is deprecated.
         /// <summary>
         /// This section check for multi drone selection
         /// </summary>
@@ -524,7 +515,9 @@ public class MenuManager : MonoBehaviour
         if (SelectedActivities[11] == true) { foreach (int key in InterpretLUT2(11)) { if (ExeList[key].Contains("Drone")) { Drone2 = true; } } }
         //MultiDroneBlock
         if (Drone1 && Drone2) { MultiDroneBlock = true; Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Drone but multiple Drone activity selected.", true); }
+        */
 
+        //Modified on 20210228
         //Execute Activities
         //A1 Dozer Backfilling
         if (SelectedActivities[0] == true)
@@ -542,6 +535,18 @@ public class MenuManager : MonoBehaviour
                 if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Dozer"))
                 { ActivityManager.GetComponent<ActivityManagerScript>().select_1_Dozer_RFID(); }// 1.Dozer GPS
             }
+            //Roller GPS
+            foreach (int key in InterpretLUT2(0))
+            {
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Roller"))
+                { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_1_Roller_GPS(); }// 1.Dozer GPS
+            }
+            //Roller RFID
+            foreach (int key in InterpretLUT2(0))
+            {
+                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Roller"))
+                { ActivityManager.GetComponent<ActivityManagerScript>().select_1_Roller_RFID(); }// 1.Dozer GPS
+            }
         }
 
         //A2 Crane Loading
@@ -554,7 +559,7 @@ public class MenuManager : MonoBehaviour
                 if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Steel Beam"))
                 { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_2_CraneLoad_GPS(); }// 2.Load GPS
             }
-            //A2 Crane rfid
+            //A2 Crane RFID
             foreach (int key in InterpretLUT2(1))
             {
                 if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Crane"))
@@ -594,19 +599,19 @@ public class MenuManager : MonoBehaviour
             //worker GPS
             foreach (int key in InterpretLUT2(3))
             {
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Worker 1"))
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Worker"))
                 { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_4worker_gps(); }// 4.Worker GPS
             }
             //Worker RFID. Since we are using panel above worker, so no RFID panel needed.
             foreach (int key in InterpretLUT2(3))
             {
-                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Worker 1"))
+                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Worker"))
                 { ActivityManager.GetComponent<ActivityManagerScript>().select_4worker_RFID(); }
             }
             //Worker GPS&RFID.
             foreach (int key in InterpretLUT2(3))
             {
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("RFID") && ExeList[key].Contains("Worker 1"))
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("RFID") && ExeList[key].Contains("Worker"))
                 { ActivityManager.GetComponent<ActivityManagerScript>().A4_worker_GPSRFID = true; ActivityManager.GetComponent<ActivityManagerScript>().select_4worker_RFID(); }
             }
         }
@@ -618,26 +623,38 @@ public class MenuManager : MonoBehaviour
             // 5.Loader GPS.
             foreach (int key in InterpretLUT2(4))
             {
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Loader"))
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Backhoe"))
                 { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_5_Loader_GPS(); }
             }
             // 5.DumpTruck GPS.
             foreach (int key in InterpretLUT2(4))
             {
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("DumpTruck"))
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Dump Truck"))
                 { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_5_dumptruck_GPS(); }
             }
             //5.Loader RFID
             foreach (int key in InterpretLUT2(4))
             {
-                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Loader"))
+                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Backhoe"))
                 { ActivityManager.GetComponent<ActivityManagerScript>().select_5_backhoe_RFID(); }
             }
             //5.Dumptruck Rfid
             foreach (int key in InterpretLUT2(4))
             {
-                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("DumpTruck"))
+                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Dump Truck"))
                 { ActivityManager.GetComponent<ActivityManagerScript>().select_5_dumptruck_RFID(); }
+            }
+            //Worker GPS
+            foreach (int key in InterpretLUT2(4))
+            {
+                if (ExeList[key].Contains("RFID") && ExeList[key].Contains("Worker"))
+                { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_5_worker_RFID(); }
+            }
+            //Worker RFID
+            foreach (int key in InterpretLUT2(4))
+            {
+                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Worker"))
+                { ActivityManager.GetComponent<ActivityManagerScript>().select_5_worker_GPS(); }
             }
         }
 
@@ -652,6 +669,7 @@ public class MenuManager : MonoBehaviour
                     if (ExeList[key].Contains("Wood")) ActivityManager.GetComponent<ActivityManagerScript>().A6_wood_flag = true;
                     if (ExeList[key].Contains("Log")) ActivityManager.GetComponent<ActivityManagerScript>().A6_log_flag = true;
                     if (ExeList[key].Contains("Rebar")) ActivityManager.GetComponent<ActivityManagerScript>().A6_rebar_flag = true;
+                    if (ExeList[key].Contains("Steel Beam")) ActivityManager.GetComponent<ActivityManagerScript>().A6_steelbeam_flag = true;
                     ActivityManager.GetComponent<ActivityManagerScript>().A6_RFID();
                     RFIDReportEnable = true;
                 }
@@ -665,7 +683,6 @@ public class MenuManager : MonoBehaviour
             {
                 if (ExeList[key].Contains("Worker 1")) ActivityManager.GetComponent<ActivityManagerScript>().A7_w1_flag = true;
                 if (ExeList[key].Contains("Worker 2")) ActivityManager.GetComponent<ActivityManagerScript>().A7_w2_flag = true;
-                if (ExeList[key].Contains("Worker 3")) ActivityManager.GetComponent<ActivityManagerScript>().A7_w3_flag = true;
 
                 //Run basic activity: danger zone red box. Based on worker selection bool.
                 ActivityManager.GetComponent<ActivityManagerScript>().select_7_new();
@@ -676,18 +693,22 @@ public class MenuManager : MonoBehaviour
                 //RFID only, GPS hidden.
                 if (ExeList[key].Contains("RFID") && !ExeList[key].Contains("GPS")) { ActivityManager.GetComponent<ActivityManagerScript>().select_7_RFID(); }
 
-                //RFID and GPS
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("RFID"))
-                { ActivityManager.GetComponent<ActivityManagerScript>().A7_worker_GPSRFID = true; ActivityManager.GetComponent<ActivityManagerScript>().select_7_RFID(); }
+                //RFID and GPS, not necessary
+                //if (ExeList[key].Contains("GPS") && ExeList[key].Contains("RFID"))
+                //{ ActivityManager.GetComponent<ActivityManagerScript>().A7_worker_GPSRFID = true; ActivityManager.GetComponent<ActivityManagerScript>().select_7_RFID(); }
             }
            
 
         }
 
-        //Laser Scan related activities [7,8,9,10]
+        //Laser Scan related activities8.9.10.11 
         //if MultiLaserScan, then cannot proceed
-        if (MultiLaserScan == false) { if (SelectedActivities[7] == true)  LSConcurrent = 7; }//8.scan part of building, ActivityManager.GetComponent<ActivityManagerScript>().select_8();
-        if (MultiLaserScan == false) { if (SelectedActivities[8] == true)  LSConcurrent = 8; }//9.scan concrete slab, ActivityManager.GetComponent<ActivityManagerScript>().select_9();
+        
+        //A8.scan part of building, ActivityManager.GetComponent<ActivityManagerScript>().select_8();
+        if (MultiLaserScan == false) { if (SelectedActivities[7] == true)  LSConcurrent = 7; }
+        //A9.scan concrete slab, ActivityManager.GetComponent<ActivityManagerScript>().select_9();
+        if (MultiLaserScan == false) { if (SelectedActivities[8] == true)  LSConcurrent = 8; }
+        //A10. stockpile unloading 1
         if (MultiLaserScan == false)
         {
             if (SelectedActivities[9] == true)
@@ -699,6 +720,7 @@ public class MenuManager : MonoBehaviour
                 }
             }
         }
+        //A10. stockpile unloading 2
         if (MultiLaserScan == false)
         {
             if (SelectedActivities[9] == true)
@@ -711,7 +733,7 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        //11. Old House LS only
+        //A11. Old House LS only
         if (MultiLaserScan == false)
         {
             if (SelectedActivities[10] == true)
@@ -724,20 +746,21 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        //11. Old house drone only
-        if (SelectedActivities[10] == true)
+        //A11. Old house drone only
+        if (MultiDrone == false)
         {
-            foreach (int key in InterpretLUT2(10))
+            if (SelectedActivities[10] == true)
             {
-                if (ExeList[key].Contains("Drone") == true && !ExeList[key].Contains("Laser Scanner") && ExeList[key].Contains("Old Building") && !MultiDroneBlock)
-                //{ ActivityManager.GetComponent<ActivityManagerScript>().select_11Drone(); DConcurrent = 10; }
-                {  DConcurrent = 10; }
+                foreach (int key in InterpretLUT2(10))
+                {
+                    if (ExeList[key].Contains("Drone") == true && !ExeList[key].Contains("Laser Scanner") && ExeList[key].Contains("Old Building") && !MultiDroneBlock)
+                    //{ ActivityManager.GetComponent<ActivityManagerScript>().select_11Drone(); DConcurrent = 10; }
+                    { DConcurrent = 10; }
+                }
             }
         }
-
-
-
-        //11. Old House LS && Drone
+            
+        //A11. Old House LS && Drone
         if (SelectedActivities[10] == true)
         {
             foreach (int key in InterpretLUT2(10))
@@ -752,57 +775,54 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        //12. Jobsite drone
-        if (SelectedActivities[11] == true)
+        //A12. site inspection
+        if (MultiDrone == false)
         {
-            foreach (int key in InterpretLUT2(11))
+            if (SelectedActivities[11] == true)
             {
-                if (ExeList[key].Contains("Drone") && ExeList[key].Contains("Jobsite") && !MultiDroneBlock)
-                //{ ActivityManager.GetComponent<ActivityManagerScript>().select_12(); DConcurrent = 11; }
-                {  DConcurrent = 11; }
-            }
-        }
-
-        //Deprecated due to change from IMU to 3 separate activities
-        /*
-        //13.IMU workers
-        if (SelectedActivities[12] == true)
-        {
-            foreach (int key in InterpretLUT2(12))
-            {
-                if (ExeList[key].Contains("IMU"))
+                foreach (int key in InterpretLUT2(11))
                 {
-                    if (ExeList[key].Contains("Painter"))
-                    { ActivityManager.GetComponent<ActivityManagerScript>().A14_painter = true; }
-                    if (ExeList[key].Contains("Laborer"))
-                    { ActivityManager.GetComponent<ActivityManagerScript>().A14_laborer = true; }
-                    if (ExeList[key].Contains("Carpenter 1"))
-                    { ActivityManager.GetComponent<ActivityManagerScript>().A14_c1 = true; }
-                    if (ExeList[key].Contains("Carpenter 2"))
-                    { ActivityManager.GetComponent<ActivityManagerScript>().A14_c2 = true; }
-                    //With given worker bool, get IMU string, handle finish file write use backselected()
-                    ActivityManager.GetComponent<ActivityManagerScript>().select_13_new();
-                    //display IMU
-                    IMUReportEnable = true;
-                }      
+                    if (ExeList[key].Contains("Drone") && ExeList[key].Contains("Jobsite") && !MultiDroneBlock)
+                    //{ ActivityManager.GetComponent<ActivityManagerScript>().select_12(); DConcurrent = 11; }
+                    { DConcurrent = 11; }
+                }
             }
         }
-        */
 
-        //Reference
-        /*
-         foreach (int key in InterpretLUT2(4))
-            {
-                if (ExeList[key].Contains("GPS") && ExeList[key].Contains("Loader"))
-                { GPSReportEnable = true; ActivityManager.GetComponent<ActivityManagerScript>().select_5_Loader_GPS(); }
-            }
-         */
-
-        //20201209 New IMU implementation
-        //P
-        if (SelectedActivities[12] == true)
+        //A13. sanitation
+        if (MultiDrone == false)
         {
-            foreach (int key in InterpretLUT2(12))
+            if (SelectedActivities[12] == true)
+            {
+                foreach (int key in InterpretLUT2(12))
+                {
+                    if (ExeList[key].Contains("Drone") && ExeList[key].Contains("Jobsite") && !MultiDroneBlock)
+                    //{ ActivityManager.GetComponent<ActivityManagerScript>().select_12(); DConcurrent = 11; }
+                    { DConcurrent = 12; }
+                }
+            }
+        }
+
+        //A14. safety
+        if (MultiDrone == false)
+        {
+            if (SelectedActivities[13] == true)
+            {
+                foreach (int key in InterpretLUT2(13))
+                {
+                    if (ExeList[key].Contains("Drone") && ExeList[key].Contains("Jobsite") && !MultiDroneBlock)
+                    //{ ActivityManager.GetComponent<ActivityManagerScript>().select_12(); DConcurrent = 11; }
+                    { DConcurrent = 13; }
+                }
+            }
+        }
+
+        //20210228 New worker activities
+        //20201209 New IMU implementation
+        //A15 painter
+        if (SelectedActivities[14] == true)
+        {
+            foreach (int key in InterpretLUT2(14))
             {
                 //bigger condition is IMU, smaller condition is different joints
                 if (ExeList[key].Contains("IMU"))
@@ -825,9 +845,9 @@ public class MenuManager : MonoBehaviour
                     }
 
                     //Broad condition that IMU with a worker is selected
-                    ActivityManager.GetComponent<ActivityManagerScript>().A14_painter = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().A15_Painter = true;
                     //With given worker bool, get IMU string, handle finish file write use backselected()
-                    ActivityManager.GetComponent<ActivityManagerScript>().select_13_new();
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
                     //display IMU
                     IMUReportEnable = true;
                 }
@@ -845,10 +865,10 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        //L
-        if (SelectedActivities[13] == true)
+        //A16 laborer
+        if (SelectedActivities[15] == true)
         {
-            foreach (int key in InterpretLUT2(13))
+            foreach (int key in InterpretLUT2(15))
             {
                 //bigger condition is IMU, smaller condition is different joints
                 if (ExeList[key].Contains("IMU"))
@@ -871,9 +891,9 @@ public class MenuManager : MonoBehaviour
                     }
 
                     //Broad condition that IMU with a worker is selected
-                    ActivityManager.GetComponent<ActivityManagerScript>().A14_laborer = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().A16_Laborer = true;
                     //With given worker bool, get IMU string, handle finish file write use backselected()
-                    ActivityManager.GetComponent<ActivityManagerScript>().select_13_new();
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
                     //display IMU
                     IMUReportEnable = true;
                 }
@@ -891,10 +911,10 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        //C
-        if (SelectedActivities[14] == true)
+        //A17 carpentry
+        if (SelectedActivities[16] == true)
         {
-            foreach (int key in InterpretLUT2(14))
+            foreach (int key in InterpretLUT2(16))
             {
                 //bigger condition is IMU, smaller condition is different joints
                 if (ExeList[key].Contains("IMU"))
@@ -917,9 +937,9 @@ public class MenuManager : MonoBehaviour
                     }
 
                     //Broad condition that IMU with a worker is selected
-                    ActivityManager.GetComponent<ActivityManagerScript>().A14_c1 = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().A17_Carpenter = true;
                     //With given worker bool, get IMU string, handle finish file write use backselected()
-                    ActivityManager.GetComponent<ActivityManagerScript>().select_13_new();
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
                     //display IMU
                     IMUReportEnable = true;
                 }
@@ -933,6 +953,148 @@ public class MenuManager : MonoBehaviour
                 if (ExeList[key].Contains("RFID"))
                 {
                     ActivityManager.GetComponent<ActivityManagerScript>().select_Carpenter_RFID();
+                }
+            }
+        }
+
+        //A18 cart worker
+        if (SelectedActivities[17] == true)
+        {
+            ActivityManager.GetComponent<ActivityManagerScript>().select18();
+            foreach (int key in InterpretLUT2(17))
+            {
+                //bigger condition is IMU, smaller condition is different joints
+                if (ExeList[key].Contains("IMU"))
+                {
+                    if (ExeList[key].Contains("Back"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().backSelect();
+                    }
+                    if (ExeList[key].Contains("Neck"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().neckSelect();
+                    }
+                    if (ExeList[key].Contains("Shoulder"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().shoulderSelect();
+                    }
+                    if (ExeList[key].Contains("Thigh"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().thighSelect();
+                    }
+
+                    //Broad condition that IMU with a worker is selected
+                    ActivityManager.GetComponent<ActivityManagerScript>().A18_CartWorker = true;
+                    //With given worker bool, get IMU string, handle finish file write use backselected()
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
+                    //display IMU
+                    IMUReportEnable = true;
+                }
+
+                if (ExeList[key].Contains("GPS"))
+                {
+                    GPSReportEnable = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_Cartworker_GPS();
+                }
+
+                if (ExeList[key].Contains("RFID"))
+                {
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_Cartworker_RFID();
+                }
+            }
+        }
+        //A19 drywall
+        if (SelectedActivities[18] == true)
+        {
+            ActivityManager.GetComponent<ActivityManagerScript>().select19();
+            foreach (int key in InterpretLUT2(18))
+            {
+                //bigger condition is IMU, smaller condition is different joints
+                if (ExeList[key].Contains("IMU"))
+                {
+                    if (ExeList[key].Contains("Back"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().backSelect();
+                    }
+                    if (ExeList[key].Contains("Neck"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().neckSelect();
+                    }
+                    if (ExeList[key].Contains("Shoulder"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().shoulderSelect();
+                    }
+                    if (ExeList[key].Contains("Thigh"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().thighSelect();
+                    }
+
+                    //Broad condition that IMU with a worker is selected
+                    ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller1 = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller2 = true;
+                    //With given worker bool, get IMU string, handle finish file write use backselected()
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
+                    //display IMU
+                    IMUReportEnable = true;
+                }
+
+                if (ExeList[key].Contains("GPS"))
+                {
+                    GPSReportEnable = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_dw1_GPS();
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_masonry_GPS();
+                }
+
+                if (ExeList[key].Contains("RFID"))
+                {
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_dw2_RFID();
+                }
+            }
+        }
+
+        //A20 masonry
+        if (SelectedActivities[19] == true)
+        {
+            ActivityManager.GetComponent<ActivityManagerScript>().select20();
+            foreach (int key in InterpretLUT2(19))
+            {
+                //bigger condition is IMU, smaller condition is different joints
+                if (ExeList[key].Contains("IMU"))
+                {
+                    if (ExeList[key].Contains("Back"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().backSelect();
+                    }
+                    if (ExeList[key].Contains("Neck"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().neckSelect();
+                    }
+                    if (ExeList[key].Contains("Shoulder"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().shoulderSelect();
+                    }
+                    if (ExeList[key].Contains("Thigh"))
+                    {
+                        IMUCarpenter.GetComponent<workerScript>().thighSelect();
+                    }
+
+                    //Broad condition that IMU with a worker is selected
+                    ActivityManager.GetComponent<ActivityManagerScript>().A20_Masonry = true;
+                    //With given worker bool, get IMU string, handle finish file write use backselected()
+                    ActivityManager.GetComponent<ActivityManagerScript>().SelectWorkers();
+                    //display IMU
+                    IMUReportEnable = true;
+                }
+
+                if (ExeList[key].Contains("GPS"))
+                {
+                    GPSReportEnable = true;
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_masonry_GPS();
+                }
+
+                if (ExeList[key].Contains("RFID"))
+                {
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_masonry_RFID();
                 }
             }
         }
@@ -954,6 +1116,8 @@ public class MenuManager : MonoBehaviour
             if (LSConcurrent == 11) ActivityManager.GetComponent<ActivityManagerScript>().select_11Laser();
             if (DConcurrent == 10) ActivityManager.GetComponent<ActivityManagerScript>().select_11Drone();
             if (DConcurrent == 11) ActivityManager.GetComponent<ActivityManagerScript>().select_12();
+            if (DConcurrent == 12) ActivityManager.GetComponent<ActivityManagerScript>().select_13();
+            if (DConcurrent == 13) ActivityManager.GetComponent<ActivityManagerScript>().select_14();
         }
 
         //Acitivity Idrection Indicator
@@ -963,7 +1127,15 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    
+    private void MultiDroneCheck()
+    {
+        MultiDrone = false;
+        if ((SelectedActivities[10] ? 1 : 0) + (SelectedActivities[11] ? 1 : 0) + (SelectedActivities[12] ? 1 : 0) + (SelectedActivities[13] ? 1 : 0) > 1)
+        {
+            MultiDrone = true;
+            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "We only have 1 Drone, Please only select 1 Drone Activity.", true);
+        }
+    }
 
     private void MultiLaserScanCheck()
     {
@@ -980,17 +1152,23 @@ public class MenuManager : MonoBehaviour
         // Debug.Log("TEST PASS PARAM"+ ActivityManager.GetComponent<ActivityManagerScript>().A1_Dozer_GPS);
         GPSReportString = "";
         GPSReportString = ActivityManager.GetComponent<ActivityManagerScript>().A1_Dozer_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A1_Roller_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A2_Load_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A3_Truck_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A4_worker_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A5_Loader_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A5_Dumptruck_GPS
-            + ActivityManager.GetComponent<ActivityManagerScript>().A4_worker_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A5_worker_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A7_w1_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A7_w2_GPS
             + ActivityManager.GetComponent<ActivityManagerScript>().A7_w3_GPS
-            +ActivityManager.GetComponent<ActivityManagerScript>().A14_P_GPS
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_L_GPS
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_C_GPS;
+            + ActivityManager.GetComponent<ActivityManagerScript>().A15_painter_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A16_Laborer_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A17_Carpenter_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A18_CartWorker_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller1_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller2_GPS
+            + ActivityManager.GetComponent<ActivityManagerScript>().A20_Masonry_GPS;
     }
 
     //this is mainly for A6, original RFID
@@ -1000,6 +1178,7 @@ public class MenuManager : MonoBehaviour
         RFIDReportString = ActivityManager.GetComponent<ActivityManagerScript>().A6_Wood_RFID
             + ActivityManager.GetComponent<ActivityManagerScript>().A6_Log_RFID
             + ActivityManager.GetComponent<ActivityManagerScript>().A6_Rebar_RFID
+            + ActivityManager.GetComponent<ActivityManagerScript>().A6_SteelBeam_RFID
             + ActivityManager.GetComponent<ActivityManagerScript>().A3RFID;
     }
 
@@ -1007,10 +1186,13 @@ public class MenuManager : MonoBehaviour
     private void PrepareIMUString()
     {
         IMUReportString = "";
-        IMUReportString = ActivityManager.GetComponent<ActivityManagerScript>().A14_c1_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_c2_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_l_report
-            + ActivityManager.GetComponent<ActivityManagerScript>().A14_p_report;
+        IMUReportString = ActivityManager.GetComponent<ActivityManagerScript>().A15_painter_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A16_Laborer_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A17_Carpenter_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A18_CartWorker_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller1_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A19_Drywaller2_report
+            + ActivityManager.GetComponent<ActivityManagerScript>().A20_Masonry_report;
     }
 
     private void PrepareCostBenefitString()
@@ -1131,6 +1313,55 @@ public class MenuManager : MonoBehaviour
             }
         }
 
+        if (SelectedActivities[13] == true)
+        {
+            foreach (int key in InterpretLUT2(13))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[13].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[14] == true)
+        {
+            foreach (int key in InterpretLUT2(14))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[14].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[15] == true)
+        {
+            foreach (int key in InterpretLUT2(15))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[15].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[16] == true)
+        {
+            foreach (int key in InterpretLUT2(16))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[16].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[17] == true)
+        {
+            foreach (int key in InterpretLUT2(17))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[17].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[18] == true)
+        {
+            foreach (int key in InterpretLUT2(18))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[18].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
+        if (SelectedActivities[19] == true)
+        {
+            foreach (int key in InterpretLUT2(19))
+            {
+                ComboDisplayString = ComboDisplayString + "Activity: " + Mdropdown1.dropdownItems[19].itemName + ", " + ExeList[key] + "\n";
+            }
+        }
 
     }
 
@@ -1161,74 +1392,6 @@ public class MenuManager : MonoBehaviour
         ManualSelectionParent.GetComponent<ManualSelection>().GPSReportEnable = false;
     }
 
-    private void ActivityIndicator()
-    {
-        int j = 0;
-        //If more than 1 activity selected, or no activity selected, no indicator.
-        if (((SelectedActivities[0] ? 1 : 0) + (SelectedActivities[1] ? 1 : 0)
-            + (SelectedActivities[2] ? 1 : 0) + (SelectedActivities[3] ? 1 : 0)
-            + (SelectedActivities[4] ? 1 : 0) + (SelectedActivities[5] ? 1 : 0)
-            + (SelectedActivities[6] ? 1 : 0) + (SelectedActivities[7] ? 1 : 0)
-            + (SelectedActivities[8] ? 1 : 0) + (SelectedActivities[9] ? 1 : 0)
-            + (SelectedActivities[10] ? 1 : 0) + (SelectedActivities[11] ? 1 : 0)
-            + (SelectedActivities[12] ? 1 : 0) > 1) || ((SelectedActivities[0] ? 1 : 0) + (SelectedActivities[1] ? 1 : 0)
-            + (SelectedActivities[2] ? 1 : 0) + (SelectedActivities[3] ? 1 : 0)
-            + (SelectedActivities[4] ? 1 : 0) + (SelectedActivities[5] ? 1 : 0)
-            + (SelectedActivities[6] ? 1 : 0) + (SelectedActivities[7] ? 1 : 0)
-            + (SelectedActivities[8] ? 1 : 0) + (SelectedActivities[9] ? 1 : 0)
-            + (SelectedActivities[10] ? 1 : 0) + (SelectedActivities[11] ? 1 : 0)
-            + (SelectedActivities[12] ? 1 : 0) == 0))
-        { ActivityDirectionalIndicatorBool = false; }
-        else { ActivityDirectionalIndicatorBool = true; }
-
-        //Direction Indicator Execute
-        if (ActivityDirectionalIndicatorBool)
-        {
-            //What is current selected activity?
-            int children = Dropdown1_ListParentNode.transform.childCount;
-            for (int i = 0; i < children; ++i)
-            {
-                if (SelectedActivities[i] == true)
-                {
-                    j = i + 1;
-                    break;
-                }
-            }
-
-            //string name = "A" + j + "POS";
-            //Activate Chevron and live for 5 seconds.
-            StartCoroutine(ActivityPointer(PointingChevron, j, 10.0f));
-
-        }
-
-        //Vector3 Original = Everything.transform.position;
-        //Vector3 ActivityPosition = A1Position.transform.position;
-        //Vector3 TransformedCoordinates = Original - ActivityPosition;
-        //Everything.transform.position = TransformedCoordinates;
-
-    }
-
-    // Activate chevron, give location, and keep it active for 5 seconds.
-    public IEnumerator ActivityPointer(GameObject go, int j, float delay)
-    {
-        if (j == 8 || j == 9 || j == 10 || j == 11)
-        {//for LS is different 8,9,10,11,
-            go.GetComponent<DirectionalIndicator>().DirectionalTarget = GameObject.Find("scanner").transform;
-            go.SetActive(true);
-            yield return new WaitForSeconds(60f);
-            go.SetActive(false);
-        }
-        else
-        {//normal activities
-            string name = "A" + j + "POS";
-            go.GetComponent<DirectionalIndicator>().DirectionalTarget = GameObject.Find(name).transform;
-            go.SetActive(true);
-            yield return new WaitForSeconds(delay);
-            go.SetActive(false);
-        }
-
-    }
-
     #endregion
 
 
@@ -1250,10 +1413,14 @@ public class MenuManager : MonoBehaviour
 
         //Check if multiple laser scan activity selected
         MultiLaserScanCheck();
+        MultiDroneCheck();
 
         //cannot proceed if Multi Laser Scan Detected
+
         if (!MultiLaserScan)
         {
+            if (!MultiDrone)
+            { 
             //Dropdown 1 inactive.
             //Mdropdown1.GetComponent<Button>().interactable = false;
             //Mdropdown1.transform.Find("DisablePanel").gameObject.SetActive(true);
@@ -1263,7 +1430,7 @@ public class MenuManager : MonoBehaviour
             //Mdropdown2.transform.Find("DisablePanel").gameObject.SetActive(false);
 
             //Find first active activity number
-            for (int j = 0; j < 15; ++j)
+            for (int j = 0; j < 22; ++j)
             {
                 if (SelectedActivities[j] == true)
                 { CurrentActivitySelection = j; TempActivityNumber = j; break; }
@@ -1289,10 +1456,10 @@ public class MenuManager : MonoBehaviour
             {
                 int RoundedNum = Mathf.RoundToInt(SelecedActivityNumber / 2);
                 //instantiate row 1
-                
+
                 if (i < RoundedNum)
                 {
-                    GameObject goButton = Instantiate(ActivitySelectionPrefabButton, new Vector3((i + 1) * 500, 50, -50), Quaternion.identity) as GameObject;
+                    GameObject goButton = Instantiate(ActivitySelectionPrefabButton, new Vector3(-192, ((i + 1) * -200 + 1100), -100), Quaternion.identity) as GameObject;
                     string ButtonName = "ActivitySelection" + i;
                     goButton.name = ButtonName;
                     goButton.transform.SetParent(ActivitySelectionParentPanel, false);
@@ -1307,12 +1474,12 @@ public class MenuManager : MonoBehaviour
                     goButton.GetComponent<Interactable>().OnClick.AddListener(() => ButtonClicked(tempInt));
                     goButton.transform.Find("IconAndText").transform.Find("TextMeshPro").GetComponent<TextMeshPro>().text = Mdropdown1.dropdownItems[TempActivityNumber].itemName;
                 }
-                
+
                 //instantiate row 2
-                
+
                 else
                 {
-                    GameObject goButton = Instantiate(ActivitySelectionPrefabButton, new Vector3((i - RoundedNum + 1) * 500, -100, -50), Quaternion.identity) as GameObject;
+                    GameObject goButton = Instantiate(ActivitySelectionPrefabButton, new Vector3(383, ((i - RoundedNum + 1) * -200 + 1100), -100), Quaternion.identity) as GameObject;
                     string ButtonName = "ActivitySelection" + i;
                     goButton.name = ButtonName;
                     goButton.transform.SetParent(ActivitySelectionParentPanel, false);
@@ -1322,7 +1489,7 @@ public class MenuManager : MonoBehaviour
                     //correspond alias i with active activity number
                     LUT.Add(i, TempActivityNumber);
                     //tempButton.transform.Find("ButtonText").GetComponent<TextMeshProUGUI>().text = Mdropdown1.dropdownItems[TempActivityNumber].itemName;//given button names with activity names.
-                                
+
                     //test for hololens button
                     goButton.GetComponent<Interactable>().OnClick.AddListener(() => ButtonClicked(tempInt));
                     goButton.transform.Find("IconAndText").transform.Find("TextMeshPro").GetComponent<TextMeshPro>().text = Mdropdown1.dropdownItems[TempActivityNumber].itemName;
@@ -1347,9 +1514,9 @@ public class MenuManager : MonoBehaviour
 
                 //Find next active activity.
                 //If out of bound, exit.
-                for (int k = TempActivityNumber + 1; k < 16; ++k)
+                for (int k = TempActivityNumber + 1; k < 22; ++k)
                 {
-                    if (k == 15) // 12 is last Activity element. 13 is boundary condition.
+                    if (k == 21) // 12 is last Activity element. 13 is boundary condition.
                     {
                         break;
                     }
@@ -1361,18 +1528,17 @@ public class MenuManager : MonoBehaviour
                 }
             }
             GameObject.Destroy(ActivitySelectionPrefabButton);
-           
+
             //close canvas and disble button
             //If added, then dropdown does not retract.
             //mainUICollection.SetActive(false);
             //Mdropdown1.GetComponent<Button>().interactable = false;
 
+            }
         }
     }
 
 
-
-    //what is performed after click activity selection?
     private void ButtonClicked(int buttonNo)
     {
         //Debug.Log("Button clicked = " + buttonNo);
@@ -1442,67 +1608,95 @@ public class MenuManager : MonoBehaviour
 
         SensorWarningString = ""; //Empty
         //20201123 Add RFID for A1,2,3,5(0,1,2,4)
-
-        //A1+GPS[0]
+        //20210228 New activites sheet updated, check.
+        //A1+GPS/RFID
         if (CurrentActivitySelection == 0 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 0 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 0 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 0 && SelectedSensors[4] == true) IMUWarning(); }
-        //if (CurrentActivitySelection == 0 && SelectedSensors[1] == true) RFIDWarning();
-        //A2+GPS
+
+        //A2+GPS/RFID
         if (CurrentActivitySelection == 1 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else {  if (CurrentActivitySelection == 1 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 1 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 1 && SelectedSensors[4] == true) IMUWarning(); }
-        //if (CurrentActivitySelection == 1 && SelectedSensors[1] == true) RFIDWarning();
+
         //A3+GPS/RFID
         if (CurrentActivitySelection == 2 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else {  if (CurrentActivitySelection == 2 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 2 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 2 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A4+GPS/RFID
         if (CurrentActivitySelection == 3 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else {  if (CurrentActivitySelection == 3 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 3 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 3 && SelectedSensors[4] == true) IMUWarning(); }
-        //A5+GPS
+        
+        //A5+GPS/RFID
         if (CurrentActivitySelection == 4 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 4 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 4 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 4 && SelectedSensors[4] == true) IMUWarning(); }
-        //if (CurrentActivitySelection == 4 && SelectedSensors[1] == true) RFIDWarning();
+
         //A6+RFID
         if (CurrentActivitySelection == 5 && SelectedSensors[0] == false && SelectedSensors[1] == true && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 5 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 5 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 5 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 5 && SelectedSensors[4] == true) IMUWarning(); }
-        //A7+GPSRFID
+        
+        //A7+GPS/RFID
         if (CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else {  if (CurrentActivitySelection == 6 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 6 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 6 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A8+LS
         if (CurrentActivitySelection == 7 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == true && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 7 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 7 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 7 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 7 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A9+LS
         if (CurrentActivitySelection == 8 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == true && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 8 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 8 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 8 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 8 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A10+LS
         if (CurrentActivitySelection == 9 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == true && SelectedSensors[3] == false && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 9 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 9 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 9 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 9 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A11+LS/Drone
         if (CurrentActivitySelection == 10 && SelectedSensors[0] == false && SelectedSensors[1] == false && (SelectedSensors[2] == true || SelectedSensors[3] == true) && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 10 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 10 && SelectedSensors[0] == true) GPSWarning();  if (CurrentActivitySelection == 10 && SelectedSensors[4] == true) IMUWarning(); }
+        
         //A12+drone
         if (CurrentActivitySelection == 11 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == false && SelectedSensors[3] == true && SelectedSensors[4] == false) { pass = true; }
         else { if (CurrentActivitySelection == 11 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 11 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 11 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 11 && SelectedSensors[4] == true) IMUWarning(); }
-        //A13+IMU
-        //if (CurrentActivitySelection == 12 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == false && SelectedSensors[3] == false && SelectedSensors[4] == true) { pass = true; }
-        //else { if (CurrentActivitySelection == 12 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[3] == true) DroneWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[2] == true) LSWarning(); }
 
-        //20201209 IMU is dissected into 3 separate activities
-        //Added possiblity that workers work with GPS and RFID
-        //painter
-        if (CurrentActivitySelection == 12 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false ) { pass = true; }
-        //if (CurrentActivitySelection == 12 && SelectedSensors[1] == true) RFIDWarning(); 
-        //if (CurrentActivitySelection == 12 && SelectedSensors[0] == true) GPSWarning(); 
-        if (CurrentActivitySelection == 12 && SelectedSensors[3] == true) DroneWarning(); 
-        if (CurrentActivitySelection == 12 && SelectedSensors[2] == true) LSWarning();
+        //20210228 Below is mod for changed activities
+        //A13 sanitation + drone
+        if (CurrentActivitySelection == 12 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == false && SelectedSensors[3] == true && SelectedSensors[4] == false) { pass = true; }
+        else { if (CurrentActivitySelection == 12 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 12 && SelectedSensors[4] == true) IMUWarning(); }
 
-        //Laborer
-        if (CurrentActivitySelection == 13 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
-        if (CurrentActivitySelection == 13 && SelectedSensors[3] == true) DroneWarning();
-        if (CurrentActivitySelection == 13 && SelectedSensors[2] == true) LSWarning();
-        //carpenter
-        if (CurrentActivitySelection == 14 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; } 
+        //A14 safety + drone
+        if (CurrentActivitySelection == 13 && SelectedSensors[0] == false && SelectedSensors[1] == false && SelectedSensors[2] == false && SelectedSensors[3] == true && SelectedSensors[4] == false) { pass = true; }
+        else { if (CurrentActivitySelection == 13 && SelectedSensors[1] == true) RFIDWarning(); if (CurrentActivitySelection == 13 && SelectedSensors[0] == true) GPSWarning(); if (CurrentActivitySelection == 13 && SelectedSensors[2] == true) LSWarning(); if (CurrentActivitySelection == 13 && SelectedSensors[4] == true) IMUWarning(); }
+
+        //A15 paint+imu/gps/rfid
+        if (CurrentActivitySelection == 14 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
         if (CurrentActivitySelection == 14 && SelectedSensors[3] == true) DroneWarning();
         if (CurrentActivitySelection == 14 && SelectedSensors[2] == true) LSWarning();
+
+        //A16 laborer++imu/gps/rfid
+        if (CurrentActivitySelection == 15 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
+        if (CurrentActivitySelection == 15 && SelectedSensors[3] == true) DroneWarning();
+        if (CurrentActivitySelection == 15 && SelectedSensors[2] == true) LSWarning();
+
+        //A17 carpentry +imu / gps / rfid
+        if (CurrentActivitySelection == 16 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
+        if (CurrentActivitySelection == 16 && SelectedSensors[3] == true) DroneWarning();
+        if (CurrentActivitySelection == 16 && SelectedSensors[2] == true) LSWarning();
+        
+        //A18 cart+ imu / gps / rfid
+        if (CurrentActivitySelection == 17 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
+        if (CurrentActivitySelection == 17 && SelectedSensors[3] == true) DroneWarning();
+        if (CurrentActivitySelection == 17 && SelectedSensors[2] == true) LSWarning();
+        
+        //A19 drywall + imu / gps / rfid
+        if (CurrentActivitySelection == 18 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
+        if (CurrentActivitySelection == 18 && SelectedSensors[3] == true) DroneWarning();
+        if (CurrentActivitySelection == 18 && SelectedSensors[2] == true) LSWarning();
+        
+        //A20 masonry + imu / gps / rfid
+        if (CurrentActivitySelection == 19 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) && SelectedSensors[2] == false && SelectedSensors[3] == false) { pass = true; }
+        if (CurrentActivitySelection == 19 && SelectedSensors[3] == true) DroneWarning();
+        if (CurrentActivitySelection == 19 && SelectedSensors[2] == true) LSWarning();
+
+
 
 
         if (pass)
@@ -1519,13 +1713,6 @@ public class MenuManager : MonoBehaviour
         }
         else
             InstantiateWarningDialog();
-        //else
-        //{
-        //dialogue warning
-        //Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning",
-        //   "Wrong sensor selected for this activity, Please correct your selection!", false);
-        //reset selection
-        //}
     }
 
             private void GPSWarning() {
@@ -1573,11 +1760,10 @@ public class MenuManager : MonoBehaviour
         Mdropdown3.ForceClose();
         bool pass = false;//Flag to check sensors againest resources.
 
-        //Check Sensors Resources.
-        // Which activity, correct sensor (don't need all, already determined in previouys step), correct resources?
+        //Check Sensors Resources: criteria includ Which activity, correct sensor, correct resources?
 
-        //A1+GPS[0]+RFID[1] + Dozer
-        if (CurrentActivitySelection == 0 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && Array.Exists(SelectedResources, element => element == "Dozer") && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
+        //A1+GPS[0]+RFID[1]+Dozer
+        if (CurrentActivitySelection == 0 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Dozer") || Array.Exists(SelectedResources, element => element == "Roller")) && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
         if (CurrentActivitySelection == 0 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Stockpile cannot be used with GPS", true);
         if (CurrentActivitySelection == 0 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Stockpile cannot be used with RFID", true);
 
@@ -1585,7 +1771,7 @@ public class MenuManager : MonoBehaviour
         if (CurrentActivitySelection == 1 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Steel Beam") && !Array.Exists(SelectedResources, element => element == "Crane")) { pass = true; }
         if (CurrentActivitySelection == 1 && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Steel Beam") && Array.Exists(SelectedResources, element => element == "Crane")) { pass = true; }
         if (CurrentActivitySelection == 1 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Crane")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Crane cannot be used with GPS", true);
-
+        if (CurrentActivitySelection == 1 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Steel Beam")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Steel Beam cannot be used with RFID", true);
 
         //A3+GPS+truck
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == false && Array.Exists(SelectedResources, element => element == "Truck") && !Array.Exists(SelectedResources, element => element == "Rebar")) { pass = true; }
@@ -1593,12 +1779,7 @@ public class MenuManager : MonoBehaviour
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == false && SelectedSensors[1] == true && (Array.Exists(SelectedResources, element => element == "Rebar") || Array.Exists(SelectedResources, element => element == "Truck"))) { pass = true; }
         //A3+GPS+Rebar
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == false && Array.Exists(SelectedResources, element => element == "Rebar") && !Array.Exists(SelectedResources, element => element == "Truck"))
-        {
-            Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Rebar cannot be tagged with GPS.", true);
-        }
-        //A3+RFID+truck
-        //if (CurrentActivitySelection == 2 && SelectedSensors[0] == false && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Rebar") && Array.Exists(SelectedResources, element => element == "Truck"))
-        //{Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Truck cannot be tagged with RFID.", false);}
+        {Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Rebar cannot be tagged with GPS.", true);}
         //A3+gps+rfid+truck, warning: select a resource for rfid
         if (CurrentActivitySelection == 2 && SelectedSensors[0] == true && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Truck") && !Array.Exists(SelectedResources, element => element == "Rebar")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
        "Select a resource for RFID.", true);
@@ -1614,56 +1795,68 @@ public class MenuManager : MonoBehaviour
         //A4+GPS/RFID+worker
         if (CurrentActivitySelection == 3 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && Array.Exists(SelectedResources, element => element == "Worker 1")) { pass = true; }
 
-        //A5+ GPS + RFID +loader/truck
-        if (CurrentActivitySelection == 4 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Loader") || Array.Exists(SelectedResources, element => element == "Dumptruck")) && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
+        //A5+ GPS + RFID +loader/truck +Worker
+        if (CurrentActivitySelection == 4 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Backhoe") || Array.Exists(SelectedResources, element => element == "Dump Truck") || Array.Exists(SelectedResources, element => element == "Worker")) && !Array.Exists(SelectedResources, element => element == "Stockpile")) { pass = true; }
         if (CurrentActivitySelection == 4 && SelectedSensors[0] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","GPS cannot be tagged on stockpile.", true);
         if (CurrentActivitySelection == 4 && SelectedSensors[1] == true && Array.Exists(SelectedResources, element => element == "Stockpile")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "RFID cannot be tagged on stockpile.", true);
 
         //A6+RFID+WLR
-        if (CurrentActivitySelection == 5 && SelectedSensors[1] == true && (Array.Exists(SelectedResources, element => element == "Wood") || Array.Exists(SelectedResources, element => element == "Log") || Array.Exists(SelectedResources, element => element == "Rebar"))) { pass = true; }
-        else { if(CurrentActivitySelection == 5 && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Wood") && !Array.Exists(SelectedResources, element => element == "Log") && !Array.Exists(SelectedResources, element => element == "Rebar")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
+        if (CurrentActivitySelection == 5 && SelectedSensors[1] == true && (Array.Exists(SelectedResources, element => element == "Wood") || Array.Exists(SelectedResources, element => element == "Log") || Array.Exists(SelectedResources, element => element == "Rebar") || Array.Exists(SelectedResources, element => element == "Steel Beam"))) { pass = true; }
+        if(CurrentActivitySelection == 5 && SelectedSensors[1] == true && !Array.Exists(SelectedResources, element => element == "Wood") && !Array.Exists(SelectedResources, element => element == "Log") && !Array.Exists(SelectedResources, element => element == "Rebar") && !Array.Exists(SelectedResources, element => element == "Steel Beam")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
   "Select at least one resource!", true);
-        }
-        //A7+(GPS||RFID)&&(w1w2w3)
-        if (CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Worker 1") || Array.Exists(SelectedResources, element => element == "Worker 2") || Array.Exists(SelectedResources, element => element == "Worker 3"))) { pass = true; }
-        else { if(CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && !Array.Exists(SelectedResources, element => element == "Worker 1") && !Array.Exists(SelectedResources, element => element == "Worker 2") && !Array.Exists(SelectedResources, element => element == "Worker 3")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
+
+        //A7+(GPS||RFID)&&(w1w2)
+        if (CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && (Array.Exists(SelectedResources, element => element == "Worker 1") || Array.Exists(SelectedResources, element => element == "Worker 2"))) { pass = true; }
+        if (CurrentActivitySelection == 6 && (SelectedSensors[0] == true || SelectedSensors[1] == true) && !Array.Exists(SelectedResources, element => element == "Worker 1") && !Array.Exists(SelectedResources, element => element == "Worker 2")) Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning",
  "Select at least one worker!", true);
-        }
+
         //A8+LS
         if (CurrentActivitySelection == 7 && SelectedSensors[2] == true) { pass = true; }
+        
         //A9+LS
         if (CurrentActivitySelection == 8 && SelectedSensors[2] == true) { pass = true; }
+        
         //A10+LS+(only 1 stockpile at a time)
         if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && (Array.Exists(SelectedResources, element => element == "Stockpile 1") && !Array.Exists(SelectedResources, element => element == "Stockpile 2"))) { pass = true; }
-        else {
-            if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && Array.Exists(SelectedResources, element => element == "Stockpile 1") && Array.Exists(SelectedResources, element => element == "Stockpile 2"))
+        if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && Array.Exists(SelectedResources, element => element == "Stockpile 1") && Array.Exists(SelectedResources, element => element == "Stockpile 2"))
                 Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning","Only 1 Laser Scanner operator available.", true);
-            if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && !Array.Exists(SelectedResources, element => element == "Stockpile 1") && !Array.Exists(SelectedResources, element => element == "Stockpile 2"))
+        if (CurrentActivitySelection == 9 && SelectedSensors[2] == true && !Array.Exists(SelectedResources, element => element == "Stockpile 1") && !Array.Exists(SelectedResources, element => element == "Stockpile 2"))
                 Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Need to select 1 Laser Scanner object.", true);
-        }
+        
         //A11+LS/Drone+old house
         if (CurrentActivitySelection == 10 && (SelectedSensors[2] == true || SelectedSensors[3] == true) && Array.Exists(SelectedResources, element => element == "Old Building")) { pass = true; }
+        
         //A12+drone+jobsite
         if (CurrentActivitySelection == 11 && SelectedSensors[3] == true && Array.Exists(SelectedResources, element => element == "Jobsite")) { pass = true; }
-        
-        //A13+IMU+w1w2w3w4
-        /*
-        if (CurrentActivitySelection == 12 && SelectedSensors[4] == true && (Array.Exists(SelectedResources, element => element == "Painter") || Array.Exists(SelectedResources, element => element == "Laborer") || Array.Exists(SelectedResources, element => element == "Carpenter 1") || Array.Exists(SelectedResources, element => element == "Carpenter 2"))) { pass = true; }
-        else {
-            if (CurrentActivitySelection == 12 && SelectedSensors[4] == true && !Array.Exists(SelectedResources, element => element == "Painter") && !Array.Exists(SelectedResources, element => element == "Laborer") && !Array.Exists(SelectedResources, element => element == "Carpenter 1") && !Array.Exists(SelectedResources, element => element == "Carpenter 2"))
-                Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Resources Warning", "Select at least 1 worker to attach IMU.", false);
-        }
-        */
 
+        //A13+drone+jobsite
+        if (CurrentActivitySelection == 12 && SelectedSensors[3] == true && Array.Exists(SelectedResources, element => element == "Jobsite")) { pass = true; }
+
+        //A14+drone+jobsite
+        if (CurrentActivitySelection == 13 && SelectedSensors[3] == true && Array.Exists(SelectedResources, element => element == "Jobsite")) { pass = true; }
+
+        //20210228 New Activities for workers
         //20201209 New version of IMU dissected to 3 activities, resources are joints. No joint selection is possible.
         //Selection of GPS and RFID with worker is also possible.
         //"Back","Neck","Shoulder","Thigh" 
-        //P
-        if (CurrentActivitySelection == 12 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true)) { pass = true; }
-        //L
-        if (CurrentActivitySelection == 13 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true)) { pass = true; }
-        //C
-        if (CurrentActivitySelection == 14 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true)) { pass = true; }
+
+        //A15 painter+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 14 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
+
+        //A16+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 15 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
+
+        //A17+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 16 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
+
+        //A18+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 17 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
+
+        //A19+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 18 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
+
+        //A20+ GPS / RFID / IMU
+        if (CurrentActivitySelection == 19 && (SelectedSensors[0] == true || SelectedSensors[1] == true || SelectedSensors[4] == true) ) { pass = true; }
 
         if (pass)
         {
@@ -1804,6 +1997,9 @@ public class MenuManager : MonoBehaviour
         ConcurrentSelection = 1;
         if (DConcurrent == 10) ActivityManager.GetComponent<ActivityManagerScript>().select_11Drone();
         if (DConcurrent == 11) ActivityManager.GetComponent<ActivityManagerScript>().select_12();
+        if (DConcurrent == 12) ActivityManager.GetComponent<ActivityManagerScript>().select_13();
+        if (DConcurrent == 13) ActivityManager.GetComponent<ActivityManagerScript>().select_14();
+
     }
 
     public void LSConc()
@@ -1852,9 +2048,9 @@ public class MenuManager : MonoBehaviour
             //Currently in hidden state, now show everything.
             showhidetoggle = false;
             mainUICollection.SetActive(true);
-            building.SetActive(true);//building-6 special case shared by multiple activities
-            LS.SetActive(true);
-            MDrone.SetActive(true);
+            //building.SetActive(true);
+            //LS.SetActive(true);
+            //MDrone.SetActive(true);
             foreach (Transform child in ActivityResourcesNode.transform)
             {
                 child.gameObject.SetActive(true);
@@ -1866,7 +2062,7 @@ public class MenuManager : MonoBehaviour
             //Switch to hide in-active assets.
             showhidetoggle = true;
             mainUICollection.SetActive(false);
-            MiscAssetNode.SetActive(false);
+            //MiscAssetNode.SetActive(false);
             //building.SetActive(false); //building-6 relate to these activities:
             //LS.SetActive(false);
             //MDrone.SetActive(false);
@@ -1886,12 +2082,17 @@ public class MenuManager : MonoBehaviour
             if (!SelectedActivities[6]) { ActivityResourcesNode.transform.Find("Activity7").gameObject.SetActive(false); }
             if (!SelectedActivities[7]) { ActivityResourcesNode.transform.Find("Activity8").gameObject.SetActive(false); }
             if (!SelectedActivities[8]) { ActivityResourcesNode.transform.Find("Activity9").gameObject.SetActive(false); }
-            if (!SelectedActivities[9]) { ActivityResourcesNode.transform.Find("Activity11A").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11B").gameObject.SetActive(false);  }
-            if (!SelectedActivities[10]) { ActivityResourcesNode.transform.Find("Activity12").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Laser").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false);   }
-            if (!SelectedActivities[11]) { ActivityResourcesNode.transform.Find("Activity13_Drone").gameObject.SetActive(false);  }
-            if (!SelectedActivities[12]) { ActivityResourcesNode.transform.Find("Activity14").gameObject.SetActive(false); }
-            if (!SelectedActivities[13]) { ActivityResourcesNode.transform.Find("Activity15").gameObject.SetActive(false); }
-            if (!SelectedActivities[14]) { ActivityResourcesNode.transform.Find("Activity16").gameObject.SetActive(false); }
+            if (!SelectedActivities[9]) { ActivityResourcesNode.transform.Find("Activity10A").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity10B").gameObject.SetActive(false);  }
+            if (!SelectedActivities[10]) { ActivityResourcesNode.transform.Find("Activity11").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11_Laser").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11_Drone").gameObject.SetActive(false);   }
+            if (!SelectedActivities[11]) { ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false);  }
+            if (!SelectedActivities[12]) { ActivityResourcesNode.transform.Find("Activity13").gameObject.SetActive(false); }
+            if (!SelectedActivities[13]) { ActivityResourcesNode.transform.Find("Activity14").gameObject.SetActive(false); }
+            if (!SelectedActivities[14]) { ActivityResourcesNode.transform.Find("Activity15").gameObject.SetActive(false); }
+            if (!SelectedActivities[15]) { ActivityResourcesNode.transform.Find("Activity16").gameObject.SetActive(false); }
+            if (!SelectedActivities[16]) { ActivityResourcesNode.transform.Find("Activity17").gameObject.SetActive(false); }
+            if (!SelectedActivities[17]) { ActivityResourcesNode.transform.Find("Activity18").gameObject.SetActive(false); }
+            if (!SelectedActivities[18]) { ActivityResourcesNode.transform.Find("Activity19").gameObject.SetActive(false); }
+            if (!SelectedActivities[19]) { ActivityResourcesNode.transform.Find("Activity20").gameObject.SetActive(false); }
 
             //building-6 check
             if (!SelectedActivities[1] && !SelectedActivities[3] && !SelectedActivities[8])
@@ -1914,7 +2115,80 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    private void ActivityIndicator()
+    {
+        int j = 0;
+        //If more than 1 activity selected, or no activity selected, no indicator.
+        if (((SelectedActivities[0] ? 1 : 0) + (SelectedActivities[1] ? 1 : 0)
+            + (SelectedActivities[2] ? 1 : 0) + (SelectedActivities[3] ? 1 : 0)
+            + (SelectedActivities[4] ? 1 : 0) + (SelectedActivities[5] ? 1 : 0)
+            + (SelectedActivities[6] ? 1 : 0) + (SelectedActivities[7] ? 1 : 0)
+            + (SelectedActivities[8] ? 1 : 0) + (SelectedActivities[9] ? 1 : 0)
+            + (SelectedActivities[10] ? 1 : 0) + (SelectedActivities[11] ? 1 : 0)
+            + (SelectedActivities[12] ? 1 : 0) + (SelectedActivities[13] ? 1 : 0) 
+            + (SelectedActivities[14] ? 1 : 0) + (SelectedActivities[15] ? 1 : 0)
+            + (SelectedActivities[16] ? 1 : 0) + (SelectedActivities[17] ? 1 : 0)
+            + (SelectedActivities[18] ? 1 : 0) + (SelectedActivities[19] ? 1 : 0) > 1)
+            || ((SelectedActivities[0] ? 1 : 0) + (SelectedActivities[1] ? 1 : 0)
+            + (SelectedActivities[2] ? 1 : 0) + (SelectedActivities[3] ? 1 : 0)
+            + (SelectedActivities[4] ? 1 : 0) + (SelectedActivities[5] ? 1 : 0)
+            + (SelectedActivities[6] ? 1 : 0) + (SelectedActivities[7] ? 1 : 0)
+            + (SelectedActivities[8] ? 1 : 0) + (SelectedActivities[9] ? 1 : 0)
+            + (SelectedActivities[10] ? 1 : 0) + (SelectedActivities[11] ? 1 : 0)
+            + (SelectedActivities[12] ? 1 : 0) + (SelectedActivities[13] ? 1 : 0)
+            + (SelectedActivities[14] ? 1 : 0) + (SelectedActivities[15] ? 1 : 0)
+            + (SelectedActivities[16] ? 1 : 0) + (SelectedActivities[17] ? 1 : 0)
+            + (SelectedActivities[18] ? 1 : 0) + (SelectedActivities[19] ? 1 : 0) == 0))
+        { ActivityDirectionalIndicatorBool = false; }
+        else { ActivityDirectionalIndicatorBool = true; }
 
+        //Direction Indicator Execute
+        if (ActivityDirectionalIndicatorBool)
+        {
+            //What is current selected activity?
+            int children = Dropdown1_ListParentNode.transform.childCount;
+            for (int i = 0; i < children; ++i)
+            {
+                if (SelectedActivities[i] == true)
+                {
+                    j = i + 1;
+                    break;
+                }
+            }
+
+            //string name = "A" + j + "POS";
+            //Activate Chevron and live for 5 seconds.
+            StartCoroutine(ActivityPointer(PointingChevron, j, 10.0f));
+
+        }
+
+        //Vector3 Original = Everything.transform.position;
+        //Vector3 ActivityPosition = A1Position.transform.position;
+        //Vector3 TransformedCoordinates = Original - ActivityPosition;
+        //Everything.transform.position = TransformedCoordinates;
+
+    }
+
+    // Activate chevron, give location, and keep it active for 5 seconds.
+    public IEnumerator ActivityPointer(GameObject go, int j, float delay)
+    {
+        if (j == 8 || j == 9 || j == 10 || j == 11)
+        {//for LS is different 8,9,10,11,
+            go.GetComponent<DirectionalIndicator>().DirectionalTarget = GameObject.Find("scanner").transform;
+            go.SetActive(true);
+            yield return new WaitForSeconds(60f);
+            go.SetActive(false);
+        }
+        else
+        {//normal activities
+            string name = "A" + j + "POS";
+            go.GetComponent<DirectionalIndicator>().DirectionalTarget = GameObject.Find(name).transform;
+            go.SetActive(true);
+            yield return new WaitForSeconds(delay);
+            go.SetActive(false);
+        }
+
+    }
 
     //Activate legacy menu upon selection.
     public void SelectLegacyMenu()

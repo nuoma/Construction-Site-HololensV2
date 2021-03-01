@@ -33,7 +33,7 @@ public class Activity3Truck : MonoBehaviour
             //transform.position += transform.forward * Time.deltaTime * speed;
 
             Quaternion lookDirection = Quaternion.LookRotation(moveSpots[arrayPosition].position - TruckParent.transform.position);
-            TruckParent.transform.rotation = Quaternion.RotateTowards(TruckParent.transform.rotation, lookDirection, 50* Time.deltaTime);
+            TruckParent.transform.rotation = Quaternion.RotateTowards(TruckParent.transform.rotation, lookDirection, 40* Time.deltaTime);
 
             if (Vector3.Distance(TruckParent.transform.position, moveSpots[arrayPosition].position) < precision)
             {
