@@ -43,11 +43,12 @@ public class ManualSelection : MonoBehaviour
 
     private bool onSensorChanged;
     private bool onActivityChanged;
-    public bool ResourceTaggedBool = false;
-    public string CurrentSensor;
+    [HideInInspector] public bool ResourceTaggedBool = false;
+    [HideInInspector] public string CurrentSensor;
 
     public GameObject A1Dozer;
     public GameObject A1Stockpile;
+    public GameObject A1Roller;
     public GameObject A2Crane;
     public GameObject A2SteelBeam;
     public GameObject A3Truck;
@@ -66,10 +67,16 @@ public class ManualSelection : MonoBehaviour
     public GameObject A13Laborer;
     public GameObject A13Carpenter;
     //public GameObject A13Carpenter2;
+    public GameObject A5Worker;
+    public GameObject A6SB;
+    public GameObject A18CartWorker;
+    public GameObject A19DW1;
+    public GameObject A19DW2;
+    public GameObject A20Masonry;
 
-    public bool RFIDReportEnable;
-    public bool GPSReportEnable;
-    public bool IMUReportEnable;
+    [HideInInspector]public bool RFIDReportEnable;
+    [HideInInspector] public bool GPSReportEnable;
+    [HideInInspector] public bool IMUReportEnable;
     private string GPSReportString;
     private string RFIDReportString;
     private string IMUReportString;
@@ -82,7 +89,7 @@ public class ManualSelection : MonoBehaviour
 
     private bool showhidetoggle = false; //true means hide
     public GameObject SensorParentNode;
-    public GameObject MiscAssetNode;
+    //public GameObject MiscAssetNode;
     public GameObject Everything;
     public GameObject mainUICollection;
     public GameObject ActivityResourcesNode;
@@ -91,9 +98,16 @@ public class ManualSelection : MonoBehaviour
     public GameObject IMU_P;//Panels for joint selection
     public GameObject IMU_L;
     public GameObject IMU_C;
-    public GameObject IMUPainter;
+    public GameObject IMU_Cart;
+    public GameObject IMU_Drywaller;
+    public GameObject IMU_Masonry;
+
+    public GameObject IMUPainter;//Workers
     public GameObject IMULabor;
     public GameObject IMUCarpenter;
+    public GameObject IMUCartWorker;
+    public GameObject IMUDrywaller;
+    public GameObject IMUMasonry;
 
     public TextMeshProUGUI Dropdown1Title;
     private bool Dropdown1TitleChangeBool;
@@ -127,28 +141,6 @@ public class ManualSelection : MonoBehaviour
         IMU_C.SetActive(false);
     }
 
-    private void initialize()
-    {
-        //create sensors list
-        CreateActivityInitialDropdown();
-        CreateSensorsDropdown();
-
-        SetInteractablesFalse();
-        SetCubeFalse();
-
-        LSConfirmButton.SetActive(false);
-        TagButton.SetActive(false);
-        ManualSelectionListPanel.SetActive(false);
-        RunButton.SetActive(false);
-        ResetButton.SetActive(false);
-        ShowHideButton.SetActive(false);
-
-        IMU_P.SetActive(false);
-        IMU_L.SetActive(false);
-        IMU_C.SetActive(false);
-    }
-
-
     public void SetInteractablesFalse()
     {
         //set interactable to false
@@ -165,13 +157,18 @@ public class ManualSelection : MonoBehaviour
         A6log.GetComponent<Interactable>().IsEnabled = false;
         A6rebar.GetComponent<Interactable>().IsEnabled = false;
         A6wood.GetComponent<Interactable>().IsEnabled = false;
-        //A7worker1.GetComponent<Interactable>().IsEnabled = false;
         A7worker2.GetComponent<Interactable>().IsEnabled = false;
         A7worker3.GetComponent<Interactable>().IsEnabled = false;
         A13Painter.GetComponent<Interactable>().IsEnabled = false;
         A13Laborer.GetComponent<Interactable>().IsEnabled = false;
         A13Carpenter.GetComponent<Interactable>().IsEnabled = false;
-        //A13Carpenter2.GetComponent<Interactable>().IsEnabled = false;
+        A1Roller.GetComponent<Interactable>().IsEnabled = false;
+        A5Worker.GetComponent<Interactable>().IsEnabled = false;
+        A6SB.GetComponent<Interactable>().IsEnabled = false;
+        A18CartWorker.GetComponent<Interactable>().IsEnabled = false;
+        A19DW1.GetComponent<Interactable>().IsEnabled = false;
+        A19DW2.GetComponent<Interactable>().IsEnabled = false;
+        A20Masonry.GetComponent<Interactable>().IsEnabled = false;
     }
 
     public void SetCubeFalse()
@@ -190,13 +187,18 @@ public class ManualSelection : MonoBehaviour
         A6wood.transform.Find("Cube").gameObject.SetActive(false);
         A6rebar.transform.Find("Cube").gameObject.SetActive(false);
         A6log.transform.Find("Cube").gameObject.SetActive(false);
-        //A7worker1.transform.Find("Cube").gameObject.SetActive(false);
         A7worker2.transform.Find("Cube").gameObject.SetActive(false);
         A7worker3.transform.Find("Cube").gameObject.SetActive(false);
         A13Painter.transform.Find("Cube").gameObject.SetActive(false);
         A13Laborer.transform.Find("Cube").gameObject.SetActive(false);
         A13Carpenter.transform.Find("Cube").gameObject.SetActive(false);
-       // A13Carpenter2.transform.Find("Cube").gameObject.SetActive(false);
+        A1Roller.transform.Find("Cube").gameObject.SetActive(false);
+        A5Worker.transform.Find("Cube").gameObject.SetActive(false);
+        A6SB.transform.Find("Cube").gameObject.SetActive(false);
+        A18CartWorker.transform.Find("Cube").gameObject.SetActive(false);
+        A19DW1.transform.Find("Cube").gameObject.SetActive(false);
+        A19DW2.transform.Find("Cube").gameObject.SetActive(false);
+        A20Masonry.transform.Find("Cube").gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -285,17 +287,23 @@ public class ManualSelection : MonoBehaviour
         // Debug.Log("TEST PASS PARAM"+ ActivityManager.GetComponent<ActivityManagerScript>().A1_Dozer_GPS);
         GPSReportString = "";
         GPSReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A1_Dozer_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A1_Roller_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A2_Load_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A3_Truck_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A5_Loader_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A5_Dumptruck_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A5_worker_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A4_worker_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w1_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w2_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A7_w3_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_painter_GPS
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer_GPS
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_GPS;
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A18_CartWorker_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller1_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller2_GPS
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A20_Masonry_GPS;
     }
 
     //this is mainly for A6, original RFID
@@ -305,6 +313,7 @@ public class ManualSelection : MonoBehaviour
         RFIDReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_Wood_RFID
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_Log_RFID
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_Rebar_RFID
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_SteelBeam_RFID
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A3RFID;
     }
 
@@ -312,9 +321,13 @@ public class ManualSelection : MonoBehaviour
     private void PrepareIMUString()
     {
         IMUReportString = "";
-        IMUReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_report
+        IMUReportString = ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_painter_report
             + ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer_report
-            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_painter_report;
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A18_CartWorker_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller1_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller2_report
+            + ActivityManagerScript.GetComponent<ActivityManagerScript>().A20_Masonry_report;
     }
     private void CreateSensorsDropdown()//Dropdown 1
     {
@@ -358,7 +371,7 @@ public class ManualSelection : MonoBehaviour
         SelectedActivityIndex = dropdown.selectedItemIndex;
         //Debug.Log("Dropdown 2 value change:"+dropdown.selectedItemIndex);
         //If LS or Drone, directly show run button.
-        if (ActualActivityNumber == 8 || ActualActivityNumber == 9 || ActualActivityNumber == 10 || ActualActivityNumber == 11 || ActualActivityNumber == 12)//LS 8 9 10 11 Drone 11 12
+        if (ActualActivityNumber == 8 || ActualActivityNumber == 9 || ActualActivityNumber == 10 || ActualActivityNumber == 11 || ActualActivityNumber == 12 || ActualActivityNumber == 13 || ActualActivityNumber == 14)//LS 8 9 10 11 Drone 11 12
         {
             Debug.Log("LS Drone selected.");
             LSConfirmButton.SetActive(true);
@@ -397,9 +410,12 @@ public class ManualSelection : MonoBehaviour
             if (SelectedActivityIndex == 3) ActualActivityNumber = 4;
             if (SelectedActivityIndex == 4) ActualActivityNumber = 5;
             if (SelectedActivityIndex == 5) ActualActivityNumber = 7;
-            if (SelectedActivityIndex == 6) ActualActivityNumber = 13;
-            if (SelectedActivityIndex == 7) ActualActivityNumber = 14;
-            if (SelectedActivityIndex == 8) ActualActivityNumber = 15;
+            if (SelectedActivityIndex == 6) ActualActivityNumber = 15;
+            if (SelectedActivityIndex == 7) ActualActivityNumber = 16;
+            if (SelectedActivityIndex == 8) ActualActivityNumber = 17;
+            if (SelectedActivityIndex == 9) ActualActivityNumber = 18;
+            if (SelectedActivityIndex == 10) ActualActivityNumber = 19;
+            if (SelectedActivityIndex == 11) ActualActivityNumber = 20;
         }
         if (SelectedSensorIndex == 1)//RFID
         {
@@ -410,9 +426,12 @@ public class ManualSelection : MonoBehaviour
             if (SelectedActivityIndex == 4) ActualActivityNumber = 5;
             if (SelectedActivityIndex == 5) ActualActivityNumber = 6;
             if (SelectedActivityIndex == 6) ActualActivityNumber = 7;
-            if (SelectedActivityIndex == 7) ActualActivityNumber = 13;
-            if (SelectedActivityIndex == 8) ActualActivityNumber = 14;
-            if (SelectedActivityIndex == 9) ActualActivityNumber = 15;
+            if (SelectedActivityIndex == 7) ActualActivityNumber = 15;
+            if (SelectedActivityIndex == 8) ActualActivityNumber = 16;
+            if (SelectedActivityIndex == 9) ActualActivityNumber = 17;
+            if (SelectedActivityIndex == 10) ActualActivityNumber = 18;
+            if (SelectedActivityIndex == 11) ActualActivityNumber = 19;
+            if (SelectedActivityIndex == 12) ActualActivityNumber = 20;
 
         }
         if (SelectedSensorIndex == 2)//LS
@@ -426,12 +445,17 @@ public class ManualSelection : MonoBehaviour
         {
             if (SelectedActivityIndex == 0) ActualActivityNumber = 11;
             if (SelectedActivityIndex == 1) ActualActivityNumber = 12;
+            if (SelectedActivityIndex == 2) ActualActivityNumber = 13;
+            if (SelectedActivityIndex == 3) ActualActivityNumber = 14;
         }
         if (SelectedSensorIndex == 4)//IMU
         {
-            if (SelectedActivityIndex == 0) ActualActivityNumber = 13; //P
-            if (SelectedActivityIndex == 1) ActualActivityNumber = 14;//L
-            if (SelectedActivityIndex == 2) ActualActivityNumber = 15;//C
+            if (SelectedActivityIndex == 0) ActualActivityNumber = 15; //P
+            if (SelectedActivityIndex == 1) ActualActivityNumber = 16;//L
+            if (SelectedActivityIndex == 2) ActualActivityNumber = 17;//C
+            if (SelectedActivityIndex == 3) ActualActivityNumber = 18;//Cart
+            if (SelectedActivityIndex == 4) ActualActivityNumber = 19;//DW
+            if (SelectedActivityIndex == 5) ActualActivityNumber = 20;//mas
         }
     }
 
@@ -480,11 +504,15 @@ public class ManualSelection : MonoBehaviour
             ShowHideButton.SetActive(true);
         }
 
+        
+
         //Turn on interactable and box according to activity.
         if (ActualActivityNumber == 1)
         {
             A1Dozer.GetComponent<Interactable>().IsEnabled = true;
             A1Stockpile.GetComponent<Interactable>().IsEnabled = true;
+            A1Roller.GetComponent<Interactable>().IsEnabled = true;
+            A1Roller.transform.Find("Cube").gameObject.SetActive(true);
             A1Dozer.transform.Find("Cube").gameObject.SetActive(true);
             A1Stockpile.transform.Find("Cube").gameObject.SetActive(true);
         }
@@ -516,6 +544,8 @@ public class ManualSelection : MonoBehaviour
             A5Loader.transform.Find("Cube").gameObject.SetActive(true);
             A5Stockpile.GetComponent<Interactable>().IsEnabled = true;
             A5Stockpile.transform.Find("Cube").gameObject.SetActive(true);
+            A5Worker.GetComponent<Interactable>().IsEnabled = true;
+            A5Worker.transform.Find("Cube").gameObject.SetActive(true);
         }
         if (ActualActivityNumber == 6)
         {
@@ -525,6 +555,8 @@ public class ManualSelection : MonoBehaviour
             A6rebar.transform.Find("Cube").gameObject.SetActive(true);
             A6wood.GetComponent<Interactable>().IsEnabled = true;
             A6wood.transform.Find("Cube").gameObject.SetActive(true);
+            A6SB.GetComponent<Interactable>().IsEnabled = true;
+            A6SB.transform.Find("Cube").gameObject.SetActive(true);
         }
         if (ActualActivityNumber == 7)
         { 
@@ -542,59 +574,89 @@ public class ManualSelection : MonoBehaviour
         if (ActualActivityNumber == 10) RunButton.SetActive(true);
         if (ActualActivityNumber == 11) RunButton.SetActive(true);
         if (ActualActivityNumber == 12) RunButton.SetActive(true);
+        if (ActualActivityNumber == 13) RunButton.SetActive(true);
+        if (ActualActivityNumber == 14) RunButton.SetActive(true);
 
-        //Worker IMU
-        /*
-        if (ActualActivityNumber == 13)
-        {
-            A13Painter.GetComponent<Interactable>().IsEnabled = true;
-            A13Painter.transform.Find("Cube").gameObject.SetActive(true);
-            A13Laborer.GetComponent<Interactable>().IsEnabled = true;
-            A13Laborer.transform.Find("Cube").gameObject.SetActive(true);
-            A13Carpenter.GetComponent<Interactable>().IsEnabled = true;
-            A13Carpenter.transform.Find("Cube").gameObject.SetActive(true);
-            A13Carpenter2.GetComponent<Interactable>().IsEnabled = true;
-            A13Carpenter2.transform.Find("Cube").gameObject.SetActive(true);
-        }
-        */
 
         //20201208 IMU workers addition
         //GPS RFID for IMU workers
-        if ( ActualActivityNumber == 13)
+        //A15 painter
+        if ( ActualActivityNumber == 15)
         {
             A13Painter.GetComponent<Interactable>().IsEnabled = true;
             A13Painter.transform.Find("Cube").gameObject.SetActive(true);
         }
-        if ( ActualActivityNumber == 14)
+        //A16 laborer
+        if ( ActualActivityNumber == 16)
         {
             A13Laborer.GetComponent<Interactable>().IsEnabled = true;
             A13Laborer.transform.Find("Cube").gameObject.SetActive(true);
         }
-        if ( ActualActivityNumber == 15)
+        //A17 Carpenter
+        if (ActualActivityNumber == 17)
         {
             A13Carpenter.GetComponent<Interactable>().IsEnabled = true;
             A13Carpenter.transform.Find("Cube").gameObject.SetActive(true);
+        }
+        //A18 cart
+        if ( ActualActivityNumber == 18)
+        {
+            A18CartWorker.GetComponent<Interactable>().IsEnabled = true;
+            A18CartWorker.transform.Find("Cube").gameObject.SetActive(true);
+        }
+        //A19 Drywaller
+        if (ActualActivityNumber == 19)
+        {
+            A19DW1.GetComponent<Interactable>().IsEnabled = true;
+            A19DW1.transform.Find("Cube").gameObject.SetActive(true);
+            A19DW2.GetComponent<Interactable>().IsEnabled = true;
+            A19DW2.transform.Find("Cube").gameObject.SetActive(true);
+        }
+
+        //A20 Masonry
+        if (ActualActivityNumber == 20)
+        {
+            A20Masonry.GetComponent<Interactable>().IsEnabled = true;
+            A20Masonry.transform.Find("Cube").gameObject.SetActive(true);
         }
 
         //20201207 Changed IMU
 
-        //P
-        if (SelectedSensorIndex == 04 && ActualActivityNumber == 13)
+        //A15 P
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 15)
         {
             ManualSelectionListPanel.SetActive(false); 
             IMU_P.SetActive(true);
         }
-        //L
-        if (SelectedSensorIndex == 04 && ActualActivityNumber == 14)
+        //A16 L
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 16)
         {
             ManualSelectionListPanel.SetActive(false);
             IMU_L.SetActive(true);
         }
-        //C
-        if (SelectedSensorIndex == 04 && ActualActivityNumber == 15) 
+        //A17 C
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 17) 
         {
             ManualSelectionListPanel.SetActive(false);
             IMU_C.SetActive(true);
+        }
+        //A18 Cart
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 18)
+        {
+            ManualSelectionListPanel.SetActive(false);
+            IMU_Cart.SetActive(true);
+        }
+        //A19 Drywaller
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 19)
+        {
+            ManualSelectionListPanel.SetActive(false);
+            IMU_Drywaller.SetActive(true);
+        }
+        //A20 Masonry
+        if (SelectedSensorIndex == 04 && ActualActivityNumber == 20)
+        {
+            ManualSelectionListPanel.SetActive(false);
+            IMU_Masonry.SetActive(true);
         }
     }
 
@@ -603,21 +665,26 @@ public class ManualSelection : MonoBehaviour
     {
         string Text = "Dummy test resource for A1. \n A1R2. \n A1R3.";
 
-        if (ActualActivityNumber == 1) Text = "Dozer \nStockpile \n";
+        if (ActualActivityNumber == 1) Text = "Dozer \nRoller \nStockpile \n";
         if (ActualActivityNumber == 2) Text = "Crane \nSteel Beam \n";
         if (ActualActivityNumber == 3) Text = "Truck \nRebar \n";
-        if (ActualActivityNumber == 4) Text = "Worker 1 \n";
-        if (ActualActivityNumber == 5) Text = "Loader \nDumptruck \nStockpile \n";
-        if (ActualActivityNumber == 6) Text = "Wood \nLog \nRebar \n";
-        if (ActualActivityNumber == 7) Text = "Worker 1 \nWorker 2 \nWorker 3 \n";
+        if (ActualActivityNumber == 4) Text = "Worker\n";
+        if (ActualActivityNumber == 5) Text = "Backhoe \nDumptruck \nStockpile \nWorker\n";
+        if (ActualActivityNumber == 6) Text = "Wood \nLog \nRebar \nSteel Beam\n";
+        if (ActualActivityNumber == 7) Text = "Worker 1 \nWorker 2 \n";
         if (ActualActivityNumber == 8) Text = "Scan Building. \n";
         if (ActualActivityNumber == 9) Text = "Scan Floor. \n";
         if (ActualActivityNumber == 10) Text = "Stockpile 1 \nStockpile 2 \n";
         if (ActualActivityNumber == 11) Text = "Old Building \n";
-        if (ActualActivityNumber == 12) Text = "Entire Jobsite. \n";
-        if (ActualActivityNumber == 13) Text = "Painter \n";
-        if (ActualActivityNumber == 14) Text = "Laborer \n";
-        if (ActualActivityNumber == 15) Text = "Carpenter \n";
+        if (ActualActivityNumber == 12) Text = "Jobsite. \n";
+        if (ActualActivityNumber == 13) Text = "Jobsite. \n";
+        if (ActualActivityNumber == 14) Text = "Jobsite. \n";
+        if (ActualActivityNumber == 15) Text = "Painter \n";
+        if (ActualActivityNumber == 16) Text = "Laborer \n";
+        if (ActualActivityNumber == 17) Text = "Carpenter \n";
+        if (ActualActivityNumber == 18) Text = "Cart Worker \n";
+        if (ActualActivityNumber == 19) Text = "Drywaller 1 \nDrywaller 2 \n";
+        if (ActualActivityNumber == 20) Text = "Masonry \n";
 
         ManualSelectionListPanel.transform.Find("ResourceList").GetComponent<TextMeshProUGUI>().text = Text;
 
@@ -657,16 +724,27 @@ public class ManualSelection : MonoBehaviour
         if (ActualActivityNumber == 1)
         {
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_1();
-            //GPS
+            //Dozer GPS
             if (SelectedSensorIndex == 0 && A1Dozer.GetComponent<ManualClickSelect>().TagStatus == true)
             { 
                 GPSReportEnable = true; 
                 ActivityManagerScript.GetComponent<ActivityManagerScript>().select_1_Dozer_GPS();
             }
-            //RFID
+            //Dozer RFID
             if (SelectedSensorIndex == 1 && A1Dozer.GetComponent<ManualClickSelect>().TagStatus == true)
             {
                 ActivityManagerScript.GetComponent<ActivityManagerScript>().select_1_Dozer_RFID();
+            }
+            //Roller GPS
+            if (SelectedSensorIndex == 0 && A1Roller.GetComponent<ManualClickSelect>().TagStatus == true)
+            {
+                GPSReportEnable = true;
+                ActivityManagerScript.GetComponent<ActivityManagerScript>().select_1_Roller_GPS();
+            }
+            //Roller RFID
+            if (SelectedSensorIndex == 1 && A1Roller.GetComponent<ManualClickSelect>().TagStatus == true)
+            {
+                ActivityManagerScript.GetComponent<ActivityManagerScript>().select_1_Roller_RFID();
             }
         }
 
@@ -731,6 +809,12 @@ public class ManualSelection : MonoBehaviour
             //backhoe RFID
             if (A5Loader.GetComponent<ManualClickSelect>().TagStatus == true && SelectedSensorIndex == 1)
             { ActivityManagerScript.GetComponent<ActivityManagerScript>().select_5_backhoe_RFID(); Debug.Log("A5backhoe rfid selected."); }
+            //WOrker GPS
+            if (A5Worker.GetComponent<ManualClickSelect>().TagStatus == true && SelectedSensorIndex == 0)
+            { GPSReportEnable = true; ActivityManagerScript.GetComponent<ActivityManagerScript>().select_5_worker_GPS(); }
+            //WOrker RFID
+            if (A5Worker.GetComponent<ManualClickSelect>().TagStatus == true && SelectedSensorIndex == 1)
+            {  ActivityManagerScript.GetComponent<ActivityManagerScript>().select_5_worker_RFID(); }
         }
 
 
@@ -740,6 +824,8 @@ public class ManualSelection : MonoBehaviour
             if (A6wood.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_wood_flag = true;
             if (A6log.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_log_flag = true;
             if (A6rebar.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_rebar_flag = true;
+            if (A6SB.GetComponent<ManualClickSelect>().TagStatus == true) ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_steelbeam_flag = true;
+
             ActivityManagerScript.GetComponent<ActivityManagerScript>().A6_RFID();
             RFIDReportEnable = true;
         }
@@ -773,60 +859,92 @@ public class ManualSelection : MonoBehaviour
         //A11 old bldg drone
         if (ActualActivityNumber == 11 && SelectedSensorIndex == 3) ActivityManagerScript.GetComponent<ActivityManagerScript>().select_11Drone();
 
-        //A12 drone
+        //A12 drone site inspection
         if (ActualActivityNumber == 12 && SelectedSensorIndex == 3) ActivityManagerScript.GetComponent<ActivityManagerScript>().select_12();
 
-        //A13 IMU, dont need to specify sensor, because A13 is only reachable by selecting IMU in the first place.
-        /*
-        if (ActualActivityNumber == 13 && SelectedSensorIndex == 4)
-        {
-            if (A13Painter.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A15_Painter = true; }
-            if (A13Laborer.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A16_Laborer = true; }
-            if (A13Carpenter.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A17_Carpenter = true; }
-            if (A13Carpenter2.GetComponent<ManualClickSelect>().TagStatus == true)
-            { ActivityManagerScript.GetComponent<ActivityManagerScript>().A14_c2 = true; }
-            //With given worker bool, get IMU string, handle finish file write use backselected()
-            ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
-            //display IMU
-            IMUReportEnable = true;
-            Debug.Log("IMU report enabled");
-        }
-        */
-        //IMU Painter GPS
-        if (ActualActivityNumber == 13 && SelectedSensorIndex == 0)
+        //A13 sanitization drone
+        if (ActualActivityNumber == 13 && SelectedSensorIndex == 3) ActivityManagerScript.GetComponent<ActivityManagerScript>().select_13();
+
+        //A14 safety drone
+        if (ActualActivityNumber == 14 && SelectedSensorIndex == 3) ActivityManagerScript.GetComponent<ActivityManagerScript>().select_14();
+
+        //IMU, dont need to specify sensor, because A13 is only reachable by selecting IMU in the first place.
+        //IMU will activate a separate IMU panel for each worker.
+
+        //A15. IMU Painter GPS
+        if (ActualActivityNumber == 15 && SelectedSensorIndex == 0)
         {
             GPSReportEnable = true;
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Painter_GPS();
         }
-        //IMU Painter RFID
-        if (ActualActivityNumber == 13 && SelectedSensorIndex == 1)
+        //A15. IMU Painter RFID
+        if (ActualActivityNumber == 15 && SelectedSensorIndex == 1)
         {
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Painter_RFID();
         }
-        //IMU Laborer GPS
-        if (ActualActivityNumber == 14 && SelectedSensorIndex == 0)
+
+        //A16 IMU Laborer GPS
+        if (ActualActivityNumber == 16 && SelectedSensorIndex == 0)
         {
             GPSReportEnable = true;
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Laborer_GPS();
         }
-        //IMU laborer RFID
-        if (ActualActivityNumber == 14 && SelectedSensorIndex == 1)
+        //A16 IMU laborer RFID
+        if (ActualActivityNumber == 16 && SelectedSensorIndex == 1)
         {
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Laborer_RFID();
         }
-        //IMU Carpenter GPS
-        if (ActualActivityNumber == 15 && SelectedSensorIndex == 0)
+        //A17 IMU Carpenter GPS
+        if (ActualActivityNumber == 17 && SelectedSensorIndex == 0)
         {
             GPSReportEnable = true;
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Carpenter_GPS();
         }
-        //IMU carpenter RFID
-        if (ActualActivityNumber == 15 && SelectedSensorIndex == 1)
+        //A17 IMU carpenter RFID
+        if (ActualActivityNumber == 17 && SelectedSensorIndex == 1)
         {
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Carpenter_RFID();
+        }
+
+        //A18 cart GPS
+        if (ActualActivityNumber == 18 && SelectedSensorIndex == 0)
+        {
+            GPSReportEnable = true;
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Cartworker_GPS();
+        }
+
+        //A18 cart RFID
+        if (ActualActivityNumber == 18 && SelectedSensorIndex == 1)
+        {
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Cartworker_RFID();
+        }
+
+        //A19 dw gps
+        if (ActualActivityNumber == 19 && SelectedSensorIndex == 0)
+        {
+            GPSReportEnable = true;
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw1_GPS();
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw2_GPS();
+        }
+
+        //A19 dw rfid
+        if (ActualActivityNumber == 19 && SelectedSensorIndex == 1)
+        {
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw1_RFID();
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw2_RFID();
+        }
+
+        //A20 mason GPS
+        if (ActualActivityNumber == 20 && SelectedSensorIndex == 0)
+        {
+            GPSReportEnable = true;
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_masonry_GPS();
+        }
+
+        //A20 mason rfid
+        if (ActualActivityNumber == 20 && SelectedSensorIndex == 1)
+        {
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select_masonry_RFID();
         }
     }
 
@@ -855,14 +973,16 @@ public class ManualSelection : MonoBehaviour
         ActivityList.Clear();
         //Activity correspond to GPS
         if (SelectedSensorIndex == 0) { ActivityList.AddRange(new string[] { "Backfilling", "Crane Loading", "Material Delivery", "Material handling (1)", "Truck Load/Haul",
-             "Detecting Fall","Painting","Labor Work","Carpentry" }); }
+             "Material handling (2)","Painting","Labor Work","Carpentry","Cart Worker","Drywalling","Masonry" }); }
         //RFID activities
         if (SelectedSensorIndex == 1) { ActivityList.AddRange(new string[] {  "Backfilling", "Crane Loading","Material Delivery", "Material handling (1)", "Truck Load/Haul",
-            "Material Inventory", "Detecting Fall" ,"Painting","Labor Work","Carpentry" }); }
+            "Material Inventory", "Material handling (2)" ,"Painting","Labor Work","Carpentry","Cart Worker","Drywalling","Masonry" }); }
+        //LS
         if (SelectedSensorIndex == 2) { ActivityList.AddRange(new string[] {  "Cladding", "Flooring", "Stockpile unloading", "Renovation" }); }
-        if (SelectedSensorIndex == 3) { ActivityList.AddRange(new string[] {  "Renovation", "Site Inspection" }); }
+        //Drone
+        if (SelectedSensorIndex == 3) { ActivityList.AddRange(new string[] {  "Renovation", "Site Inspection" , "Site Sanitation", "Safety Inspection" }); }
         //IMU activities
-        if (SelectedSensorIndex == 4) { ActivityList.AddRange(new string[] {  "Painting","Labor Work","Carpentry" }); }
+        if (SelectedSensorIndex == 4) { ActivityList.AddRange(new string[] {  "Painting","Labor Work","Carpentry", "Cart Worker", "Drywalling", "Masonry" }); }
     }
 
     private void UpdateSensorString()
@@ -884,18 +1004,18 @@ public class ManualSelection : MonoBehaviour
     public void ShowHideManual()
     {
         //below is from menumanager.cs
-        GameObject building = Everything.transform.Find("SceneContent").transform.Find("Construction Site").transform.Find("buildings").transform.Find("building-6").gameObject;
-        GameObject LS = SensorParentNode.transform.Find("laserScanner").gameObject;
-        GameObject MDrone = SensorParentNode.transform.Find("Drone").gameObject;
+        //GameObject building = Everything.transform.Find("SceneContent").transform.Find("Construction Site").transform.Find("buildings").transform.Find("building-6").gameObject;
+        //GameObject LS = SensorParentNode.transform.Find("laserScanner").gameObject;
+        //GameObject MDrone = SensorParentNode.transform.Find("Drone").gameObject;
 
         if (showhidetoggle)
         {
             //Currently in hidden state, now show everything.
             showhidetoggle = false;
             mainUICollection.SetActive(true);
-            building.SetActive(true);//building-6 special case shared by multiple activities
-            LS.SetActive(true);
-            MDrone.SetActive(true);
+            //building.SetActive(true);//building-6 special case shared by multiple activities
+            //LS.SetActive(true);
+            //MDrone.SetActive(true);
             foreach (Transform child in ActivityResourcesNode.transform)
             {
                 child.gameObject.SetActive(true);
@@ -907,14 +1027,14 @@ public class ManualSelection : MonoBehaviour
             //Switch to hide in-active assets.
             showhidetoggle = true;
             //mainUICollection.SetActive(false);
-            MiscAssetNode.SetActive(false);
+            //MiscAssetNode.SetActive(false);
             //building.SetActive(false); //building-6 relate to these activities:
             //LS.SetActive(false);
             //MDrone.SetActive(false);
 
 
             //if(Activity not active) {turn off;}
-            if (! (ActualActivityNumber == 1)) { ActivityResourcesNode.transform.Find("Activity1").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 1)) { ActivityResourcesNode.transform.Find("Activity1").gameObject.SetActive(false); }
             if (!(ActualActivityNumber == 2)) 
             {
                 if(!(ActualActivityNumber == 4))
@@ -928,17 +1048,23 @@ public class ManualSelection : MonoBehaviour
             if (! (ActualActivityNumber == 8)) { ActivityResourcesNode.transform.Find("Activity8").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 9)) { ActivityResourcesNode.transform.Find("Activity9").gameObject.SetActive(false); }
             if (! (ActualActivityNumber == 10)) { ActivityResourcesNode.transform.Find("Activity10A").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity10B").gameObject.SetActive(false); }
-            if (! (ActualActivityNumber == 11)) { ActivityResourcesNode.transform.Find("Activity12").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Laser").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false); }
-            if (! (ActualActivityNumber == 12)) { ActivityResourcesNode.transform.Find("Activity13_Drone").gameObject.SetActive(false); }
-            if (! (ActualActivityNumber == 13)) { ActivityResourcesNode.transform.Find("Activity14").gameObject.SetActive(false); }
-            if (!(ActualActivityNumber == 14)) { ActivityResourcesNode.transform.Find("Activity15").gameObject.SetActive(false); }
-            if (!(ActualActivityNumber == 15)) { ActivityResourcesNode.transform.Find("Activity16").gameObject.SetActive(false); }
+            if (! (ActualActivityNumber == 11)) { ActivityResourcesNode.transform.Find("Activity11").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11_Laser").gameObject.SetActive(false); ActivityResourcesNode.transform.Find("Activity11_Drone").gameObject.SetActive(false); }
+            if (! (ActualActivityNumber == 12)) { ActivityResourcesNode.transform.Find("Activity12_Drone").gameObject.SetActive(false); }
+            if (! (ActualActivityNumber == 13)) { ActivityResourcesNode.transform.Find("Activity13").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 14)) { ActivityResourcesNode.transform.Find("Activity14").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 15)) { ActivityResourcesNode.transform.Find("Activity15").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 16)) { ActivityResourcesNode.transform.Find("Activity16").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 17)) { ActivityResourcesNode.transform.Find("Activity17").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 18)) { ActivityResourcesNode.transform.Find("Activity18").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 19)) { ActivityResourcesNode.transform.Find("Activity19").gameObject.SetActive(false); }
+            if (!(ActualActivityNumber == 20)) { ActivityResourcesNode.transform.Find("Activity20").gameObject.SetActive(false); }
 
+            /*
             //building-6 check
-            if (! (ActualActivityNumber == 2) && ! (ActualActivityNumber == 4) && ! (ActualActivityNumber == 9))
-            {
-                building.SetActive(false);
-            }
+            //if (! (ActualActivityNumber == 2) && ! (ActualActivityNumber == 4) && ! (ActualActivityNumber == 9))
+            //{
+            //    building.SetActive(false);
+            //}
 
             //LS check
             if (! (ActualActivityNumber == 8) && ! (ActualActivityNumber == 8) && ! (ActualActivityNumber == 10) && ! (ActualActivityNumber == 11))
@@ -950,6 +1076,7 @@ public class ManualSelection : MonoBehaviour
             {
                 MDrone.SetActive(false);
             }
+            */
         }
         //MenuManager Finish
     }
@@ -1075,5 +1202,114 @@ public class ManualSelection : MonoBehaviour
         //ManualSelectionParent.GetComponent<ManualSelection>().IMUReportEnable = false;
     }
 
+
+    //Cart
+    public void CartConfirm()
+    {
+        //panel inactive
+        IMU_Cart.SetActive(false);
+        //IMU report canvas panel
+        IMUReportEnable = true;
+        //IMU functions
+        SetInteractablesFalse();
+        SetCubeFalse();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A18_CartWorker = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
+    }
+
+    public void CartNeck()
+    {
+        //IMUntt.SetActive(true);//show tooltip
+        IMUCartWorker.GetComponent<workerScript>().neckSelect();//toggle on and off
+    }
+    public void CartShoulder()
+    {
+        //IMUstt.SetActive(true);
+        IMUCartWorker.GetComponent<workerScript>().shoulderSelect();
+    }
+
+    public void CartThigh()
+    {
+        //IMUttt.SetActive(true);
+        IMUCartWorker.GetComponent<workerScript>().thighSelect();
+    }
+
+    public void CartBack()
+    {
+        //IMUbtt.SetActive(true);
+        IMUCartWorker.GetComponent<workerScript>().backSelect();
+    }
+    //Masonry
+    public void MasonConfirm()
+    {
+        //panel inactive
+        IMU_Masonry.SetActive(false);
+        //IMU report canvas panel
+        IMUReportEnable = true;
+        //IMU functions
+        SetInteractablesFalse();
+        SetCubeFalse();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A20_Masonry = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
+    }
+
+    public void MasNeck()
+    {
+        //IMUntt.SetActive(true);//show tooltip
+        IMUMasonry.GetComponent<workerScript>().neckSelect();//toggle on and off
+    }
+    public void MasShoulder()
+    {
+        //IMUstt.SetActive(true);
+        IMUMasonry.GetComponent<workerScript>().shoulderSelect();
+    }
+
+    public void MasThigh()
+    {
+        //IMUttt.SetActive(true);
+        IMUMasonry.GetComponent<workerScript>().thighSelect();
+    }
+
+    public void MasBack()
+    {
+        //IMUbtt.SetActive(true);
+        IMUMasonry.GetComponent<workerScript>().backSelect();
+    }
+    //Drywaller
+    public void DWConfirm()
+    {
+        //panel inactive
+        IMU_Drywaller.SetActive(false);
+        //IMU report canvas panel
+        IMUReportEnable = true;
+        //IMU functions
+        SetInteractablesFalse();
+        SetCubeFalse();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller1 = true;
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
+    }
+
+    public void DWNeck()
+    {
+        //IMUntt.SetActive(true);//show tooltip
+        IMUDrywaller.GetComponent<workerScript>().neckSelect();//toggle on and off
+    }
+    public void DWShoulder()
+    {
+        //IMUstt.SetActive(true);
+        IMUDrywaller.GetComponent<workerScript>().shoulderSelect();
+    }
+
+    public void DWThigh()
+    {
+        //IMUttt.SetActive(true);
+        IMUDrywaller.GetComponent<workerScript>().thighSelect();
+    }
+
+    public void DWBack()
+    {
+        //IMUbtt.SetActive(true);
+        IMUDrywaller.GetComponent<workerScript>().backSelect();
+    }
     #endregion
 }

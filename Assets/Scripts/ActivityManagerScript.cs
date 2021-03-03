@@ -17,6 +17,8 @@ public class ActivityManagerScript : MonoBehaviour
     [SerializeField] private GameObject scannerCanvas;
     [SerializeField] private GameObject drone;
 
+    [SerializeField] private GameObject RFIDWorkerReader1_tooltip;
+    [SerializeField] private GameObject RFIDWorkerReader2_tooltip;
     //activities main actuator
     [SerializeField] private GameObject Activity1Bulldozer;
     [SerializeField] private GameObject Activity1Roller;
@@ -339,6 +341,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_1_Dozer_RFID()
     {
         A1DozerRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void select_1_Roller_GPS()
@@ -349,6 +353,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_1_Roller_RFID()
     {
         A1RollerRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void stop_1()
@@ -365,6 +371,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_2_crane_RFID()
     {
         A2CraneRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void select_2_CraneLoad_GPS()
@@ -386,6 +394,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_3_truck_RFID()
     {
         A3TruckRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void select_3_truck_GPS()
@@ -412,6 +422,8 @@ public class ActivityManagerScript : MonoBehaviour
     {
         //Activity4Worker.transform.Find("Canvas").gameObject.SetActive(true);
         A4worker_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
 
@@ -440,10 +452,14 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_5_dumptruck_RFID()
     {
         A5TruckRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_5_backhoe_RFID()
     {
         A5BackhoeRFID.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_5_worker_GPS()
     {
@@ -453,6 +469,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_5_worker_RFID()
     {
         A5worker_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void stop_5()
     {
@@ -472,6 +490,8 @@ public class ActivityManagerScript : MonoBehaviour
         if (A6_rebar_flag) Activity6.GetComponent<A6_RFID>().RebarFlag = true;
         if (A6_steelbeam_flag) Activity6.GetComponent<A6_RFID>().SteelbeamFlag = true;
         Activity6.GetComponent<A6_RFID>().start();
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void select_7()
@@ -500,6 +520,8 @@ public class ActivityManagerScript : MonoBehaviour
     {
         if (A7_w1_flag) A7w1_Tooltip.SetActive(true);// A7Worker1.transform.Find("Canvas").gameObject.SetActive(true);
         if (A7_w2_flag) A7w2_Tooltip.SetActive(true);//A7Worker2.transform.Find("Canvas").gameObject.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
     public void stop_7()
@@ -513,6 +535,7 @@ public class ActivityManagerScript : MonoBehaviour
     //8.cladding
     public void select_8()
     {
+        LaserScannerParentNode.SetActive(true);
         //switchTag(Activity8Arrow);
         //Activity8.transform.Find("Arrow").gameObject.SetActive(true);
         //sensorSelected();
@@ -529,6 +552,7 @@ public class ActivityManagerScript : MonoBehaviour
     //9.flooring
     public void select_9()
     {
+        LaserScannerParentNode.SetActive(true);
         //switchTag(Activity9Arrow);
         //Activity9.transform.Find("Arrow").gameObject.SetActive(true);
         //sensorSelected();
@@ -560,6 +584,7 @@ public class ActivityManagerScript : MonoBehaviour
     //A10. laser scan stockpile 1
     public void select_10A()
     {
+        LaserScannerParentNode.SetActive(true);
         //switchTag(Activity10AArrow);
         //Activity10A.transform.Find("Arrow").gameObject.SetActive(true);
         LSboxon();
@@ -574,6 +599,7 @@ public class ActivityManagerScript : MonoBehaviour
     //A10. laser scan stockpile 2
     public void select_10B()
     {
+        LaserScannerParentNode.SetActive(true);
         //switchTag(Activity10BArrow);
         //Activity10B.transform.Find("Arrow").gameObject.SetActive(true);
         LSboxon();
@@ -595,6 +621,7 @@ public class ActivityManagerScript : MonoBehaviour
     //A11 renovation
     public void select_11Laser()
     {
+        LaserScannerParentNode.SetActive(true);
         //switchTag(Activity11Laser); //Activate laser position arrow
         //Activity12Canvas.SetActive(false);
         //sensorSelected();
@@ -712,6 +739,13 @@ public class ActivityManagerScript : MonoBehaviour
         WorkerManagerNode.GetComponent<WorkerManager>().done();
     }
 
+    public void TutorialIMU()
+    {
+        WorkerManagerNode.GetComponent<WorkerManager>().Start();
+        WorkerManagerNode.GetComponent<WorkerManager>().carpenter1Select();
+        WorkerManagerNode.GetComponent<WorkerManager>().done();
+
+    }
     //A15 painter
     public void select_Painter_GPS()
     {
@@ -734,14 +768,20 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_Painter_RFID()
     {
         Painter_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_Laborer_RFID()
     {
         Laborer_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_Carpenter_RFID()
     {
         Carpenter_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_Cartworker_GPS()
     {
@@ -750,6 +790,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_Cartworker_RFID()
     {
         CartWorker_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_dw1_GPS()
     {
@@ -758,6 +800,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_dw1_RFID()
     {
         Drywaller1_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_dw2_GPS()
     {
@@ -766,6 +810,8 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_dw2_RFID()
     {
         Drywaller2_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
     public void select_masonry_GPS()
     {
@@ -774,14 +820,11 @@ public class ActivityManagerScript : MonoBehaviour
     public void select_masonry_RFID()
     {
         Masonry_Tooltip.SetActive(true);
+        RFIDWorkerReader1_tooltip.SetActive(true);
+        RFIDWorkerReader2_tooltip.SetActive(true);
     }
 
-    public void TutorialIMU()
-    {
-        WorkerManagerNode.GetComponent<WorkerManager>().Start();
-        WorkerManagerNode.GetComponent<WorkerManager>().carpenter1Select();
-        WorkerManagerNode.GetComponent<WorkerManager>().done();
-    }
+
 
     public void A13_stop()
     {

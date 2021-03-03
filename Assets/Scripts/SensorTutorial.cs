@@ -125,6 +125,7 @@ public class SensorTutorial : MonoBehaviour
         IMUReportString = ActivityManager.GetComponent<ActivityManagerScript>().A17_Carpenter_report
             + ActivityManager.GetComponent<ActivityManagerScript>().A16_Laborer_report
             + ActivityManager.GetComponent<ActivityManagerScript>().A15_painter_report;
+        Debug.Log("IMU:"+IMUReportString);
     }
 
     private void PrepareGPSString()

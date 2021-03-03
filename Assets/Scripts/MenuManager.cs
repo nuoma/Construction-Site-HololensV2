@@ -1042,11 +1042,12 @@ public class MenuManager : MonoBehaviour
                 {
                     GPSReportEnable = true;
                     ActivityManager.GetComponent<ActivityManagerScript>().select_dw1_GPS();
-                    ActivityManager.GetComponent<ActivityManagerScript>().select_masonry_GPS();
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_dw2_GPS();
                 }
 
                 if (ExeList[key].Contains("RFID"))
                 {
+                    ActivityManager.GetComponent<ActivityManagerScript>().select_dw1_RFID();
                     ActivityManager.GetComponent<ActivityManagerScript>().select_dw2_RFID();
                 }
             }
@@ -2095,10 +2096,10 @@ public class MenuManager : MonoBehaviour
             if (!SelectedActivities[19]) { ActivityResourcesNode.transform.Find("Activity20").gameObject.SetActive(false); }
 
             //building-6 check
-            if (!SelectedActivities[1] && !SelectedActivities[3] && !SelectedActivities[8])
-            {
-                building.SetActive(false);
-            }
+            //if (!SelectedActivities[1] && !SelectedActivities[3] && !SelectedActivities[8])
+            //{
+            //    building.SetActive(false);
+            //}
 
             //LS check
             if (!SelectedActivities[7] && !SelectedActivities[8] && !SelectedActivities[9] && !SelectedActivities[10])
@@ -2106,7 +2107,7 @@ public class MenuManager : MonoBehaviour
                 LS.SetActive(false);
             }
             //Drone check
-            if (!SelectedActivities[10] && !SelectedActivities[11])
+            if (!SelectedActivities[10] && !SelectedActivities[11] && !SelectedActivities[12] && !SelectedActivities[13])
             {
                 MDrone.SetActive(false);
             }

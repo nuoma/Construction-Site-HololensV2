@@ -10,15 +10,13 @@ public class ExploreManager : MonoBehaviour
     #region parameters
 
     public GameObject RadioButtonsParent;
-    //public GameObject button14;
     public GameObject ConfirmButton;
     public GameObject ExploreLandingCanvas;
     public GameObject ActivityManager;
-    public GameObject ResetButton;
     private bool[] SelectedActivities = new bool[16];
-    public int SelectedActivityNum;
-    public GameObject NearMenuIsolate;
-
+    [HideInInspector]public int SelectedActivityNum;
+    
+    //Activity tooltips
     public GameObject A1Tooltip;
     public GameObject A2Tooltip;
     public GameObject A3Tooltip;
@@ -30,26 +28,17 @@ public class ExploreManager : MonoBehaviour
     public GameObject A9Tooltip;
     public GameObject A10Tooltip;
     public GameObject A11Tooltip;
-    public GameObject A12Tooltip;
-    public GameObject A13Tooltip;
-    public GameObject A14Tooltip;
+    //public GameObject A12Tooltip;
+    //public GameObject A13Tooltip;
+    //public GameObject A14Tooltip;
     public GameObject A15Tooltip;
+    public GameObject A16Tooltip;
+    public GameObject A17Tooltip;
+    public GameObject A18Tooltip;
+    public GameObject A19Tooltip;
+    public GameObject A20Tooltip;
 
-    public GameObject OldHouseWindowTooltip;
-    public GameObject OldHouseRoofTooltip;
-    public GameObject OldHouseFloorTooltip;
-
-    private bool showhidetoggle = false;
-    private bool Allshowhidetoggle = false;
-    public GameObject ActivityResourcesNode;
-
-    public GameObject LS;
-    public GameObject MDrone;
-
-    public GameObject CAMPOS;
-
-    [SerializeField] private GameObject PointingChevron;
-
+    //Detailed Resources Tooltips
     public GameObject A1DozerTooltipSpawner;
     public GameObject A1StockpileTooltipSpawner;
     public GameObject A2CraneTooltipSpawner;
@@ -71,8 +60,24 @@ public class ExploreManager : MonoBehaviour
     public GameObject A8CladFTooltipSpawner;
     public GameObject A8CladBTooltipSpawner;
 
-    public GameObject ShowHideButton;
+    //Scene Specific
+    //? do we keep?
+    public GameObject OldHouseWindowTooltip;
+    public GameObject OldHouseRoofTooltip;
+    public GameObject OldHouseFloorTooltip;
+    public GameObject LS;
+    public GameObject MDrone;
+    public GameObject Drone13;
+    public GameObject Drone13Model;
+    private bool showhidetoggle = false;
+    private bool Allshowhidetoggle = false;
+    public GameObject ActivityResourcesNode;
+    public GameObject CAMPOS;
+    //[SerializeField] private GameObject PointingChevron;
 
+    //Below are deprecated refs.
+    //public GameObject ShowHideButton;
+    /* Temporarialy disable
     public GameObject PainterNeckTooltip;
     public GameObject PainterShoulderTooltip;
     public GameObject PainterBackTooltip;
@@ -85,17 +90,15 @@ public class ExploreManager : MonoBehaviour
     public GameObject LShoulderTooltip;
     public GameObject LBackTooltip;
     public GameObject LThighTooltip;
-
-    public GameObject Drone13;
-    public GameObject Drone13Model;
-
+    */
     //Buildings
-    public GameObject Building6;
-    public GameObject Building3;
-    public GameObject Structure2;
-    public GameObject OldHouse;
+    //public GameObject Building6;
+    //public GameObject Building3;
+    //public GameObject Structure2;
+    //public GameObject OldHouse;
+    //public GameObject A2Arrow;
 
-    public GameObject A2Arrow;
+
     #endregion
 
     #region Start Update
@@ -113,16 +116,22 @@ public class ExploreManager : MonoBehaviour
         A9Tooltip.SetActive(false);
         A10Tooltip.SetActive(false);
         A11Tooltip.SetActive(false);
-        A12Tooltip.SetActive(false);
-        A13Tooltip.SetActive(false);
-        A14Tooltip.SetActive(false);
+       // A12Tooltip.SetActive(false);
+        //A13Tooltip.SetActive(false);
+       // A14Tooltip.SetActive(false);
         A15Tooltip.SetActive(false);
-        NearMenuIsolate.SetActive(false);
+        A16Tooltip.SetActive(false);
+        A17Tooltip.SetActive(false);
+        A18Tooltip.SetActive(false);
+        A19Tooltip.SetActive(false);
+        A20Tooltip.SetActive(false);
+
+        //NearMenuIsolate.SetActive(false);
 
         OldHouseWindowTooltip.SetActive(false);
         OldHouseRoofTooltip.SetActive(false);
         OldHouseFloorTooltip.SetActive(false);
-        PointingChevron.SetActive(false);
+        //PointingChevron.SetActive(false);
         LS.SetActive(true);
     }
 
@@ -182,7 +191,7 @@ public class ExploreManager : MonoBehaviour
             A4Tooltip.SetActive(true);
             ActivityManager.GetComponent<ActivityManagerScript>().select_4();
             ActivityManager.GetComponent<ActivityManagerScript>().select_2();
-            A2Arrow.SetActive(false);
+            //A2Arrow.SetActive(false);
         }
         //A5 load haul
         if (SelectedActivityNum == 4)
@@ -210,6 +219,7 @@ public class ExploreManager : MonoBehaviour
             A8Tooltip.SetActive(true);
             //LS default location
         }
+
         //A9 scan floor
         if (SelectedActivityNum == 8)
         {
@@ -218,6 +228,7 @@ public class ExploreManager : MonoBehaviour
             Vector3 A9Coordinates = ActivityManager.GetComponent<ActivityManagerScript>().Explore_A9_MoveLSOnly();
             LS.transform.position = A9Coordinates;
         }
+
         //A10 scan stockpile
         if (SelectedActivityNum == 9)
         {
@@ -238,45 +249,84 @@ public class ExploreManager : MonoBehaviour
         //A12 jobsite inspection
         if (SelectedActivityNum == 11)
         {
-            A12Tooltip.SetActive(true);
+            //A12Tooltip.SetActive(true);
             //Also make drone working
             Drone13Model.SetActive(true);
             Drone13.SetActive(true);
             Drone13.GetComponent<Drone13>().SetStart();
             //Also entire jobsite should be present.
         }
-        //A13 IMU
-        //Painter
+
+        //A13. sanitation drone
         if (SelectedActivityNum == 12)
         {
-            A13Tooltip.SetActive(true);
-            PainterNeckTooltip.SetActive(true);
-            PainterShoulderTooltip.SetActive(true);
-            PainterBackTooltip.SetActive(true);
-            PainterThighTooltip.SetActive(true);
+            //A13Tooltip.SetActive(true);
+            //Also make drone working
+            //Drone13Model.SetActive(true);
+            //Drone13.SetActive(true);
+            //Drone13.GetComponent<Drone13>().SetStart();
+            //Also entire jobsite should be present.
         }
 
-        //L
+        //A14. safety drone
         if (SelectedActivityNum == 13)
         {
-            A14Tooltip.SetActive(true);
-            LNeckTooltip.SetActive(true);
-            LShoulderTooltip.SetActive(true);
-            LBackTooltip.SetActive(true);
-            LThighTooltip.SetActive(true);
+            //A14Tooltip.SetActive(true);
+            //Also make drone working
+            //Drone13Model.SetActive(true);
+            //Drone13.SetActive(true);
+            //Drone13.GetComponent<Drone13>().SetStart();
+            //Also entire jobsite should be present.
         }
-        //C
+
+        //A15 IMU painter
         if (SelectedActivityNum == 14)
         {
             A15Tooltip.SetActive(true);
-            CNeckTooltip.SetActive(true);
-            CShoulderTooltip.SetActive(true);
-            CBackTooltip.SetActive(true);
-            CThighTooltip.SetActive(true);
+            //PainterNeckTooltip.SetActive(true);
+            //PainterShoulderTooltip.SetActive(true);
+            //PainterBackTooltip.SetActive(true);
+            //PainterThighTooltip.SetActive(true);
+        }
+
+        //A16 laborer 
+        if (SelectedActivityNum == 15)
+        {
+            A16Tooltip.SetActive(true);
+            //LNeckTooltip.SetActive(true);
+            //LShoulderTooltip.SetActive(true);
+            //LBackTooltip.SetActive(true);
+            //LThighTooltip.SetActive(true);
+        }
+
+        //A17 Carpenter
+        if (SelectedActivityNum == 16)
+        {
+            A17Tooltip.SetActive(true);
+            //CNeckTooltip.SetActive(true);
+            //CShoulderTooltip.SetActive(true);
+            //CBackTooltip.SetActive(true);
+            //CThighTooltip.SetActive(true);
+        }
+
+        //A18 Cart
+        if (SelectedActivityNum == 17)
+        {
+            A18Tooltip.SetActive(true);
+        }
+        //A19 Drywaller
+        if (SelectedActivityNum == 18)
+        {
+            A19Tooltip.SetActive(true);
+        }
+        //A20 Masonry
+        if (SelectedActivityNum == 19)
+        {
+            A20Tooltip.SetActive(true);
         }
 
         //All activities
-        if (SelectedActivityNum == 15)
+        if (SelectedActivityNum == 20)
         {
             AllActivities();
         }
@@ -284,18 +334,6 @@ public class ExploreManager : MonoBehaviour
     }
 
 
-    //deprecated
-    /*
-    public void ExitButtonFunction()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    public void ResetButtonFunction()
-    {
-        SceneManager.LoadScene(1);
-    }
-    */
 
     public void AllActivities()
     {
@@ -329,6 +367,8 @@ public class ExploreManager : MonoBehaviour
         //ShowHideButton.SetActive(false);
     }
 
+    //Temporarialy disable
+    /*
     private void ActivityIndicator()
     {
         string name = "A" + SelectedActivityNum + "POS";
@@ -344,6 +384,7 @@ public class ExploreManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         go.SetActive(false);
     }
+    */
 
     private void AllTooltipsOn()
     {
@@ -376,8 +417,8 @@ public class ExploreManager : MonoBehaviour
         {
             //Currently in hidden state, now show everything.
             showhidetoggle = false;
-            Building6.SetActive(true);//building-6 special case shared by multiple activities
-            Building3.SetActive(true);
+            //Building6.SetActive(true);//building-6 special case shared by multiple activities
+            //Building3.SetActive(true);
             LS.SetActive(true);
             MDrone.SetActive(true);
             foreach (Transform child in ActivityResourcesNode.transform)
@@ -540,9 +581,9 @@ public class ExploreManager : MonoBehaviour
                     A9Tooltip.SetActive(true);
                     A10Tooltip.SetActive(true);
                     A11Tooltip.SetActive(true);
-                    A12Tooltip.SetActive(true);
-                    A13Tooltip.SetActive(true);
-                    A14Tooltip.SetActive(true);
+                    //A12Tooltip.SetActive(true);
+                    //A13Tooltip.SetActive(true);
+                    //A14Tooltip.SetActive(true);
                     A15Tooltip.SetActive(true);
                 }
                 else
@@ -560,9 +601,9 @@ public class ExploreManager : MonoBehaviour
                     A9Tooltip.SetActive(false);
                     A10Tooltip.SetActive(false);
                     A11Tooltip.SetActive(false);
-                    A12Tooltip.SetActive(false);
-                    A13Tooltip.SetActive(false);
-                    A14Tooltip.SetActive(false);
+                    //A12Tooltip.SetActive(false);
+                   // A13Tooltip.SetActive(false);
+                    //A14Tooltip.SetActive(false);
                     A15Tooltip.SetActive(false);
                 }
             }
