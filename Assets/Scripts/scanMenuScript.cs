@@ -49,7 +49,7 @@ public class scanMenuScript : MonoBehaviour
         backButton.SetActive(false);
         ManualResetButton.SetActive(false);
         AutoResetButton.SetActive(false);
-        tripod.GetComponent<Renderer>().enabled = false;
+        tripod.GetComponent<Renderer>().enabled = true;
         scanner.GetComponent<Renderer>().enabled = false;
         Arrow.SetActive(false);
 

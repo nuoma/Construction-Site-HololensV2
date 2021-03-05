@@ -16245,7 +16245,7 @@ MonoBehaviour:
     Name: 3_auto(5)
     Path: Assets/3_auto(5).unity
     Included: 1
-    BuildIndex: 6
+    BuildIndex: 0
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 46b9ba2c1f75c7446b28d29da9686bcc, type: 3}
   loadOnStartup: 0
@@ -19290,7 +19290,7 @@ MonoBehaviour:
     Name: 3_manual(6)
     Path: Assets/3_manual(6).unity
     Included: 1
-    BuildIndex: 7
+    BuildIndex: -1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 33553b3b6176f364e9ae1b46844531e8, type: 3}
   loadOnStartup: 0
