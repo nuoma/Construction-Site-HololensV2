@@ -15,7 +15,6 @@ public class Drone12 : MonoBehaviour
     private bool startRot;
     private int FrmCount = 0;
     public GameObject ManualModeButton;
-    public GameObject ActivityManager;
 
     public void Start()
     {
@@ -31,7 +30,6 @@ public class Drone12 : MonoBehaviour
     {
         if(startRot)
         {
-            ActivityManager.GetComponent<ActivityManagerScript>().DroneAllActivitiesRun();
             DroneModel.SetActive(true);
             DroneParent.transform.Find("Arrow").gameObject.SetActive(false);
             DroneModel.GetComponent<Animator>().SetBool("fly", true);

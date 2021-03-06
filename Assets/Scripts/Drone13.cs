@@ -15,7 +15,6 @@ public class Drone13 : MonoBehaviour
     private bool startRot;
     private int FrmCount = 0;
     public GameObject ManualModeButton;
-    public GameObject ActivityManager;
 
     public void Start()
     {
@@ -31,14 +30,13 @@ public class Drone13 : MonoBehaviour
     {
         if (startRot)
         {
-            ActivityManager.GetComponent<ActivityManagerScript>().DroneAllActivitiesRun();
             DroneModel.SetActive(true);
             DroneModel.GetComponent<Animator>().SetBool("fly", true);
             DroneModel.transform.Find("Arrow").gameObject.SetActive(true);
             transform.Rotate(0, speed * Time.deltaTime, 0);
             ManualModeButton.SetActive(false);
             //capture image every 5 frames.
-            //if (FrmCount % 5 == 0) DroneCamera.GetComponent<DroneCapture>().capture = true;
+            if (FrmCount % 5 == 0) DroneCamera.GetComponent<DroneCapture>().capture = true;
             FrmCount++;
         }
         else

@@ -564,13 +564,6 @@ public class ActivityManagerScript : MonoBehaviour
         scannerMenu.SetActive(true);
     }
 
-    //A8, only move
-    public Vector3 Explore_A8_MoveLSOnly()
-    {
-        Vector3 ScannerPosition = Activity8.transform.position;
-        //DummyLSParentNode.transform.position = ScannerPosition;//new Vector3(droneMove[0], droneMove[1], droneMove[2]); ;// change scanner parent node position to building 2.
-        return ScannerPosition;
-    }
     //A9 scan floor, only move
     public Vector3 Explore_A9_MoveLSOnly()
     {
@@ -587,8 +580,6 @@ public class ActivityManagerScript : MonoBehaviour
         //DummyLSParentNode.transform.position = ScannerPosition;//new Vector3(droneMove[0], droneMove[1], droneMove[2]); ;// change scanner parent node position to building 2.
         return ScannerPosition;
     }
-
-
 
     //A10. laser scan stockpile 1
     public void select_10A()
@@ -652,8 +643,6 @@ public class ActivityManagerScript : MonoBehaviour
         AutoUI.SetActive(false);
         Activity11DroneCanvas.SetActive(true);
         //Start the drone and automatically fly around building
-
-
     }
 
     public void stop_11_a()
@@ -673,17 +662,6 @@ public class ActivityManagerScript : MonoBehaviour
         //Activity12Canvas.SetActive(false);
         Activity11DroneCanvas.SetActive(false);
         //need to get rid of all canvas
-
-        //other  activities on site.
-        select_1();
-        select_2();
-        select_3();
-        select_4();
-        select_5();
-        A7_w1_flag = true;
-        A7_w2_flag = true;
-        A7_w3_flag = true;
-        select_7_new();
     }
 
     public void stop_12_a()
@@ -697,16 +675,6 @@ public class ActivityManagerScript : MonoBehaviour
         AutoUI.SetActive(false);
         ManualUI.SetActive(false);
         Activity13_DroneCanvas.SetActive(true);
-        //other  activities on site.
-        select_1();
-        select_2();
-        select_3();
-        select_4();
-        select_5();
-        A7_w1_flag = true;
-        A7_w2_flag = true;
-        A7_w3_flag = true;
-        select_7_new();
     }
 
     //A14.safety inspection use drone
@@ -715,30 +683,6 @@ public class ActivityManagerScript : MonoBehaviour
         AutoUI.SetActive(false);
         ManualUI.SetActive(false);
         Activity14_DroneCanvas.SetActive(true);
-
-        //other  activities on site.
-        select_1();
-        select_2();
-        select_3();
-        select_4();
-        select_5();
-        A7_w1_flag = true;
-        A7_w2_flag = true;
-        A7_w3_flag = true;
-        select_7_new();
-    }
-
-    public void DroneAllActivitiesRun()
-    {
-        select_1();
-        select_2();
-        select_3();
-        select_4();
-        select_5();
-        A7_w1_flag = true;
-        A7_w2_flag = true;
-        A7_w3_flag = true;
-        select_7_new();
     }
 
     //A15.painting
@@ -909,9 +853,6 @@ public class ActivityManagerScript : MonoBehaviour
     {
         //sensorSelected();
         Activity12_DroneCanvas.SetActive(false);
-        Activity13_DroneCanvas.SetActive(false);
-        Activity14_DroneCanvas.SetActive(false);
-
         drone.SetActive(true);
         //mainCamera.transform.position = newPosition + new Vector3(droneMove[0], droneMove[1], droneMove[2]);
         //GetComponent<Canvas>().enabled = false;

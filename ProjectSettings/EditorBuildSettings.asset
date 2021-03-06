@@ -5,6 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+<<<<<<< HEAD
+=======
+  - enabled: 0
+    path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultManagerScene.unity
+    guid: ae7bb08d297fb69408695d8de0962524
+  - enabled: 0
+    path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
+    guid: 7e54e36c44f826c438c95da79f8de638
+>>>>>>> parent of 721e383 (before terrain change.)
   - enabled: 1
     path: Assets/00.unity
     guid: 866de2447eebbd947ad381fc73f26540
@@ -20,9 +29,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/3_select.unity
     guid: 2c97fe3078d57cb4d9c507cc3564e033
+<<<<<<< HEAD
   - enabled: 0
     path: Assets/TestMenu.unity
     guid: 6b253738dde488f4485360acb29a9a59
+=======
+  - enabled: 1
+    path: Assets/Archive/4_CostBenefit.unity
+    guid: 32e4e7be2cff7c646a8137c55f0a052c
+>>>>>>> parent of 721e383 (before terrain change.)
   - enabled: 1
     path: Assets/3_auto(5).unity
     guid: 46b9ba2c1f75c7446b28d29da9686bcc
@@ -33,11 +48,22 @@ EditorBuildSettings:
     path: Assets/7_EyeTrackerReplay.unity
     guid: 5b1c5d5a371694546a58adcc498882b8
   - enabled: 0
+<<<<<<< HEAD
     path: Assets/dev.unity
     guid: e5dc488b6499f5241861fb6602f239c5
   - enabled: 0
     path: Assets/TestLandingScene.unity
     guid: e28478728bea1b24b9230b0691afa183
+=======
+    path: Assets/testScene.unity
+    guid: 03f957465d25e264aaefb54f04d13b53
+  - enabled: 0
+    path: Assets/TestMenu.unity
+    guid: 6b253738dde488f4485360acb29a9a59
+  - enabled: 0
+    path: Assets/MRTK/SDK/StandardAssets/Scenes/DefaultLightingScene.unity
+    guid: 7e54e36c44f826c438c95da79f8de638
+>>>>>>> parent of 721e383 (before terrain change.)
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 23b10ae3e635a604e9561cabb957e887,
       type: 2}

@@ -56,18 +56,6 @@ public class ManualClickSelect : MonoBehaviour
 
     public void ClickAction()
     {
-        //Special case A2 crane cannot be tagged with GPS
-        if(ManualSelectionCode.GetComponent<ManualSelection>().SelectedSensorIndex == 0 && ManualSelectionCode.GetComponent<ManualSelection>().ActualActivityNumber == 2 && gameObject.name =="Crane")
-        {
-            //Dialog.Open(DialogPrefabSmall, DialogButtonType.OK, "Warning", "This is not taggable.", true);
-            if (myDialog == null)
-            {
-                WarningBool = true;
-            }
-
-            DialogWarningString = gameObject.name + " cannot be tagged with " + ManualSelectionCode.GetComponent<ManualSelection>().CurrentSensor;
-        }
-
         if (Taggable)//taggable
         {
             if (TagStatus)
