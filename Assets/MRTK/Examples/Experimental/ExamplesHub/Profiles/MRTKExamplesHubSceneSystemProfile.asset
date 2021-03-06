@@ -34,37 +34,37 @@ MonoBehaviour:
   - Name: 0
     Path: Assets/0.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: fcd8e12f79afd4f42bf81c8aca9b8eb3, type: 3}
   - Name: 1_ExploreJobsite
     Path: Assets/1_ExploreJobsite.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 2
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2021374ecb60ee04689a9c4c6fef702d, type: 3}
   - Name: 2_Sensor
     Path: Assets/2_Sensor.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 3
     Tag: Untagged
     Asset: {fileID: 102900000, guid: c51f41f74d2789a4f93ca3200472ee11, type: 3}
   - Name: 3_select
     Path: Assets/3_select.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 4
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2c97fe3078d57cb4d9c507cc3564e033, type: 3}
   - Name: 3_auto(5)
     Path: Assets/3_auto(5).unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 5
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 46b9ba2c1f75c7446b28d29da9686bcc, type: 3}
   - Name: 3_manual(6)
     Path: Assets/3_manual(6).unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 6
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 33553b3b6176f364e9ae1b46844531e8, type: 3}
   - Name: 7_EyeTrackerReplay

@@ -2353,7 +2353,7 @@ MonoBehaviour:
     Name: 2_Sensor
     Path: Assets/2_Sensor.unity
     Included: 1
-    BuildIndex: 3
+    BuildIndex: -1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: c51f41f74d2789a4f93ca3200472ee11, type: 3}
   loadOnStartup: 0
@@ -11775,7 +11775,7 @@ MonoBehaviour:
     Name: 3_select
     Path: Assets/3_select.unity
     Included: 1
-    BuildIndex: 4
+    BuildIndex: -1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2c97fe3078d57cb4d9c507cc3564e033, type: 3}
   loadOnStartup: 0
@@ -14189,7 +14189,7 @@ MonoBehaviour:
     Name: 1_ExploreJobsite
     Path: Assets/1_ExploreJobsite.unity
     Included: 1
-    BuildIndex: 2
+    BuildIndex: -1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2021374ecb60ee04689a9c4c6fef702d, type: 3}
   loadOnStartup: 0
