@@ -13,7 +13,11 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Noah
+<<<<<<< HEAD
   productName: 0305CS
+=======
+  productName: 0125_ConstructionSiteSimulation
+>>>>>>> parent of 721e383 (before terrain change.)
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -600,7 +604,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: ConstructionSiteSimulation
   metroPackageVersion: 1.0.0.0
+<<<<<<< HEAD
   metroCertificatePath: C:\Users\lorin\Documents\GitHub\Construction-Site-HololensV2\Assets\WSATestCertificate.pfx
+=======
+  metroCertificatePath: Assets\WSATestCertificate.pfx
+>>>>>>> parent of 721e383 (before terrain change.)
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany

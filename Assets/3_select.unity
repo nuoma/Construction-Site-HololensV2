@@ -16246,7 +16246,11 @@ MonoBehaviour:
     Path: Assets/3_auto(5).unity
     Included: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
     BuildIndex: -1
+=======
+    BuildIndex: 6
+>>>>>>> parent of 721e383 (before terrain change.)
 =======
     BuildIndex: 6
 >>>>>>> parent of 721e383 (before terrain change.)
