@@ -70,6 +70,8 @@ public class SensorTutorial : MonoBehaviour
     public GameObject RFIDTagCanvas;
     public GameObject RFIDConfirmButton;
 
+    public GameObject LSSensorNode;
+
     
 
 
@@ -215,6 +217,7 @@ public class SensorTutorial : MonoBehaviour
         LSPanel.SetActive(true);
         SelectionPanel.SetActive(false);
         LSParent.SetActive(true);
+        LSSensorNode.SetActive(true);
     }
 
     public void LSexe()

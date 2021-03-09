@@ -10,7 +10,7 @@ public class BullldozerActivity1 : MonoBehaviour
     [SerializeField] private Transform[] moveSpots;
     [SerializeField] private Transform[] RollerMoveSpots;
     public GameObject RollerVehicle;
-    [SerializeField] private GameObject gpsScript;
+   
 
     private bool enable = false;
     private bool RollerEnable = false;
@@ -40,7 +40,7 @@ public class BullldozerActivity1 : MonoBehaviour
                 {
                     arrayPosition = 0;
                     lapCount++;
-                    if (lapCount == 2) { enable = false; RollerEnable = true; }
+                    if (lapCount == 1) { enable = false; RollerEnable = true; }
                 }
                 
                 //original code for reporting function, disable.

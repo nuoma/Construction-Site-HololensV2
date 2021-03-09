@@ -204,6 +204,8 @@ public class ManualSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateSensorString();
+
         if (!initialFlag)
         {
             //initialize();
@@ -909,6 +911,7 @@ public class ManualSelection : MonoBehaviour
         //A18 cart GPS
         if (ActualActivityNumber == 18 && SelectedSensorIndex == 0)
         {
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select18();
             GPSReportEnable = true;
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Cartworker_GPS();
         }
@@ -916,6 +919,7 @@ public class ManualSelection : MonoBehaviour
         //A18 cart RFID
         if (ActualActivityNumber == 18 && SelectedSensorIndex == 1)
         {
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select18();
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_Cartworker_RFID();
         }
 

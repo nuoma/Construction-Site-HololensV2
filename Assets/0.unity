@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.46169513, g: 0.5124164, b: 0.58993304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1634,7 +1634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &225195112
 Light:
   m_ObjectHideFlags: 0
@@ -1647,7 +1647,7 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2353,7 +2353,7 @@ MonoBehaviour:
     Name: 2_Sensor
     Path: Assets/2_Sensor.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 2
     Tag: Untagged
     Asset: {fileID: 102900000, guid: c51f41f74d2789a4f93ca3200472ee11, type: 3}
   loadOnStartup: 0
@@ -2373,7 +2373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &256777167
 Light:
   m_ObjectHideFlags: 0
@@ -9951,7 +9951,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1653462655}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 3.3655684, y: 19.314001, z: -12.860001}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 415785636}
@@ -11775,7 +11775,7 @@ MonoBehaviour:
     Name: 3_select
     Path: Assets/3_select.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 3
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2c97fe3078d57cb4d9c507cc3564e033, type: 3}
   loadOnStartup: 0
@@ -14189,7 +14189,7 @@ MonoBehaviour:
     Name: 1_ExploreJobsite
     Path: Assets/1_ExploreJobsite.unity
     Included: 1
-    BuildIndex: -1
+    BuildIndex: 1
     Tag: Untagged
     Asset: {fileID: 102900000, guid: 2021374ecb60ee04689a9c4c6fef702d, type: 3}
   loadOnStartup: 0
