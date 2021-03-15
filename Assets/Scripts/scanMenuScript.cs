@@ -26,6 +26,13 @@ public class scanMenuScript : MonoBehaviour
     [SerializeField] private float[] scannerMove = new float[3];
     [SerializeField] public GameObject ScannerInterfaceButton;
 
+    public GameObject button1;
+    public GameObject button2;
+    public GameObject button3;
+    public GameObject tripod2button;
+    public GameObject FakeScannerBody;
+    
+
     public GameObject Arrow;
 
     string p1;
@@ -35,15 +42,19 @@ public class scanMenuScript : MonoBehaviour
     bool targetsEnabled = false;
     bool targetsMoved = false;
     bool tripodLevel = false;
+    bool tripodmove = false;
     Renderer[][] targetRenderers = new Renderer[3][];
     public GameObject TripodParentNode;
-
+    public GameObject ScannerFirstMenu;
     public GameObject BubbleLeveler;
 
     void Start()
     {
         BubbleLeveler.SetActive(false);
         ScannerInterfaceButton.GetComponent<Button>().interactable = false;
+        button2.GetComponent<Button>().interactable = false;
+        button3.GetComponent<Button>().interactable = false;
+        tripod2button.GetComponent<Button>().interactable = false;
 
         tripodMenu.SetActive(false);
         backButton.SetActive(false);
@@ -78,6 +89,7 @@ public class scanMenuScript : MonoBehaviour
         backButton.SetActive(true);
         //mainMenu.GetComponent<Canvas>().enabled = false;
         mainMenu.SetActive(false);
+        tripodmove = true;
     }
     public void levelTripod()
     {
@@ -93,8 +105,17 @@ public class scanMenuScript : MonoBehaviour
         TripodParentNode.GetComponent<NearInteractionGrabbable>().enabled = false;
         TripodParentNode.GetComponent<ObjectManipulator>().enabled = false;
     }
+
+    public void scannerBodyFirst()
+    {
+        //20210314 New change: a fake scanner body on ground, a panel prompt
+        FakeScannerBody.SetActive(true);
+        ScannerFirstMenu.SetActive(true);
+    }
     public void scannerBodySelected()
     {
+        FakeScannerBody.SetActive(false);
+        ScannerFirstMenu.SetActive(false);
         if (tripod.GetComponent<Renderer>().enabled == true)
         {
             tripodMenu.SetActive(false);
@@ -184,6 +205,21 @@ public class scanMenuScript : MonoBehaviour
 
         SelectionPrompt.GetComponent<TextMeshProUGUI>().text = "Selected:" +  p1+p2+p3+p4;
 
+        //First button always on
+
+        //Second button
+        if (tripod.GetComponent<Renderer>().enabled == true  && tripodLevel )
+        { button2.GetComponent<Button>().interactable = true; }
+
+        //third button
+        if (tripod.GetComponent<Renderer>().enabled == true && scanner.GetComponent<Renderer>().enabled == true && tripodLevel)
+        { button3.GetComponent<Button>().interactable = true; }
+
+        //tripod second button, level tripod after place tripod
+        if (tripod.GetComponent<Renderer>().enabled == true &&  tripodmove)
+        { tripod2button.GetComponent<Button>().interactable = true; }
+
+        //fourth button
         if (tripod.GetComponent<Renderer>().enabled == true && scanner.GetComponent<Renderer>().enabled == true && targetsEnabled && tripodLevel && targetsMoved)
         { ScannerInterfaceButton.GetComponent<Button>().interactable = true; }
             

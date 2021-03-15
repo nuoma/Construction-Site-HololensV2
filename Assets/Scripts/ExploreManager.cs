@@ -29,8 +29,8 @@ public class ExploreManager : MonoBehaviour
     public GameObject A10Tooltip;
     public GameObject A11Tooltip;
     //public GameObject A12Tooltip;
-    //public GameObject A13Tooltip;
-    //public GameObject A14Tooltip;
+    public GameObject A13Tooltip;
+    public GameObject A14Tooltip;
     public GameObject A15Tooltip;
     public GameObject A16Tooltip;
     public GameObject A17Tooltip;
@@ -63,6 +63,8 @@ public class ExploreManager : MonoBehaviour
     public GameObject A8CladRTooltipSpawner;
     public GameObject A8CladFTooltipSpawner;
     public GameObject A8CladBTooltipSpawner;
+    //public GameObject A19dw1;
+    //public GameObject A19dw2;
 
     //Scene Specific
     //? do we keep?
@@ -121,8 +123,8 @@ public class ExploreManager : MonoBehaviour
         A10Tooltip.SetActive(false);
         A11Tooltip.SetActive(false);
        // A12Tooltip.SetActive(false);
-        //A13Tooltip.SetActive(false);
-       // A14Tooltip.SetActive(false);
+        A13Tooltip.SetActive(false);
+        A14Tooltip.SetActive(false);
         A15Tooltip.SetActive(false);
         A16Tooltip.SetActive(false);
         A17Tooltip.SetActive(false);
@@ -277,22 +279,27 @@ public class ExploreManager : MonoBehaviour
             Drone13.SetActive(true);
             Drone13.GetComponent<Drone13>().SetStart();
             //Also entire jobsite should be present.
+            ActivityManager.GetComponent<ActivityManagerScript>().DroneAllActivitiesRun();
         }
 
         //A13. sanitation drone
         if (SelectedActivityNum == 12)
         {
+            A13Tooltip.SetActive(true);
             Drone13Model.SetActive(true);
             Drone13.SetActive(true);
             Drone13.GetComponent<Drone13>().SetStart();
+            ActivityManager.GetComponent<ActivityManagerScript>().DroneAllActivitiesRun();
         }
 
         //A14. safety drone
         if (SelectedActivityNum == 13)
         {
+            A14Tooltip.SetActive(true);
             Drone13Model.SetActive(true);
             Drone13.SetActive(true);
             Drone13.GetComponent<Drone13>().SetStart();
+            ActivityManager.GetComponent<ActivityManagerScript>().DroneAllActivitiesRun();
         }
 
         //A15 IMU painter
@@ -336,6 +343,7 @@ public class ExploreManager : MonoBehaviour
         {
             A19Tooltip.SetActive(true);
             A19Tooltip2.SetActive(true);
+            ActivityManager.GetComponent<ActivityManagerScript>().select19();
         }
         //A20 Masonry
         if (SelectedActivityNum == 19)
@@ -625,8 +633,8 @@ public class ExploreManager : MonoBehaviour
                     A10Tooltip.SetActive(false);
                     A11Tooltip.SetActive(false);
                     //A12Tooltip.SetActive(false);
-                    // A13Tooltip.SetActive(false);
-                    //A14Tooltip.SetActive(false);
+                    A13Tooltip.SetActive(false);
+                    A14Tooltip.SetActive(false);
                     A15Tooltip.SetActive(false);
                     A16Tooltip.SetActive(false);
                     A17Tooltip.SetActive(false);

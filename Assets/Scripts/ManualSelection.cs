@@ -929,6 +929,7 @@ public class ManualSelection : MonoBehaviour
             GPSReportEnable = true;
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw1_GPS();
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw2_GPS();
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select19();
         }
 
         //A19 dw rfid
@@ -936,6 +937,7 @@ public class ManualSelection : MonoBehaviour
         {
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw1_RFID();
             ActivityManagerScript.GetComponent<ActivityManagerScript>().select_dw2_RFID();
+            ActivityManagerScript.GetComponent<ActivityManagerScript>().select19();
         }
 
         //A20 mason GPS
@@ -1291,6 +1293,7 @@ public class ManualSelection : MonoBehaviour
         SetCubeFalse();
         ActivityManagerScript.GetComponent<ActivityManagerScript>().A19_Drywaller1 = true;
         ActivityManagerScript.GetComponent<ActivityManagerScript>().SelectWorkers();
+        ActivityManagerScript.GetComponent<ActivityManagerScript>().select19();
     }
 
     public void DWNeck()

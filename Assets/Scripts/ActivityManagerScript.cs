@@ -71,6 +71,9 @@ public class ActivityManagerScript : MonoBehaviour
     [SerializeField] private GameObject Activity13_DroneCanvas;
     [SerializeField] private GameObject Activity14_DroneCanvas;
 
+    [SerializeField] private GameObject A19DW1;
+    [SerializeField] private GameObject A19DW2;
+
     public GameObject IMUPainterWorker;
     public GameObject IMULaborerWorker;
     public GameObject IMUCarpenterWorker;
@@ -759,6 +762,8 @@ public class ActivityManagerScript : MonoBehaviour
     {
         A19_Drywaller1 = true;
         A19_Drywaller2 = true;
+        A19DW1.GetComponent<workerMove>().start();
+        A19DW2.GetComponent<workerMove>().start();
     }
     //A20.masonry
     public void select20()
