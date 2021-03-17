@@ -762,8 +762,8 @@ public class ActivityManagerScript : MonoBehaviour
     {
         A19_Drywaller1 = true;
         A19_Drywaller2 = true;
-        A19DW1.GetComponent<workerMove>().start();
-        A19DW2.GetComponent<workerMove>().start();
+        //A19DW1.GetComponent<workerMove>().start();
+        //A19DW2.GetComponent<workerMove>().start();
     }
     //A20.masonry
     public void select20()
